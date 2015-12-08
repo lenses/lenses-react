@@ -9,8 +9,13 @@
   "author": "Nisha Batra",
   "license": "ISC",
   "dependencies": {
+    "browser-sync": "^2.10.0",
     "consolidate": "^0.13.1",
+    "ejs": "^2.3.4",
     "express": "^4.13.3",
-    "handlebars": "^4.0.5"
+    "gulp": "^3.9.0",
+    "gulp-live-server": "0.0.29",
+    "handlebars": "^4.0.5",
+    "react": "^0.14.3"
   }
 }
