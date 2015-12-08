@@ -9,6 +9,8 @@
   "author": "Nisha Batra",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.13.3"
+    "consolidate": "^0.13.1",
+    "express": "^4.13.3",
+    "handlebars": "^4.0.5"
   }
 }
