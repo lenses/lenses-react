@@ -1,5 +1,5 @@
 var React = require('react');
-var action = require('./../actions/GroceryItemActionCreator.jsx');
+var action = require('./../actions/LensActionCreator.jsx');
 
 module.exports = React.createClass({
   getInitialState: function(){
@@ -13,7 +13,7 @@ module.exports = React.createClass({
       input: e.target.value
     });
   },
-  addItem: function(e){
+  addNode: function(e){
     e.preventDefault();
     action.add({
       name: this.state.input
@@ -24,10 +24,10 @@ module.exports = React.createClass({
   },
   render: function(){
     return (
-      <div className="grocery-addItem">
-        <form onSubmit={this.addItem}>
+      <div>
+        <form onSubmit={this.addNode}>
           <input value={this.state.input} onChange={this.handleInputName}/>
-          <button> Add Item </button>
+          <button> Add Node </button>
         </form>
       </div>
     )

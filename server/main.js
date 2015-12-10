@@ -3,7 +3,7 @@ var app = new express();
 var parser = require('body-parser'); // Express middleware
 var React = require('react');
 var ReactDOMServer = require('react-dom/server');
-var GroceryItem = require('./models/GroceryItem.js');
+var LensNode = require('./models/LensNode.js');
 var db = require('./database.js');
 require('node-jsx').install();
 
@@ -11,12 +11,12 @@ app.set('views', __dirname + '../app');
 
 app.get('/', function(req,res){
   // Render components serverside to remove FOUC
-  var application = React.createFactory(require('./../app/components/GroceryItemList.jsx'));
-  GroceryItem.find(function(error,doc){
+  var application = React.createFactory(require('./../app/components/LensComposer.jsx'));
+  LensNode.find(function(error,doc){
     
     var generated = ReactDOMServer.renderToString(application({
       // Define the props of the application
-      items: doc
+      nodes: doc
     }))
     res.render('../../app/index.ejs', {reactOutput: generated});
   })
@@ -27,4 +27,4 @@ app.get('/', function(req,res){
 app.use(parser.json()); // Allows express to process JSON requests
 app.use(parser.urlencoded({extended:false})); // Allows express to handle posts requests
 
-require('./routes/items.js')(app);
+require('./routes/nodes.js')(app);

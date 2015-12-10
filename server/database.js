@@ -1,21 +1,21 @@
 var mongoose = require('mongoose');
-var GroceryItem = require('./models/GroceryItem.js');
+var LensNode = require('./models/LensNode.js');
 
-mongoose.connect('mongodb://localhost/grocery', function(){
+mongoose.connect('mongodb://localhost/lenses', function(){
   console.log("connected");
-  var items = [{
-    name: "Ice Cream"
+  var nodes = [{
+    name: "Google spreadsheet"
   },{
-    name: "Waffles",
-    purchased: true
+    name: "Google bar chart"  
+
   }];
 
   // Clears out the databsase everytime server is restarted.
   mongoose.connection.db.dropDatabase();
   
-  // Create initial grocery list in DB (currently happens everytime server is restarted).
-  items.forEach(function(item){
-    new GroceryItem(item).save();
+  // Create set of nodes (currently happens everytime server is restarted).
+  nodes.forEach(function(node){
+    new LensNode(node).save();
 
   })
 

@@ -1,18 +1,18 @@
 var React = require('react');
 var ReactDOM = require('react-dom'); 
-var GroceryItemList = require('./components/GroceryItemList.jsx');
-var groceryItemStore = require('./stores/GroceryItemStore.jsx');
+var LensComposer = require('./components/LensComposer.jsx');
+var LensStore = require('./stores/LensStore.jsx');
 
-var initial = groceryItemStore.getItems();
+var initial = LensStore.getNodes();
 
 // Main render function to attach React component to the dom
 function render(){
-  ReactDOM.render(<GroceryItemList items={initial}/>, app);  
+  ReactDOM.render(<LensComposer nodes={initial}/>, app);  
 }
 
 // Re-render when store changes
-groceryItemStore.onChange(function(items){
-  initial = items;
+LensStore.onChange(function(nodes){
+  initial = nodes;
   render();
 })
 
