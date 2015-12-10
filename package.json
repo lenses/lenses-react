@@ -22,6 +22,7 @@
     "jquery": "^2.1.4",
     "mongoose": "^4.3.0",
     "node-gyp": "^3.2.1",
+    "node-jsx": "^0.13.3",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "reactify": "^1.1.1",

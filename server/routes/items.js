@@ -6,9 +6,7 @@ module.exports = function (app){
   // Accessed by React
   app.route('/api/items')
     .get(function(req,res){
-
       GroceryItem.find(function(error,doc){
-        console.log(doc);
         res.send(doc);  // doc is the array of all items
       });
     })
