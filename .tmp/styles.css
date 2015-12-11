@@ -1,0 +1,43 @@
+/*#composer {
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  font-family: sans-serif;
+}
+
+#nav {
+  width: 100%;
+  height: 85px;
+  box-sizing: border-box;
+  border-bottom: 3px solid #eee;
+}
+
+ #save {
+  display: inline-block;
+  float: right;
+  height: 100%;
+  width: 80px;
+  border-left: 3px solid #eee;
+  box-sizing: border-box;
+}
+
+#control-panel {
+  display: inline-block;
+  width: 20%;
+  min-width: 200px;
+  height: 100%;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  border-right: 3px solid #eee;
+}
+
+#main {
+  width: 80%;
+  height: 100%;
+  overflow: hidden;
+  display: inline-block;
+  float: right;
+}
+*/

@@ -18,7 +18,7 @@ app.get('/', function(req,res){
       // Define the props of the application
       nodes: doc
     }))
-    res.render('../../app/index.ejs', {reactOutput: generated});
+    res.render('../../app/index.ejs', {initialState: generated});
   })
 })
 .use(express.static(__dirname + '/../.tmp'))

@@ -10,6 +10,8 @@ mongoose.connect('mongodb://localhost/lenses', function(){
 
   }];
 
+  // TODO: Replace the following
+  
   // Clears out the databsase everytime server is restarted.
   mongoose.connection.db.dropDatabase();
   
