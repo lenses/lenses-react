@@ -2,16 +2,22 @@ var dispatcher = require('./../dispatcher.js');
 
 // These actions are called from the components and communicate with the dispatcher
 module.exports = {
-  add: function(item){
+  add: function(node){
     dispatcher.dispatch({
-      payload: item,
+      payload: node,
       type: 'lens-node:add' 
     });
   },
-  delete: function(item){
+  delete: function(node){
     dispatcher.dispatch({
-      payload: item,
+      payload: node,
       type: 'lens-node:delete' 
+    });
+  },
+  save: function(lens){
+    dispatcher.dispatch({
+      payload: lens,
+      type: 'lens-composer:save' 
     });
   }
 };

@@ -3,6 +3,7 @@ var LensNode = require('./LensNode.jsx');
 var LensSave = require('./LensSave.jsx');
 
 // Styles
+// TODO: move theme styles to mixin
 var theme = {
   primaryColor: "#1EE1D9", // Turquoise
   secondaryColor: "#EE431F", // Red
