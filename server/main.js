@@ -5,23 +5,23 @@ var React = require('react');
 var ReactDOMServer = require('react-dom/server');
 var LensNode = require('./models/LensNode.js');
 var db = require('./database.js');
+var cons = require('consolidate');
+var path = require('path');
+
 require('node-jsx').install();
 
-app.set('views', __dirname + '../app');
+// Use consolidated because handlebars doesn't support express as is
+app.engine('hbs', cons.handlebars);
+
+// Set the view engine and view directory
+app.set('view engine', 'hbs');
+app.set('views', __dirname + '/../app/views');
+app.use('/public', express.static(__dirname + '/../public'));
+
 
 app.get('/', function(req,res){
-  // Render components serverside to remove FOUC
-  var application = React.createFactory(require('./../app/components/LensComposer.jsx'));
-  LensNode.find(function(error,doc){
-    
-    var generated = ReactDOMServer.renderToString(application({
-      // Define the props of the application
-      nodes: doc
-    }))
-    res.render('../../app/index.ejs', {initialState: generated});
-  })
+  res.render('index');
 })
-.use(express.static(__dirname + '/../.tmp'))
 .listen(7777);
 
 app.use(parser.json()); // Allows express to process JSON requests

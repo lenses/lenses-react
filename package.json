@@ -1,5 +1,5 @@
 {
-  "name": "sample-react-app",
+  "name": "Lenses",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -17,7 +17,7 @@
     "express": "^4.13.3",
     "guid": "0.0.12",
     "gulp": "^3.9.0",
-    "gulp-live-server": "0.0.29",
+    "gulp-nodemon": "^1.0.4",
     "handlebars": "^4.0.5",
     "jquery": "^2.1.4",
     "mongoose": "^4.3.0",
@@ -28,5 +28,10 @@
     "reactify": "^1.1.1",
     "rebuild": "^0.1.2",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "devDependencies": {
+    "gulp-bower": "0.0.11",
+    "consolidate": "^0.13.1",
+    "gulp-sass": "^2.1.1"
   }
 }

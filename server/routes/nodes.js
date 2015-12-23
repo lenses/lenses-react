@@ -1,6 +1,9 @@
 // The app argument is the Express app
+var ReactDOMServer = require('react-dom/server');
+var React = require('react');
+var express = require('express');
 module.exports = function (app){
-  
+
   var LensNode = require('./../models/LensNode.js');
 
   // Accessed by React
@@ -15,8 +18,8 @@ module.exports = function (app){
       var lensNode = new LensNode(node);
       lensNode.save(function(err,data){
         res.status(300).send();
-      })
-    })
+      });
+    });
 
   app.route('/api/nodes/:id')
     .delete(function(req,res){
@@ -38,7 +41,21 @@ module.exports = function (app){
         }
         doc.save();
         res.status(200).send();
-      })
-    })
-}
+      });
+    });
+
+  app.route('/lenses/create')
+    .get(function(req,res){
+      var application = React.createFactory(require('../../app/components/LensComposer.jsx'));
+      LensNode.find(function(error,doc){
+
+        var generated = ReactDOMServer.renderToString(application({
+          // Define the props of the application
+          nodes: doc
+        }));
+        res.render('../../app/index.ejs', {initialState: generated});
+      });
+    });
+};
+
 
