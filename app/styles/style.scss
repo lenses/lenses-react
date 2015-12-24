@@ -1,5 +1,155 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+ *    v2.0 | 20110126
+ *       License: none (public domain)
+ *       */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/*************************************************
+ * Header Styles
+ * primary-colour: #1ee2d9;
+ * secondary-color: #fff;
+ * font:
+ *
+ * large-padding: 75px;
+ * small-padding: 22px;
+ *
+ * */
+
+@font-face {
+  font-family:'lato';
+  src:url('/public/fonts/Lato-Regular.woff');
+  font-weight:600;
+  font-style:normal;
+}
+
+@font-face {
+  font-family:'lato';
+  src:url('/public/fonts/Lato-Light.woff');
+  font-weight:lighter;
+  font-style:normal;
+}
+
+@font-face {
+  font-family:'lato';
+  src:url('/public/fonts/Lato-Bold.woff');
+  font-weight:800;
+  font-style:normal;
+}
+
+.latolight {
+  font-family:'lato', arial, sans-serif;
+  font-weight:lighter;
+}
+
+.latoregular{
+  font-family:'lato', arial, sans-serif;
+  font-weight:600;
+}
+
+.latobold{
+  font-family:'lato', arial, sans-serif;
+  font-weight:800;
+}
+
+.text-center {
+  text-align:center;
+}
+
+.center {
+  margin-left:auto;
+  margin-right:auto;
+}
+
 #header {
-  background-color:#888;
-  width:960px;
-  height:100px;
+  background-color:#1ee2d9;
+  width:100%;
+  height:465px;
+  padding-bottom:22px;
+}
+
+#header-blurb {
+  width:525px;
+  margin:0px auto;
+  padding-top:67px;
+  line-height:1.25;
+  font-size:16px;
+}
+
+#header-title {
+  font-size:36px;
+}
+
+#create-lens-button{
+  background-color:#fff;
+  border-radius:30px;
+  width:1%;
+  height:45px;
+  text-align:center;
+  display:table-cell;
+  vertical-align:middle;
+  font-size:22px;
+}
+
+#create-lens-container {
+  width:245px;
+  margin-top:22px;
+}
+
+.block-centered {
+  margin:0px auto;
+  display:block;
+}
+
+.top-large-padding {
+  padding-top:74px;
+}
+
+.top-small-padding {
+  padding-top:22px;
+}
+
+#header-content {
 }

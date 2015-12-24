@@ -19,7 +19,7 @@ gulp.task('sass:watch', function () {
   gulp.watch('./app/styles/**/*.scss', ['sass']);
 });
 
-gulp.task('bundle', ['sass'], function(){
+gulp.task('bundle', ['sass', 'sass:watch'], function(){
   return browserify({
     entries: 'app/main.jsx',
     debug: true
