@@ -8,7 +8,7 @@ var db = require('./database.js');
 var cons = require('consolidate');
 var path = require('path');
 
-var port = process.env.port || 7777;
+var port = process.env.PORT || 7777;
 
 require('node-jsx').install();
 
