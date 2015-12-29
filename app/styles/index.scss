@@ -47,16 +47,55 @@ table {
   border-spacing: 0;
 }
 
+/****
+Globals
+*/
+
+a {
+  text-decoration:none;
+  color:black;
+}
+
+/********
+ * Mix-in Library
+ *
+ *
+ * */
+
+@mixin calc($property, $expression) {
+  #{$property}: calc(#{$expression});
+  #{$property}: -moz-calc(#{$expression});
+  #{$property}: -webkit-calc(#{$expression});
+}
+
+@mixin button($color, $font-size) {
+  background-color:$color;
+  border-radius:30px;
+  width:1%;
+  height:45px;
+  text-align:center;
+  display:table-cell;
+  vertical-align:middle;
+  font-size:$font-size;
+}
+
 /*************************************************
- * Header Styles
+ * Re-usable styles
  * primary-colour: #1ee2d9;
  * secondary-color: #fff;
- * font:
+ * font:lato
  *
  * large-padding: 75px;
  * small-padding: 22px;
  *
  * */
+
+$turqoise:#1ee2d9;
+$white:#fff;
+$lightGray:#e1e1e1;
+$regular-font-size:17px;
+$action-font-size:20px;
+
 
 @font-face {
   font-family:'lato';
@@ -103,41 +142,6 @@ table {
   margin-right:auto;
 }
 
-#header {
-  background-color:#1ee2d9;
-  width:100%;
-  height:465px;
-  padding-bottom:22px;
-}
-
-#header-blurb {
-  width:525px;
-  margin:0px auto;
-  padding-top:67px;
-  line-height:1.25;
-  font-size:16px;
-}
-
-#header-title {
-  font-size:36px;
-}
-
-#create-lens-button{
-  background-color:#fff;
-  border-radius:30px;
-  width:1%;
-  height:45px;
-  text-align:center;
-  display:table-cell;
-  vertical-align:middle;
-  font-size:22px;
-}
-
-#create-lens-container {
-  width:245px;
-  margin-top:22px;
-}
-
 .block-centered {
   margin:0px auto;
   display:block;
@@ -151,5 +155,76 @@ table {
   padding-top:22px;
 }
 
-#header-content {
+.top-medium-padding {
+  padding-top:67px;
 }
+
+/***************************
+ * header styles
+ *
+ *
+ * */
+
+#header {
+  background-color:$turqoise;
+  width:100%;
+  padding-bottom:22px;
+}
+
+#header-blurb {
+  width:525px;
+  margin:0px auto;
+  line-height:1.25;
+  font-size:$regular-font-size;
+}
+
+#header-title {
+  font-size:36px;
+}
+
+.action-button-white{
+  @include button($white, $action-font-size);
+}
+
+.action-button-turqoise{
+  @include button($turqoise, $action-font-size);
+}
+
+#create-lens-container {
+  width:245px;
+  margin-top:22px;
+}
+
+/*********************
+ * Content Explanation Styles
+ *
+ *
+ * */
+
+#content {
+  margin:0px auto;
+  max-width:890px;
+}
+
+#ytplayer {
+  display:inline-block;
+}
+#explanation {
+  @include calc("width", "50% - 50px");
+  padding:20px 0px 0px 50px;
+  display:inline-block;
+  vertical-align:top;
+  font-size:$regular-font-size;
+}
+
+
+#explanation-blurb {
+  line-height:1.25;
+  margin-bottom:30px;
+}
+
+#contribute-button {
+  width:245px;
+}
+
+

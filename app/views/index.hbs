@@ -1,27 +1,42 @@
 <html>
 <head>
-<link href='/public/stylesheets/style.css' rel='stylesheet'>
+<link href='/public/stylesheets/index.css' rel='stylesheet'>
+<link href='/public/stylesheets/mobile.css' rel='stylesheet' type='text/css' media='screen and (max-width:825px)'>
+<meta name="viewport" content="width=device-width" />
 </head>
 <body>
   <div id='header' class='center'>
-    <img class= 'block-centered top-large-padding' src='/public/images/lenses-logo.png' alt='Lenses Owl Logo' />
-    <h1 class='text-center latolight top-small-padding' id="header-title">
+    <img class='block-centered top-large-padding' src='/public/images/lenses-logo.png' alt='Lenses Owl Logo' />
+    <h1 id='header-title' class='text-center latolight top-small-padding'>
       LENSES
     </h1>
-    <h3 class='text-center latoregular' id="header-blurb">
+    <h3 id='header-blurb' class='text-center latoregular top-medium-padding'>
       Lenses is a web toolkit that enables the rapid creation of sophisticated data visualizations and interactive graphics
     </h3>
     <div id='create-lens-container' class='center'>
-      <div id='create-lens-button' class='latobold'>
-        CREATE A LENS
+      <div class='action-button-white latobold'>
+        <a href='#'>CREATE A LENS</a>
       </div>
     </div>
   </div>
-  <div id="content">
-    <div id="explanation">
+  <div id='content' class='top-medium-padding'>
+    <iframe id='ytplayer' type='text/html' width='400' height='250'
+      src='http://www.youtube.com/embed/8jvoTV54nXw'
+      frameborder='0' scrolling='no'></iframe>
+  <div id='explanation'>
+      <div id='explanation-blurb' class='latoregular'>
+      Lenses is unique because it scales with the person as
+      their knowledge advances. No knowledge of programming is required to get started, but the toolkit can be
+      extended and completely customized by developers using HTML and Javascript.
+      </div>
+      <div id='contribute-button-container' class='center'>
+        <div id='contribute-button' class='action-button-turqoise latobold'>
+          <a href='#'> CONTRIBUTE </a>
+        </div>
+      </div>
     </div>
-    <div id="latest-examples">
-    </div>
+  </div>
+  <div class='divider'>
   </div>
 </body>
 </html>
