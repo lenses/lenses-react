@@ -1,19 +1,16 @@
 var React = require('react');
-var action = require('./../actions/LensActionCreator.jsx');
 
-module.exports = React.createClass({
-  delete: function(e){
-    e.preventDefault();
-    action.delete(this.props.node);
-  },
+var LensNode = React.createClass({
   render: function(){
     return (
-      <div>
-        <div>
+      <div className='lens-node'>
+        <div className='lens-node-name'>
           <h4>{this.props.node.name}</h4>
         </div>
-        <form onSubmit={this.delete}><button>&times;</button></form>
+        <button className='lens-node-delete'>&times;</button>
       </div>
-    )
+    );
   }
 })
+
+module.exports = LensNode;
