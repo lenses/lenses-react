@@ -25,13 +25,13 @@ var paths = {
 };
 
 gulp.task('clean', function() {
-  return del(['./.tmp/*.*', './public/stylesheets/*.*']);
+  return del(['./public/stylesheets/*.*']);
 });
 
 gulp.task('sass:compile', ['clean'],  function(){
   return gulp.src(['./app/styles/**/*.scss'])
   .pipe(sass.sync().on('error', sass.logError))
-  .pipe(gulp.dest('./.tmp'));
+  .pipe(gulp.dest('./public/stylesheets'));
 });
 
 // TODO: Make this compile directly in dev mode
@@ -45,8 +45,8 @@ gulp.task('reactify:watch', function(){
 
 
 gulp.task('concat:css', ['sass:compile'], function() {
-  return gulp.src('./.tmp/**/*.css')
-  .pipe(gulpif(argv.production, concat('all.css')))
+  return gulp.src('./public/stylesheets/**/*.css')
+  // .pipe(gulpif(argv.production, concat('all.css')))
   .pipe(gulpif(argv.production, nano()))
   .pipe(gulpif(argv.production, rename({suffix: '.min'})))
   .pipe(gulp.dest('./public/stylesheets'));
@@ -54,9 +54,9 @@ gulp.task('concat:css', ['sass:compile'], function() {
 });
 
 gulp.task('inject:assets', ['concat:css'], function() {
-  var target = gulp.src('./app/views/index.hbs');
+  var target = gulp.src(['./app/views/*.hbs']);
 
-  var source = gulp.src('./public/stylesheets/*.css', {read:false});
+  var source = gulp.src(['./public/stylesheets/*.css', './public/js/*.js'], {read:false});
 
   return target.pipe(inject(source))
     .pipe(gulp.dest('./app/views'));
@@ -66,13 +66,16 @@ gulp.task('inject:assets', ['concat:css'], function() {
 gulp.task('bundle', function(){
   return browserify({
     entries: 'app/main.jsx',
-    debug: true
+    debug: !process.env.production
   })
   .transform(reactify)
   .bundle()
+  .on('error', function(e){
+    console.log(e.message);
+    this.emit('end');
+  })
   .pipe(source('app.js'))
   .pipe(gulp.dest('./public/js'))
-  .pipe(gulp.dest('./.tmp'));
 });
 
 gulp.task('nodemon', function (cb) {
@@ -89,6 +92,8 @@ gulp.task('nodemon', function (cb) {
   });
 });
 
+gulp.task('build', ['inject:assets']);
+
 gulp.task('serve', ['bundle', 'reactify:watch', 'inject:assets', 'sass:watch', 'nodemon'], function(){
   browserSync.init(null, {
     proxy: "http://localhost:7777",
@@ -96,5 +101,4 @@ gulp.task('serve', ['bundle', 'reactify:watch', 'inject:assets', 'sass:watch', '
     port: 9001
   });
 });
-gulp.task('build', ['inject:assets']);
 
