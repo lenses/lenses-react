@@ -1,0 +1,23 @@
+
+#lens-title-bar {
+  border:2px solid $lightGray;
+  padding:30px 0px;
+  width:90%;
+  #lens-title {
+    font-size:$action-font-size;
+    color:$darkGray;
+  }
+  #lens-author {
+    font-size:$regular-font-size;
+  }
+  .title-bar-input {
+    border:none;
+    background:transparent;
+    outline:none;
+    padding-left:50px;
+    display:block;
+    margin-top:5px;
+  }
+}
+
+

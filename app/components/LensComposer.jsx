@@ -6,15 +6,15 @@ var LensTrackManager = require('./LensTrackManager.jsx');
 module.exports = React.createClass({
   render: function(){
     var initialLensNodes = [{
-      name: 'Data Table',
+      name: 'DATA TABLE',
       type: 'dataTable',
       id: 1
     }, {
-      name: 'Google Sheet',
+      name: 'GOOGLE SHEET',
       type: 'googleSheet',
       id: 2
     }, {
-      name: 'Python Note',
+      name: 'PYTHON NOTE',
       type: 'pythonNoe',
       id: 3
     }];

@@ -6,10 +6,15 @@ $turqoise:#1EE2D9;
 $secondaryColor: #EE431F; 
 $white:#FFF;
 $lightGray:#E0E0E0;
-$textColor: #000000; 
-$darkGray: #B0B0B0; 
+$textColor:#000000;
+$darkGray:#B0B0B0;
+$mediumGray:#F3F3F3;
+
+// TODO:Change these to em for final design
 $regular-font-size:17px;
 $action-font-size:20px;
+$small-action-font-size:12px;
+$small-label-font:10px;
 
 a {
   text-decoration:none;
@@ -31,28 +36,6 @@ a {
   color: $lightGray;
 }
 
-/********
- * Mix-in Library
- *
- *
- * */
-
-@mixin calc($property, $expression) {
-  #{$property}: calc(#{$expression});
-  #{$property}: -moz-calc(#{$expression});
-  #{$property}: -webkit-calc(#{$expression});
-}
-
-@mixin button($color, $font-size) {
-  background-color:$color;
-  border-radius:30px;
-  width:1%;
-  height:45px;
-  text-align:center;
-  display:table-cell;
-  vertical-align:middle;
-  font-size:$font-size;
-}
 
 /*************************************************
  * Re-usable styles
@@ -93,6 +76,12 @@ a {
   src:url('/public/fonts/Lato-SemiboldItalic.woff');
   font-weight:600;
   font-style:italic;
+}
+
+body {
+  font-family:'lato';
+  font-style:normal;
+  font-weight:600;
 }
 
 .latolight {

@@ -1,11 +1,14 @@
-@import 'base';
-@import 'reset';
-
 /***************************
- * header styles
- *
- *
- * */
+ * Marketing Page Styles
+ */
+
+#lens-marketing {
+  /***************************
+   * header styles
+   *
+   *
+   * */
+
 
 #header {
   background-color:$turqoise;
@@ -25,11 +28,11 @@
 }
 
 .action-button-white{
-  @include button($white, $action-font-size);
+  @include marketing-button($white, $action-font-size);
 }
 
 .action-button-turqoise{
-  @include button($turqoise, $action-font-size);
+  @include marketing-button($turqoise, $action-font-size);
 }
 
 #create-lens-container {
@@ -70,3 +73,4 @@
 }
 
 
+}

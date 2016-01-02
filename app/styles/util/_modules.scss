@@ -1,0 +1,56 @@
+/********
+ * Mix-in Library
+ *
+ *
+ * */
+
+@mixin calc($property, $expression) {
+  #{$property}: calc(#{$expression});
+  #{$property}: -moz-calc(#{$expression});
+  #{$property}: -webkit-calc(#{$expression});
+}
+
+@mixin marketing-button($color, $font-size) {
+  background-color:$color;
+  border-radius:30px;
+  width:1%;
+  height:45px;
+  text-align:center;
+  display:table-cell;
+  vertical-align:middle;
+  font-size:$font-size;
+}
+
+@mixin oval-action-button($color, $font-size) {
+  background-color:$color;
+  border-radius:30px;
+  width:1%;
+  height:35px;
+  text-align:center;
+  display:table-cell;
+  vertical-align:middle;
+  font-size:$font-size;
+  font-weight:800;
+  letter-spacing:3px;
+  border:2px solid $darkGray;
+}
+
+@mixin circular-action-button($color, $font-size) {
+  background-color:$color;
+  border-radius:50%;
+  color:#fff;
+  text-align:center;
+  display:table-cell;
+  vertical-align:middle;
+  font-size:$font-size;
+  width:35px;
+  height:35px;
+}
+
+@mixin circle($bgColor, $borderColor, $width, $height) {
+  background-color:$bgColor;
+  border:2px solid $borderColor;
+  width:$width;
+  height:$height;
+  border-radius:50%;
+}

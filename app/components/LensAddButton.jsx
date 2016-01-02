@@ -4,7 +4,7 @@ var LensAddButton = React.createClass({
   render: function(){
     return (
       <div className='lens-add-button'>
-        +
+        {this.props.content}
       </div>
     );
   }

@@ -2,17 +2,17 @@
 <head>
 <meta name="viewport" content="width=device-width" />
 <!-- inject:css -->
-<link rel="stylesheet" href="/public/stylesheets/index.css">
-<link rel="stylesheet" href="/public/stylesheets/mobile.css">
+<link rel="stylesheet" href="/public/stylesheets/all.css">
 <!-- endinject -->
 </head>
 <body>
+<div id='lens-marketing'>
   <div id='header' class='center'>
     <img class='block-centered top-large-padding' src='/public/images/lenses-logo.png' alt='Lenses Owl Logo' />
     <h1 id='header-title' class='text-center latolight top-small-padding'>
       LENSES
     </h1>
-    <h3 id='header-blurb' class='text-center latoregular top-medium-padding'>
+    <h3 id='header-blurb' class='text-center top-medium-padding latoregular'>
       Lenses is a web toolkit that enables the rapid creation of sophisticated data visualizations and interactive graphics
     </h3>
     <div id='create-lens-container' class='center'>
@@ -25,11 +25,11 @@
     <iframe id='ytplayer' type='text/html' width='400' height='250'
       src='https://www.youtube.com/embed/8jvoTV54nXw?enablejsapi=1&origin=https://youtube.com'
       frameborder='0' scrolling='no'></iframe>
-  <div id='explanation'>
+    <div id='explanation'>
       <div id='explanation-blurb' class='latoregular'>
-      Lenses is unique because it scales with the person as
-      their knowledge advances. No knowledge of programming is required to get started, but the toolkit can be
-      extended and completely customized by developers using HTML and Javascript.
+        Lenses is unique because it scales with the person as
+        their knowledge advances. No knowledge of programming is required to get started, but the toolkit can be
+        extended and completely customized by developers using HTML and Javascript.
       </div>
       <div id='contribute-button-container' class='center'>
         <div id='contribute-button' class='action-button-turqoise latobold'>
@@ -40,5 +40,9 @@
   </div>
   <div class='divider'>
   </div>
+</div>
+<!-- inject:js -->
+<script src="/public/js/app.js"></script>
+<!-- endinject -->
 </body>
 </html>

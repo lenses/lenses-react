@@ -1,0 +1,25 @@
+#lens-track-manager {
+  border-width:0px 2px 2px 2px;
+  border-style:solid;
+  border-color:$lightGray;
+  background-color:$mediumGray;
+  width:20%;
+  #wrapper {
+    margin:0px auto;
+    padding:20px 0px;
+    width:50%;
+    box-sizing:border-box;
+  }
+
+  #add-track-button {
+    margin-bottom:30px;
+  }
+
+  #circle-button-wrapper {
+    margin:0px auto;
+    width:35px;
+  }
+}
+
+
+

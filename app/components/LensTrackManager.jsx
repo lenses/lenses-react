@@ -6,14 +6,30 @@ var LensAddButton = require('./LensAddButton.jsx');
 var LensTrackManager = React.createClass({
   render: function() {
     var lensNodes = [];
-    this.props.initialLensNodes.forEach(function(node){
-      lensNodes.push(<LensNode node={node} key={node.id} />);
+    var lensOvalButtonProps = {
+      content: 'ADD NEW TRACK',
+      margin: '0px 0px 20px 0px'
+    };
+
+    var lensAddButtonProps = {
+      content: '+',
+    };
+
+    var lengthOfNodes = this.props.initialLensNodes.length-1;
+
+    this.props.initialLensNodes.forEach(function(node, i){
+      lensNodes.push(<LensNode node={node} key={node.id} connector-type={(i == lengthOfNodes) ? 'dashed' : 'solid' } />);
       });
+
     return (
       <div id='lens-track-manager'>
-        <LensOvalButton content='Add New Track'/>
-        {lensNodes}
-        <LensAddButton />
+        <div id='wrapper'>
+          <LensOvalButton {...lensOvalButtonProps}/>
+          {lensNodes}
+          <div id='circle-button-wrapper'>
+            <LensAddButton {...lensAddButtonProps} />
+          </div>
+        </div>
       </div>
     );
   }
