@@ -31,9 +31,10 @@ module.exports = React.createClass({
         <LensTitleBar />
         <LensShareButton />
         <LensTrackManager initialLensComponents={initialLensComponents} />
-        <LensComponentMenu initialLensComponents={initialLensComponents} />
-        <LensComponentViewer />
-
+        <div className='lens-viewport'>
+          <LensComponentMenu initialLensComponents={initialLensComponents} />
+          <LensComponentViewer />
+        </div>
       </div>
     )
   }

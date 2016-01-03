@@ -4,8 +4,8 @@
   border-color:$lightGray;
   background-color:$mediumGray;
   width:20%;
+  box-sizing:border-box;
   display:inline-block;
-  height:100%;
   #wrapper {
     margin:0px auto;
     padding:20px 0px;
