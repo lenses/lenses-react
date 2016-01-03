@@ -10,9 +10,12 @@ var LensOvalButton = React.createClass({
   render: function(){
     var styles = {
       backgroundColor: this.props.backgroundColor,
+      border: this.props.border,
     };
     var wrapperStyles = {
       margin: this.props.margin,
+      display: this.props.display,
+      width:  this.props.width,
     }
     return (
       <div style={wrapperStyles} className='lens-oval-button-wrapper'>

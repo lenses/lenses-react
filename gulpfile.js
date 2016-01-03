@@ -32,7 +32,6 @@ gulp.task('sass:compile', ['clean'],  function(){
   return gulp.src(['./app/styles/**/*.scss'])
   .pipe(sass.sync().on('error', function(err){
     sass.logError(err);
-    this.emit('end');
   }))
   .pipe(gulp.dest('./public/stylesheets'));
 });
@@ -94,7 +93,9 @@ gulp.task('nodemon', function (cb) {
 
     }
   }) .on('restart', function () {
+    setTimeout(function() {
       browserSync.reload({ stream: false });
+}, 1000);
   });
 });
 

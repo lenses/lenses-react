@@ -1,3 +1,6 @@
-.lens-oval-button{
-  @include oval-action-button(transparent, $small-action-font-size); 
+.lens-oval-button-wrapper{
+  display:inline-block;
+  .lens-oval-button{
+    @include oval-action-button(transparent, $small-action-font-size); 
+  }
 }

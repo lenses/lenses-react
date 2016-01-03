@@ -1,11 +1,14 @@
 var React = require('react');
 var LensTitleBar = require('./LensTitleBar.jsx');
 var LensTrackManager = require('./LensTrackManager.jsx');
+var LensComponentMenu = require('./LensComponentMenu.jsx');
+var LensComponentViewer = require('./LensComponentViewer.jsx');
+var LensShareButton = require('./LensShareButton.jsx');
 
 
 module.exports = React.createClass({
   render: function(){
-    var initialLensNodes = [{
+    var initialLensComponents = [{
       name: 'DATA TABLE',
       type: 'dataTable',
       id: 1
@@ -14,15 +17,23 @@ module.exports = React.createClass({
       type: 'googleSheet',
       id: 2
     }, {
-      name: 'PYTHON NOTE',
+      name: 'PYTHON NOTEBOOK',
       type: 'pythonNoe',
       id: 3
+    },{
+      name: 'MAPBOX',
+      type: 'mapbox',
+      id: 4
     }];
 
     return (
       <div id='lens-composer'>
         <LensTitleBar />
-        <LensTrackManager initialLensNodes={initialLensNodes} />
+        <LensShareButton />
+        <LensTrackManager initialLensComponents={initialLensComponents} />
+        <LensComponentMenu initialLensComponents={initialLensComponents} />
+        <LensComponentViewer />
+
       </div>
     )
   }

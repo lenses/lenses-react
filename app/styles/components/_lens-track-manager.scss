@@ -4,10 +4,12 @@
   border-color:$lightGray;
   background-color:$mediumGray;
   width:20%;
+  display:inline-block;
+  height:100%;
   #wrapper {
     margin:0px auto;
     padding:20px 0px;
-    width:50%;
+    width:174px;
     box-sizing:border-box;
   }
 

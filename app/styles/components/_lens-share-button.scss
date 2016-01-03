@@ -1,0 +1,19 @@
+.lens-share-button-wrapper{
+  display:inline-block;
+  box-sizing:border-box;
+  width:10%;
+  height:123px;
+  vertical-align:top;
+  border-top:2px solid $lightGray;
+  border-right:2px solid $lightGray;
+  border-bottom:2px solid $lightGray;
+  .lens-share-button {
+    margin:0px auto;
+    vertical-align:middle;
+    height:123px;
+    width:1%;
+    display:table-cell;
+    text-align:center;
+  }
+
+}

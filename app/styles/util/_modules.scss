@@ -24,7 +24,6 @@
 @mixin oval-action-button($color, $font-size) {
   background-color:$color;
   border-radius:30px;
-  width:1%;
   height:35px;
   text-align:center;
   display:table-cell;
@@ -33,6 +32,7 @@
   font-weight:800;
   letter-spacing:3px;
   border:2px solid $darkGray;
+  padding:0px 15px;
 }
 
 @mixin circular-action-button($color, $font-size) {

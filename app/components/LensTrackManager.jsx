@@ -8,16 +8,17 @@ var LensTrackManager = React.createClass({
     var lensNodes = [];
     var lensOvalButtonProps = {
       content: 'ADD NEW TRACK',
-      margin: '0px 0px 20px 0px'
+      margin: '0px 0px 20px 0px',
+      backgroundColor: 'white'
     };
 
     var lensAddButtonProps = {
       content: '+',
     };
 
-    var lengthOfNodes = this.props.initialLensNodes.length-1;
+    var lengthOfNodes = this.props.initialLensComponents.length-1;
 
-    this.props.initialLensNodes.forEach(function(node, i){
+    this.props.initialLensComponents.forEach(function(node, i){
       lensNodes.push(<LensNode node={node} key={node.id} connector-type={(i == lengthOfNodes) ? 'dashed' : 'solid' } />);
       });
 
