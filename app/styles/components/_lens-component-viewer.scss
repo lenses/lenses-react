@@ -1,4 +1,8 @@
 .lens-component-viewer{
   box-sizing:border-box;
   padding:30px;
+  text-align:center;
+  #chart-div {
+    display:inline-block;
+  }
 }
