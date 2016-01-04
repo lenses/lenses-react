@@ -5,7 +5,7 @@ var LensComponentViewer = React.createClass({
   render: function() {
 
     var componentType = this.props.currentSelectedNodeType;
-    var SelectedComponent;
+    var SelectedComponent = null;
 
     this.props.initialLensComponents.forEach(function(component) {
       if(component.type == componentType) {
@@ -13,9 +13,10 @@ var LensComponentViewer = React.createClass({
       }
     });
 
+
     return (
       <div className='lens-component-viewer'>
-        <SelectedComponent data={this.props.data} columns={this.props.columns}/>
+        {(SelectedComponent) ? (<SelectedComponent data={this.props.data} columns={this.props.columns}/>) : ""}
       </div>
            )
   }

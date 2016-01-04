@@ -2,6 +2,7 @@ var React = require('react');
 var LensTitleBar = require('./LensTitleBar.jsx');
 var LensTrackManager = require('./LensTrackManager.jsx');
 var LensComponentMenu = require('./LensComponentMenu.jsx');
+var LensComponentActionMenu = require('./LensComponentActionMenu.jsx');
 var LensComponentViewer = require('./LensComponentViewer.jsx');
 var LensShareButton = require('./LensShareButton.jsx');
 
@@ -43,6 +44,8 @@ module.exports = React.createClass({
     var columns = [['string', 'Topping'] , ['number' , 'Slices']];
 
     var currentSelectedNode = 4;
+    var currentSelectedNodeType = (currentSelectedNode) ? initialLensComponents[currentSelectedNode].type : null;
+
 
     return (
       <div id='lens-composer'>
@@ -50,8 +53,8 @@ module.exports = React.createClass({
         <LensShareButton />
         <LensTrackManager currentSelectedNode={currentSelectedNode} initialLensComponents={initialLensComponents} />
         <div className='lens-viewport'>
-          <LensComponentMenu initialLensComponents={initialLensComponents} />
-          <LensComponentViewer initialLensComponents={initialLensComponents} currentSelectedNodeType={initialLensComponents[currentSelectedNode].type} data={data} columns={columns}/>
+          {(currentSelectedNode) ? (<LensComponentActionMenu />) : (<LensComponentMenu initialLensComponents={initialLensComponents} />)}
+          <LensComponentViewer initialLensComponents={initialLensComponents} currentSelectedNodeType={currentSelectedNodeType} data={data} columns={columns}/>
         </div>
       </div>
     )
