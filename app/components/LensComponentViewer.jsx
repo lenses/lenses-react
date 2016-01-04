@@ -1,13 +1,21 @@
 var React = require('react');
-var LensGoogleBarGraph = require('./viz/LensGoogleBarGraph.jsx');
 
 
 var LensComponentViewer = React.createClass({
   render: function() {
-    var data = [{"Mushrooms": 3}, {"Onions":1}, {"Olives": 1}, {"Zucchini": 1}, {"Pepperoni":2}];
+
+    var componentType = this.props.currentSelectedNodeType;
+    var SelectedComponent;
+
+    this.props.initialLensComponents.forEach(function(component) {
+      if(component.type == componentType) {
+        SelectedComponent = component.reactCmp;
+      }
+    });
+
     return (
       <div className='lens-component-viewer'>
-        <LensGoogleBarGraph data={data}/>
+        <SelectedComponent data={this.props.data} columns={this.props.columns}/>
       </div>
            )
   }

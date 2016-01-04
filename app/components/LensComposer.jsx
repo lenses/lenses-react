@@ -6,34 +6,52 @@ var LensComponentViewer = require('./LensComponentViewer.jsx');
 var LensShareButton = require('./LensShareButton.jsx');
 
 
+// Load all base viz components.
+// Custom components should be loaded on the fly
+var LensGoogleBarGraph = require('./viz/LensGoogleBarGraph.jsx');
+
 module.exports = React.createClass({
   render: function(){
     var initialLensComponents = [{
       name: 'DATA TABLE',
       type: 'dataTable',
-      id: 1
+      reactCmp: null,
+      id: 0
     }, {
       name: 'GOOGLE SHEET',
-      type: 'googleSheet',
-      id: 2
+      type: 'LensGoogleSheet',
+      reactCmp: null,
+      id: 1
     }, {
       name: 'PYTHON NOTEBOOK',
-      type: 'pythonNoe',
-      id: 3
+      type: 'LensPythonNoteBook',
+      reactCmp: null,
+      id: 2
     },{
       name: 'MAPBOX',
-      type: 'mapbox',
+      type: 'LensMapBox',
+      reactCmp: null,
+      id: 3
+    }, {
+      name: 'GOOGLE BAR GRAPH',
+      type: 'LensGoogleBarGraph',
+      reactCmp: LensGoogleBarGraph,
       id: 4
     }];
+
+    var data = [['Mushrooms', 3], ['Onions',1], ['Olives', 1], ['Zucchini', 1], ['Pepperoni',2]];
+    var columns = [['string', 'Topping'] , ['number' , 'Slices']];
+
+    var currentSelectedNode = 4;
 
     return (
       <div id='lens-composer'>
         <LensTitleBar />
         <LensShareButton />
-        <LensTrackManager initialLensComponents={initialLensComponents} />
+        <LensTrackManager currentSelectedNode={currentSelectedNode} initialLensComponents={initialLensComponents} />
         <div className='lens-viewport'>
           <LensComponentMenu initialLensComponents={initialLensComponents} />
-          <LensComponentViewer />
+          <LensComponentViewer initialLensComponents={initialLensComponents} currentSelectedNodeType={initialLensComponents[currentSelectedNode].type} data={data} columns={columns}/>
         </div>
       </div>
     )
