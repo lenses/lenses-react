@@ -16,15 +16,30 @@ var LensTrackManager = React.createClass({
       content: '+'
     };
 
-    var lengthOfNodes = this.props.initialLensComponents.length-1;
+    // Need to know the length for the dash vs solid connector design
     var currentSelectedNode = this.props.currentSelectedNode;
+    var lensComponents = this.props.lensComponents;
+    var updateSelectedNode = this.props.updateSelectedNode;
 
-    this.props.initialLensComponents.forEach(function(node, i){
-      lensNodes.push(<LensNode  node={node}
-                                key={node.id}
-                                currentSelectedNode={currentSelectedNode}
-                                connector-type={(i == lengthOfNodes) ? 'dashed' : 'solid' } />);
-      });
+    // TODO: currently all tracks go to one long list of nodes fix this
+    this.props.tracks.forEach(function(track){
+      track.forEach(function(node, id){
+        // TODO: Make sure that tracks.node.id is generated dynamically from
+        // tracks.node.type mapped to lenscomponent.component.id
+        // the if statement is defensively making sure that requirement is adhered to
+        if (lensComponents[node.id].type == node.type) {
+          lensNodes.push(<LensNode  node={lensComponents[node.id]}
+            key={id}
+            rank={id}
+            updateSelectedNode={updateSelectedNode}
+            selected={(currentSelectedNode == id) ? true : false}
+            connector-type={(id == this.length-1) ? 'dashed' : 'solid' } />);
+        } else {
+          // TODO: should catch this and log it at top level
+          throw "Tracks Node Types Are Not Correctly Mapped to Lens Components";
+        }
+      }, track);
+    });
 
     return (
       <div className='lens-track-manager'>

@@ -4,11 +4,15 @@ var React = require('react');
 var LensComponentViewer = React.createClass({
   render: function() {
 
-    var componentType = this.props.currentSelectedNodeType;
+    var selectedComponentType = null;
     var SelectedComponent = null;
 
-    this.props.initialLensComponents.forEach(function(component) {
-      if(component.type == componentType) {
+    if (this.props.currentSelectedNode !== null) {
+      selectedComponentType = this.props.tracks[0][this.props.currentSelectedNode].type;
+    }
+
+    this.props.lensComponents.forEach(function(component) {
+      if(component.type == selectedComponentType) {
         SelectedComponent = component.reactCmp;
       }
     });
@@ -18,7 +22,7 @@ var LensComponentViewer = React.createClass({
       <div className='lens-component-viewer'>
         {(SelectedComponent) ? (<SelectedComponent data={this.props.data} columns={this.props.columns}/>) : ""}
       </div>
-           )
+    )
   }
 });
 

@@ -4,17 +4,16 @@ var LensNode = React.createClass({
   render: function(){
     var lensConnectorClass = 'lens-connector-' + this.props["connector-type"] + '-vertical';
     var lensCircleClass = 'lens-node-circle ';
-    lensCircleClass += (this.props.node.id == this.props.currentSelectedNode) ? "selected" : "";
+    lensCircleClass += (this.props.selected) ? "selected" : "";
 
     return (
       <div className='lens-node'>
-        <div className={lensCircleClass}>
+        <div className={lensCircleClass} onClick={this.props.updateSelectedNode.bind(null, this.props.rank)}>
         </div>
         <div className='lens-node-name'>
           <h4>{this.props.node.name}</h4>
         </div>
         <hr className={lensConnectorClass}  />
-        <button className='lens-node-delete'>&times;</button>
       </div>
     );
   }
