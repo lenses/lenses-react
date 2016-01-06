@@ -73,9 +73,9 @@ module.exports = React.createClass({
     });
     this.updateSelectedNode(this.state.tracks[this.state.currentSelectedTrack].length-1);
   },
-  deleteComponent: function(currentNode) {
+  deleteComponent: function() {
     var tracks = this.state.tracks.slice(0);
-    tracks[this.state.currentSelectedTrack].splice(currentNode, 1);
+    tracks[this.state.currentSelectedTrack].splice(this.state.currentSelectedNode, 1);
     this.setState({
       tracks: tracks
     });
