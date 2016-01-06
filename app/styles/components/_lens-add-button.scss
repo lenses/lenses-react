@@ -1,3 +1,27 @@
-.lens-add-button{
-  @include circular-action-button($turqoise, $action_font-size); 
+.lens-add-button {
+  @include circular-action-button($darkGray, $action_font-size);
 }
+.lens-selected-button {
+    @include circular-action-button($turqoise, $action_font-size);
+    @-webkit-keyframes grow {
+      50% { --webkit-transform: scale(1.15)}
+      100% { --webkit-transform: scale(1.0); }
+    }
+    @-moz-keyframes grow {
+      0%   { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @-o-keyframes grow {
+      0%   { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes grow {
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1.0); }
+    }
+    -webkit-animation: grow 2s infinite; /* Safari 4+ */
+    -moz-animation:    grow 2s infinite; /* Fx 5+ */
+    -o-animation:      grow 2s infinite; /* Opera 12+ */
+    animation:         grow 2s infinite; /* IE 10+, Fx 29+ */
+    animation-iteration-count: infinite;
+  }

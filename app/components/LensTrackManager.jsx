@@ -11,35 +11,28 @@ var LensTrackManager = React.createClass({
       margin: '0px 0px 20px 0px',
       backgroundColor: 'white'
     };
-
     var lensAddButtonProps = {
-      content: '+'
+      content: '+',
+      updateSelectedNode:this.props.updateSelectedNode,
+      selected:(this.props.currentSelectedNode === null) ? true : false
     };
-
-    // Need to know the length for the dash vs solid connector design
-    var currentSelectedNode = this.props.currentSelectedNode;
-    var lensComponents = this.props.lensComponents;
-    var updateSelectedNode = this.props.updateSelectedNode;
 
     // TODO: currently all tracks go to one long list of nodes fix this
     this.props.tracks.forEach(function(track){
-      track.forEach(function(node, id){
-        // TODO: Make sure that tracks.node.id is generated dynamically from
-        // tracks.node.type mapped to lenscomponent.component.id
-        // the if statement is defensively making sure that requirement is adhered to
-        if (lensComponents[node.id].type == node.type) {
-          lensNodes.push(<LensNode  node={lensComponents[node.id]}
-            key={id}
-            rank={id}
-            updateSelectedNode={updateSelectedNode}
-            selected={(currentSelectedNode == id) ? true : false}
-            connector-type={(id == this.length-1) ? 'dashed' : 'solid' } />);
-        } else {
-          // TODO: should catch this and log it at top level
-          throw "Tracks Node Types Are Not Correctly Mapped to Lens Components";
-        }
-      }, track);
-    });
+      track.forEach(function(cmp, id, trackArr){
+        // TODO make sure that this always works through nodes created only from
+        // lens component factories by checking that they are the singelton instance
+
+          lensNodes.push(<LensNode  node={cmp}
+                                    key={id}
+                                    rank={id}
+                                    updateSelectedNode={this.props.updateSelectedNode}
+                                    selected={(this.props.currentSelectedNode == id) ? true : false}
+                                    connector-type={(id == trackArr.length-1) ? 'dashed' : 'solid' } />
+                        );
+
+      }, this);
+    }, this);
 
     return (
       <div className='lens-track-manager'>

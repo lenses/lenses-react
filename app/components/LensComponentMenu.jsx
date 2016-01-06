@@ -16,7 +16,7 @@ var LensComponentMenu = React.createClass({
     return (
       <div className='lens-component-menu'>
         {lensComponents}
-        <LensOvalButton key='add-new-component' 
+        <LensOvalButton key='add-new-component'
                         margin='5px'
                         content='ADD NEW COMPONENT' />
       </div>
