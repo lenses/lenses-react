@@ -33,6 +33,7 @@
   letter-spacing:3px;
   border:2px solid $darkGray;
   padding:0px 15px;
+  cursor:pointer;
 }
 
 @mixin circular-action-button($color, $font-size) {
@@ -45,6 +46,7 @@
   font-size:$font-size;
   width:35px;
   height:35px;
+  cursor:pointer;
 }
 
 @mixin circle($bgColor, $borderColor, $width, $height) {
@@ -53,4 +55,5 @@
   width:$width;
   height:$height;
   border-radius:50%;
+  cursor:pointer;
 }
