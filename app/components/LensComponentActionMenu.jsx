@@ -12,6 +12,8 @@ var LensComponentActionMenu = React.createClass({
                         content='CUSTOMIZE COMPONENT' />
         <LensOvalButton key='delete-component'
                         margin='5px'
+                        action={this.props.deleteComponent}
+                        cmp={this.props.currentSelectedCmp}
                         content='DELETE COMPONENT' />
       </div>
            )

@@ -10,9 +10,11 @@ var LensComponentMenu = React.createClass({
       lensComponents.push(<LensOvalButton key={id}
                           backgroundColor='#E0E0E0'
                           content={component.name}
+                          cmp={component}
                           border='none'
+                          action={this.props.addComponent}
                           margin='5px'/>);
-    });
+    }, this);
     return (
       <div className='lens-component-menu'>
         {lensComponents}

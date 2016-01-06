@@ -56,9 +56,30 @@ module.exports = React.createClass({
   },
   updateSelectedNode: function(key) {
     // TODO: Update track once that's available
+    if (key !== null && key < 0 && this.state.tracks[this.state.currentSelectedTrack].length > 0) {
+      key = 0;
+    } else if (key < 0) {
+      key = null;
+    }
     this.setState({
       currentSelectedNode: key
     });
+  },
+  addComponent: function(cmp) {
+    var tracks  = this.state.tracks.slice(0);
+    tracks[this.state.currentSelectedTrack].push(cmp)
+    this.setState({
+      tracks: tracks
+    });
+    this.updateSelectedNode(this.state.tracks[this.state.currentSelectedTrack].length-1);
+  },
+  deleteComponent: function(currentNode) {
+    var tracks = this.state.tracks.slice(0);
+    tracks[this.state.currentSelectedTrack].splice(currentNode, 1);
+    this.setState({
+      tracks: tracks
+    });
+    this.updateSelectedNode((this.state.currentSelectedNode-1));
   },
   render: function(){
 
@@ -66,9 +87,9 @@ module.exports = React.createClass({
         currentSelectedCmp;
 
     if(this.state.currentSelectedNode !== null) {
-      viewPortMenu = <LensComponentActionMenu />;
+      viewPortMenu = <LensComponentActionMenu currentSelectedCmp={this.state.currentSelectedNode} deleteComponent={this.deleteComponent}/>;
     } else {
-      viewPortMenu = <LensComponentMenu lensComponents={this.state.lensComponents} />;
+      viewPortMenu = <LensComponentMenu addComponent={this.addComponent} lensComponents={this.state.lensComponents} />;
     }
 
     // Could be 0 but not null
