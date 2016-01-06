@@ -7,6 +7,9 @@ var shadeColor = function (color, percent) {
 }
 
 var LensOvalButton = React.createClass({
+  handleAction: function() {
+    this.props.action(this.props.actionPayload);
+  },
   render: function(){
     var styles = {
       backgroundColor: this.props.backgroundColor,
@@ -19,8 +22,8 @@ var LensOvalButton = React.createClass({
     }
     return (
       <div style={wrapperStyles} className='lens-oval-button-wrapper' >
-        <div style={styles} className='lens-oval-button' 
-                            onClick={(this.props.action) ? this.props.action.bind(null, this.props.cmp) : ''}>
+        <div style={styles} className='lens-oval-button'
+                            onClick={this.handleAction}>
           {this.props.content}
         </div>
       </div>

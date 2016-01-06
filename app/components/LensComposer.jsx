@@ -54,15 +54,15 @@ module.exports = React.createClass({
     //add test data once
     this.testData();
   },
-  updateSelectedNode: function(key) {
+  updateSelectedNode: function(newSelectedNode) {
     // TODO: Update track once that's available
-    if (key !== null && key < 0 && this.state.tracks[this.state.currentSelectedTrack].length > 0) {
-      key = 0;
-    } else if (key < 0) {
-      key = null;
+    if (newSelectedNode !== null && newSelectedNode < 0 && this.state.tracks[this.state.currentSelectedTrack].length > 0) {
+      newSelectedNode = 0;
+    } else if (newSelectedNode < 0) {
+      newSelectedNode = null;
     }
     this.setState({
-      currentSelectedNode: key
+      currentSelectedNode: newSelectedNode
     });
   },
   addComponent: function(cmp) {

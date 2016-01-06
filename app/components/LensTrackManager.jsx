@@ -25,7 +25,7 @@ var LensTrackManager = React.createClass({
 
           lensNodes.push(<LensNode  node={cmp}
                                     key={id}
-                                    rank={id}
+                                    index={id}
                                     updateSelectedNode={this.props.updateSelectedNode}
                                     selected={(this.props.currentSelectedNode == id) ? true : false}
                                     connector-type={(id == trackArr.length-1) ? 'dashed' : 'solid' } />
