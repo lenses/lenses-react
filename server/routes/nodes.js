@@ -4,9 +4,14 @@ var React = require('react');
 var express = require('express');
 var fs = require('fs');
 
-var loadCoreComponents = function (res) {
+var paths = {
+  coreComponents: './app/components/viz',
+  customComponents: './public/components'
+};
+
+var loadComponents = function (res, path) {
   var payload;
-  fs.readdir('./app/components/viz', function(err, files) {
+  fs.readdir(path, function(err, files) {
     if(!err) {
       payload = files.map(function(fileName) {
         return {
@@ -19,21 +24,6 @@ var loadCoreComponents = function (res) {
   });
 }
 
-var loadCustomComponents = function (res) {
-  var payload;
-  fs.readdir('./public/components', function(err, files) {
-    if(!err) {
-      payload = files.map(function(fileName) {
-        return {
-          type: fileName.split('.')[0],
-          name: fileName.split('.')[0].split(/(?=[A-Z])/).join(' ')
-        }
-      }),
-      res.send(payload);
-    }
-  });
-
-}
 module.exports = function (app){
 
   // var LensNode = require('./../models/LensNode.js');
@@ -82,13 +72,14 @@ module.exports = function (app){
 
     if(req.query['type'] && req.query['type'] == 'core') {
       //load core components
-      loadCoreComponents(res);
+      loadComponents(res, paths.coreComponents);
     } else if (req.query['type'] && req.query['type']== 'custom') {
-      loadCustomComponents(res);
+      loadComponents(res, paths.customComponents);
     } else {
-      console.log("loading all components");
-      loadCoreComponents(res);
-      loadCustomComponents(res);
+      // TODO: Load components should just return things so we can concatenate them together
+      Object.keys(paths).forEach(function(path) {
+        loadComponents(res, paths[path]);
+      });
     }
   });
 
