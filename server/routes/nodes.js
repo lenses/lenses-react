@@ -21,7 +21,7 @@ var loadCoreComponents = function (res) {
 
 var loadCustomComponents = function (res) {
   var payload;
-  fs.readdir('./app/components/custom', function(err, files) {
+  fs.readdir('./public/components', function(err, files) {
     if(!err) {
       payload = files.map(function(fileName) {
         return {
