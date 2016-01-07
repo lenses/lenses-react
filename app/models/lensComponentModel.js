@@ -1,16 +1,22 @@
 var $ = require('jquery');
 
-var comp = {
-  LensGoogleBarChart: require('../components/viz/LensGoogleBarChart.jsx'),
-  LensGooglePieChart: require('../components/viz/LensGooglePieChart.jsx')
-};
+// Load Up Core Lens Models
+var comp = require('../components/core/*.jsx', {mode: 'hash'});
 
-// Require Custom Lens Components
+// Lens Models
+// Should these be singleton Component factories?
+// They should take in name and type, and module. module and type mapes to url to
+// load components dynamically and that returns a proeprty that is either a
+// react function or a custom polymer web component
+// the viewer does not care and just show what it gets
+
 var lensComponentModel = function(name, type) {
   function addReactCmp(type, cb) {
     if(comp[type]) {
       cb(comp[type]);
     } else {
+      // Require Custom Lens Components which should be in the public folder
+      // Unfortunately add them to the global window context for now
       $.getScript('/public/components/' + type + '.js', function() {
         cb(window[type]);
       });
@@ -22,4 +28,5 @@ var lensComponentModel = function(name, type) {
     this.reactCmp = reactCmp;
   }.bind(this));
 }
+
 module.exports = lensComponentModel;

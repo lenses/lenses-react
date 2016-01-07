@@ -1,25 +1,17 @@
 var React = require('react');
 
 // LensUI React Components
-var LensTitleBar = require('./LensTitleBar.jsx');
-var LensTrackManager = require('./LensTrackManager.jsx');
-var LensComponentMenu = require('./LensComponentMenu.jsx');
-var LensComponentActionMenu = require('./LensComponentActionMenu.jsx');
-var LensComponentViewer = require('./LensComponentViewer.jsx');
-var LensShareButton = require('./LensShareButton.jsx');
+var LensTitleBar = require('./LensTitleBar');
+var LensTrackManager = require('./LensTrackManager');
+var LensComponentMenu = require('./LensComponentMenu');
+var LensComponentActionMenu = require('./LensComponentActionMenu');
+var LensComponentViewer = require('./LensComponentViewer');
+var LensShareButton = require('./LensShareButton');
 
-// Lens Models
-// Should these be singleton Component factories?
-// They should take in name and type, and module. module and type mapes to url to
-// load components dynamically and that returns a proeprty that is either a
-// react function or a custom polymer web component
-// the viewer does not care and just show what it gets
 
-// LensViz React Components
-// These should be loaded as part of the LensComponetFactory based on polymer or react
 
 // Test Data Injector
-var lensComposerTester = require('../tests/lensComposerTest.js');
+var lensComposerTester = require('../../tests/lensComposerTest');
 
 module.exports = React.createClass({
   getInitialState: function() {

@@ -1,7 +1,7 @@
 var React = require('react');
-var LensNode = require('./LensNode.jsx');
-var LensOvalButton = require('./LensOvalButton.jsx');
-var LensAddButton = require('./LensAddButton.jsx');
+var LensNode = require('./LensNode');
+var LensOvalButton = require('./LensOvalButton');
+var LensAddButton = require('./LensAddButton');
 
 var LensTrackManager = React.createClass({
   render: function() {

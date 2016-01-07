@@ -1,5 +1,5 @@
 var React = require('react');
-var LensOvalButton = require('./LensOvalButton.jsx');
+var LensOvalButton = require('./LensOvalButton');
 
 
 var LensComponentMenu = React.createClass({

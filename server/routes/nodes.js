@@ -5,7 +5,7 @@ var express = require('express');
 var fs = require('fs');
 
 var paths = {
-  coreComponents: './app/components/viz',
+  coreComponents: './app/components/core',
   customComponents: './public/components'
 };
 
