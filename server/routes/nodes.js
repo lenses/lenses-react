@@ -2,7 +2,38 @@
 var ReactDOMServer = require('react-dom/server');
 var React = require('react');
 var express = require('express');
+var fs = require('fs');
 
+var loadCoreComponents = function (res) {
+  var payload;
+  fs.readdir('./app/components/viz', function(err, files) {
+    if(!err) {
+      payload = files.map(function(fileName) {
+        return {
+          type: fileName.split('.')[0],
+          name: fileName.split('.')[0].split(/(?=[A-Z])/).join(' ')
+        }
+      }),
+      res.send(payload);
+    }
+  });
+}
+
+var loadCustomComponents = function (res) {
+  var payload;
+  fs.readdir('./app/components/custom', function(err, files) {
+    if(!err) {
+      payload = files.map(function(fileName) {
+        return {
+          type: fileName.split('.')[0],
+          name: fileName.split('.')[0].split(/(?=[A-Z])/).join(' ')
+        }
+      }),
+      res.send(payload);
+    }
+  });
+
+}
 module.exports = function (app){
 
   // var LensNode = require('./../models/LensNode.js');
@@ -45,16 +76,24 @@ module.exports = function (app){
   //     });
   //   });
 
+  app.route('/api/components').get(function(req, res) {
+    // Provide List of Components
+
+
+    if(req.query['type'] && req.query['type'] == 'core') {
+      //load core components
+      loadCoreComponents(res);
+    } else if (req.query['type'] && req.query['type']== 'custom') {
+      loadCustomComponents(res);
+    } else {
+      console.log("loading all components");
+      loadCoreComponents(res);
+      loadCustomComponents(res);
+    }
+  });
+
   app.route('/lenses/create')
     .get(function(req,res){
-      // var application = React.createFactory(require('../../app/components/LensComposer.jsx'));
-      // LensNode.find(function(error,doc){
-
-      //   var generated = ReactDOMServer.renderToString(application({
-      //     // Define the props of the application
-      //     nodes: doc
-      //   }));
-      // });
       res.render('create-lens.hbs');
     });
 };

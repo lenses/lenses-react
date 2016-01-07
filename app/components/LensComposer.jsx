@@ -10,49 +10,37 @@ var LensShareButton = require('./LensShareButton.jsx');
 
 // Lens Models
 // Should these be singleton Component factories?
-// They should take in name and type, and module. module and type mapes to url to 
-// load components dynamically and that returns a proeprty that is either a 
+// They should take in name and type, and module. module and type mapes to url to
+// load components dynamically and that returns a proeprty that is either a
 // react function or a custom polymer web component
 // the viewer does not care and just show what it gets
-var lensComponentModel = require('../models/lensComponentModel.js');
 
 // LensViz React Components
 // These should be loaded as part of the LensComponetFactory based on polymer or react
-var LensGoogleBarGraph = require('./viz/LensGoogleBarGraph.jsx');
-var LensGooglePieChart = require('./viz/LensGooglePieChart.jsx');
+
+// Test Data Injector
+var lensComposerTester = require('../tests/lensComposerTest.js');
 
 module.exports = React.createClass({
   getInitialState: function() {
     return {
-      lensComponents: [],
+      lensComponentLibrary: [],
       data: [],
       columns: [],
-      tracks: [],
+      tracks: [[]],
       currentSelectedTrack: 0,
       currentSelectedNode: null
     }
   },
-  testData: function (){
-    this.state.lensComponents = [
-      new lensComponentModel('GOOGLE PIE CHART', 'LensGooglePieChart', LensGooglePieChart),
-      new lensComponentModel('GOOGLE BAR CHART', 'LensGoogleBarGraph', LensGoogleBarGraph),
-      new lensComponentModel('PYTHON NOTEBOOK', null, null),
-      new lensComponentModel('MAP BOX', null, null),
-      new lensComponentModel('GOOGLE SHEET', 'LensGoogleSheet', null)
-    ]
-    this.state.data = [['Goats', 5], ['Burrito',3], ['Olives', 1], ['Zucchini', 1], ['Pepperoni',2]];
-    this.state.columns = [['string', 'Topping'] , ['number' , 'Slices']];
-    this.state.tracks.push([
-      new lensComponentModel('GOOGLE PIE CHART', 'LensGooglePieChart', LensGooglePieChart),
-      new lensComponentModel('GOOGLE BAR CHART', 'LensGoogleBarGraph', LensGoogleBarGraph),
-      new lensComponentModel('GOOGLE SHEET', 'LensGoogleSheet', null),
-      new lensComponentModel('GOOGLE BAR CHART', 'LensGoogleBarGraph', LensGoogleBarGraph)
-    ]);
-    this.state.currentSelectedNode = null;
-  },
   componentWillMount: function() {
-    //add test data once
-    this.testData();
+    // Load Initial Components
+    this.props.loadInitialComponents(function(initialComponents) {
+      this.setState({
+        lensComponentLibrary: initialComponents
+      });
+    }.bind(this));
+    // add test data once
+    lensComposerTester.loadTestData.call(this);
   },
   updateSelectedNode: function(newSelectedNode) {
     // TODO: Update track once that's available
@@ -87,12 +75,14 @@ module.exports = React.createClass({
         currentSelectedCmp;
 
     if(this.state.currentSelectedNode !== null) {
-      viewPortMenu = <LensComponentActionMenu currentSelectedCmp={this.state.currentSelectedNode} deleteComponent={this.deleteComponent}/>;
+      viewPortMenu = <LensComponentActionMenu currentSelectedCmp={this.state.currentSelectedNode}
+                                              deleteComponent={this.deleteComponent}/>;
     } else {
-      viewPortMenu = <LensComponentMenu addComponent={this.addComponent} lensComponents={this.state.lensComponents} />;
+      viewPortMenu = <LensComponentMenu addComponent={this.addComponent}
+                                        lensComponentLibrary={this.state.lensComponentLibrary} />;
     }
 
-    // Could be 0 but not null
+    // 0 is the first element; null defaults to add new component menu
     if (this.state.currentSelectedNode !== null)  {
       currentSelectedCmp = this.state.tracks[this.state.currentSelectedTrack][this.state.currentSelectedNode];
     } else {

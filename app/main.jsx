@@ -1,14 +1,19 @@
 var React = require('react');
 var ReactDOM = require('react-dom'); 
 var LensComposer = require('./components/LensComposer.jsx');
-// var LensStore = require('./stores/LensStore.jsx');
+var lensComponentModel = require('./models/lensComponentModel.js');
+var $ = require('jquery');
 
-// var initial = LensStore.getNodes();
-
+var loadInitialComponents = function(cb) {
+  var initialComponents = [];
+  $.get('/api/components?type=core', null, function(data) {
+    initialComponents = data.map(function(cmp) {
+      return new lensComponentModel(cmp.name, cmp.type);
+    });
+  cb(initialComponents);
+  });
+};
 //Main render function to attach React component to the dom
 
-var initialLensComponents = ['Google Graph', 'Google Spreadsheet', 'Python Input', 'Bar Graph'];
-
-ReactDOM.render(<LensComposer possible-nodes={initialLensComponents}/>, app);
-
+ReactDOM.render(<LensComposer loadInitialComponents={loadInitialComponents} />, app);
 

@@ -6,15 +6,17 @@ var LensComponentMenu = React.createClass({
   render: function() {
     var lensComponents = [];
 
-    this.props.lensComponents.forEach(function(component, id) {
-      lensComponents.push(<LensOvalButton key={id}
-                          backgroundColor='#E0E0E0'
-                          content={component.name}
-                          actionPayload={component}
-                          border='none'
-                          action={this.props.addComponent}
-                          margin='5px'/>);
-    }, this);
+    if(this.props.lensComponentLibrary) {
+      this.props.lensComponentLibrary.forEach(function(component, id) {
+        lensComponents.push(<LensOvalButton key={id}
+          backgroundColor='#E0E0E0'
+          content={component.name}
+          actionPayload={component}
+          border='none'
+          action={this.props.addComponent}
+          margin='5px'/>);
+      }, this);
+    }
     return (
       <div className='lens-component-menu'>
         {lensComponents}

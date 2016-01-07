@@ -65,6 +65,20 @@ gulp.task('inject:assets', ['concat:css'], function() {
 
 });
 
+gulp.task('bundle-components', function(){
+  return browserify({
+    entries: 'app/components/viz/LensTestComponent.jsx',
+    debug: !process.env.production
+  })
+  .transform(reactify)
+  .bundle()
+  .on('error', function(e){
+    console.log(e.message);
+    this.emit('end');
+  })
+  .pipe(source('LensTestComponent.js'))
+  .pipe(gulp.dest('./public/components'))
+});
 gulp.task('bundle', function(){
   return browserify({
     entries: 'app/main.jsx',
@@ -101,7 +115,7 @@ gulp.task('nodemon', function (cb) {
 
 gulp.task('build', ['inject:assets']);
 
-gulp.task('serve', ['bundle', 'reactify:watch', 'inject:assets', 'sass:watch', 'nodemon'], function(){
+gulp.task('serve', ['bundle', 'reactify:watch', 'inject:assets', 'sass:watch', 'nodemon' ], function(){
   browserSync.init(null, {
     proxy: "http://localhost:7777",
     files: ["app/**/*.*"],

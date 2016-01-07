@@ -1,5 +1,5 @@
 var React = require('react');
-// TODO:Calculate the hover state automatically based on the background color of the button using the 
+// TODO:Calculate the hover state automatically based on the background color of the button using the
 // onMouseEnter and onMouseExit states
 var shadeColor = function (color, percent) {
     var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
