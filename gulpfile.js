@@ -65,23 +65,23 @@ function runWatchify(file, output, standaloneLib) {
     standalone: standaloneLib
   });
   b.add(file);
-  b = watchify(b)
-  b.on('update', function(){
+  b = watchify(b);
+  b.transform(reactify)
+  .transform(requireGlobify)
+  .on('update', function(){
     browserifyBundle(b, output).on('end', function(){
       browserSync.reload({ stream: false });
     });
-  });
-  b.on('log', function(msg){
-    console.log(msg);
   })
-  browserifyBundle(b, output);
+  .on('log', function(msg){
+    console.log(msg);
+  });
+  return browserifyBundle(b, output);
 
 }
 
 function browserifyBundle(b, output) {
-  return b.transform(reactify)
-  .transform(requireGlobify)
-  .bundle()
+  return b.bundle()
   .on('error', function(e){
     console.log(e.message);
     this.emit('end');
