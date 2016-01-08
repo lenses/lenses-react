@@ -22,9 +22,14 @@ var lensComponentModel = function(name, type) {
       });
     }
   }
-  this.name = name;
   this.type = type;
+  // TODO: Remove this and have it come through the API
+  if(!name) {
+    name = type.split('.')[0].split(/(?=[A-Z])/).join(' ')
+  }
+  this.name = name;
   addReactCmp(this.type, function(reactCmp) {
+    console.log(reactCmp);
     this.reactCmp = reactCmp;
   }.bind(this));
 }

@@ -12,6 +12,7 @@ var LensShareButton = require('./LensShareButton');
 
 // Test Data Injector
 var lensComposerTester = require('../../tests/lensComposerTest');
+var lensComponentModel = require('../../models/lensComponentModel.js');
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -61,6 +62,17 @@ module.exports = React.createClass({
     });
     this.updateSelectedNode((this.state.currentSelectedNode-1));
   },
+  addCustomComponent: function(value) {
+
+    var newLibrary = this.state.lensComponentLibrary.slice(0);
+    var newComponent = new lensComponentModel(null, value);
+    console.log(newComponent);
+    newLibrary.push(newComponent);
+    this.setState({
+      lensComponentLibrary: newLibrary
+    });
+
+  },
   render: function(){
 
     var viewPortMenu,
@@ -71,6 +83,7 @@ module.exports = React.createClass({
                                               deleteComponent={this.deleteComponent}/>;
     } else {
       viewPortMenu = <LensComponentMenu addComponent={this.addComponent}
+                                        addCustomComponent={this.addCustomComponent}
                                         lensComponentLibrary={this.state.lensComponentLibrary} />;
     }
 

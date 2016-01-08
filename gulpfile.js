@@ -16,6 +16,7 @@ var watchify = require('watchify');
 var glob = require('glob');
 var path = require('path');
 
+// TODO: Use these
 var paths = {
   SCSS: ['./app/styles/**/*.scss'],
   HBS: ['./app/views/**/*.hbs'],
