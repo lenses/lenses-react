@@ -5,7 +5,7 @@ var LensOvalButton = require('./LensOvalButton');
 var LensComponentMenu = React.createClass({
   getInitialState: function() {
     return {
-      value: "Enter Component Name",
+      value: "",
       inputField: false
     }
   },
@@ -46,6 +46,7 @@ var LensComponentMenu = React.createClass({
       inputFields.push(<input id='add-component-value'
         type='text'
         value={this.state.value}
+        placeholder="COMPONENT NAME"
         onChange={this.handleInputChange}/>);
       inputFields.push( <LensOvalButton key='submit-new-component'
         margin='5px'

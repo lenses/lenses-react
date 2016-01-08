@@ -8,8 +8,6 @@ var LensComponentActionMenu = require('./LensComponentActionMenu');
 var LensComponentViewer = require('./LensComponentViewer');
 var LensShareButton = require('./LensShareButton');
 
-
-
 // Test Data Injector
 var lensComposerTester = require('../../tests/lensComposerTest');
 var lensComponentModel = require('../../models/lensComponentModel.js');
@@ -35,15 +33,17 @@ module.exports = React.createClass({
     // add test data once
     lensComposerTester.loadTestData.call(this);
   },
-  updateSelectedNode: function(newSelectedNode) {
-    // TODO: Update track once that's available
-    if (newSelectedNode !== null && newSelectedNode < 0 && this.state.tracks[this.state.currentSelectedTrack].length > 0) {
-      newSelectedNode = 0;
-    } else if (newSelectedNode < 0) {
-      newSelectedNode = null;
+  updateSelectedNode: function(newSelectedValue) {
+    // When the user deletes the first node and there are more nodes in the track, select the new first node
+    if (newSelectedValue !== null && newSelectedValue < 0 && this.state.tracks[this.state.currentSelectedTrack].length > 0) {
+      newSelectedValue = 0;
+    // When the user deletes the first node and there are no more nodes, default to add component
+    } else if (newSelectedValue < 0) {
+      newSelectedValue = null;
     }
+    // Update node with the new selectedNode Value
     this.setState({
-      currentSelectedNode: newSelectedNode
+      currentSelectedNode: newSelectedValue
     });
   },
   addComponent: function(cmp) {
@@ -62,16 +62,13 @@ module.exports = React.createClass({
     });
     this.updateSelectedNode((this.state.currentSelectedNode-1));
   },
-  addCustomComponent: function(value) {
-
+  addCustomComponent: function(type) {
     var newLibrary = this.state.lensComponentLibrary.slice(0);
-    var newComponent = new lensComponentModel(null, value);
-    console.log(newComponent);
+    var newComponent = new lensComponentModel(type);
     newLibrary.push(newComponent);
     this.setState({
       lensComponentLibrary: newLibrary
     });
-
   },
   render: function(){
 

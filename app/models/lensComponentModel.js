@@ -3,33 +3,30 @@ var $ = require('jquery');
 // Load Up Core Lens Models
 var comp = require('../components/core/*.jsx', {mode: 'hash'});
 
-// Lens Models
-// Should these be singleton Component factories?
-// They should take in name and type, and module. module and type mapes to url to
-// load components dynamically and that returns a proeprty that is either a
-// react function or a custom polymer web component
-// the viewer does not care and just show what it gets
 
-var lensComponentModel = function(name, type) {
+// Takes in type which is the filename and
+// returns the name and loads the cmp function
+
+var lensComponentModel = function(type) {
   function addReactCmp(type, cb) {
     if(comp[type]) {
+      // Load Bundled Components
       cb(comp[type]);
     } else {
-      // Require Custom Lens Components which should be in the public folder
-      // Unfortunately add them to the global window context for now
+      // Load Custom Components which should be in the public/js folder
+      // For now load them from the Global object but we'll move them
+      // to a LensObject to avoid polluting the namespcae
       $.getScript('/public/js/' + type +'.js', function() {
         cb(window[type]);
       });
     }
   }
   this.type = type;
-  // TODO: Remove this and have it come through the API
-  if(!name) {
-    name = type.split('.')[0].split(/(?=[A-Z])/).join(' ')
-  }
-  this.name = name;
+  // Remove the extension, match groups that start with a capital letter
+  // join them into one word
+  // this is fragile on non-linux systems
+  this.name = type.split('.')[0].split(/(?=[A-Z])/).join(' ');
   addReactCmp(this.type, function(reactCmp) {
-    console.log(reactCmp);
     this.reactCmp = reactCmp;
   }.bind(this));
 }

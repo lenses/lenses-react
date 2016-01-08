@@ -8,7 +8,7 @@ var loadInitialComponents = function(cb) {
   var initialComponents = [];
   $.get('/api/components', null, function(data) {
     initialComponents = data.map(function(cmp) {
-      return new lensComponentModel(cmp.name, cmp.type);
+      return new lensComponentModel(cmp.type);
     });
   cb(initialComponents);
   });
