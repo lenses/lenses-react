@@ -37,7 +37,7 @@ module.exports = React.createClass({
     // When the user deletes the first node and there are more nodes in the track, select the new first node
     if (newSelectedValue !== null && newSelectedValue < 0 && this.state.tracks[this.state.currentSelectedTrack].length > 0) {
       newSelectedValue = 0;
-    // When the user deletes the first node and there are no more nodes, default to add component
+      // When the user deletes the first node and there are no more nodes, default to add component
     } else if (newSelectedValue < 0) {
       newSelectedValue = null;
     }
@@ -78,15 +78,17 @@ module.exports = React.createClass({
   render: function(){
 
     var viewPortMenu,
-        currentSelectedCmp;
+    currentSelectedCmp;
 
     if(this.state.currentSelectedNode !== null) {
-      viewPortMenu = <LensComponentActionMenu currentSelectedCmp={this.state.currentSelectedNode}
-                                              deleteComponent={this.deleteComponent}/>;
+      viewPortMenu = <LensComponentActionMenu
+        currentSelectedCmp={this.state.currentSelectedNode}
+        deleteComponent={this.deleteComponent}/>;
     } else {
-      viewPortMenu = <LensComponentMenu addComponent={this.addComponent}
-                                        addCustomComponent={this.addCustomComponent}
-                                        lensComponentLibrary={this.state.lensComponentLibrary} />;
+      viewPortMenu = <LensComponentMenu
+        addComponent={this.addComponent}
+        addCustomComponent={this.addCustomComponent}
+        lensComponentLibrary={this.state.lensComponentLibrary} />;
     }
 
     // 0 is the first element; null defaults to add new component menu
@@ -100,15 +102,17 @@ module.exports = React.createClass({
       <div id='lens-composer'>
         <LensTitleBar />
         <LensShareButton />
-        <LensTrackManager     currentSelectedNode={this.state.currentSelectedNode}
-                              currentSelectedTrack={this.state.currentSelectedTrack}
-                              tracks={this.state.tracks}
-                              updateSelectedNode={this.updateSelectedNode} />
+        <LensTrackManager
+          currentSelectedNode={this.state.currentSelectedNode}
+          currentSelectedTrack={this.state.currentSelectedTrack}
+          tracks={this.state.tracks}
+          updateSelectedNode={this.updateSelectedNode} />
         <div className='lens-viewport'>
           {viewPortMenu}
-          <LensComponentViewer currentSelectedCmp={currentSelectedCmp}
-                               data={this.state.data}
-                               columns={this.state.columns} />
+          <LensComponentViewer
+            currentSelectedCmp={currentSelectedCmp}
+            data={this.state.data}
+            columns={this.state.columns} />
         </div>
       </div>
     )
