@@ -14,6 +14,10 @@ var LensComponentMenu = React.createClass({
       value: e.target.value
     })
   },
+  handleKeyDown: function(e) {
+    // on pressing enter add the component
+    if (e.keyCode == 13)  {this.addCustomComponent(this.state.value);}
+  },
   toggleInputFields: function() {
     if (this.state.inputField) {
       this.setState({inputField: false});
@@ -47,7 +51,9 @@ var LensComponentMenu = React.createClass({
         type='text'
         value={this.state.value}
         placeholder="COMPONENT NAME"
-        onChange={this.handleInputChange}/>);
+        onChange={this.handleInputChange}
+        onKeyDown={this.handleKeyDown}
+        />);
       inputFields.push( <LensOvalButton key='submit-new-component'
         margin='5px'
         action={this.addCustomComponent}
