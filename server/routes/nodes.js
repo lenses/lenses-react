@@ -6,7 +6,7 @@ var fs = require('fs');
 
 var paths = {
   coreComponents: './app/components/core',
-  customComponents: './public/components'
+  customComponents: 'app/components/custom'
 };
 
 var loadComponents = function (res, path) {
@@ -76,10 +76,7 @@ module.exports = function (app){
     } else if (req.query['type'] && req.query['type']== 'custom') {
       loadComponents(res, paths.customComponents);
     } else {
-      // TODO: Load components should just return things so we can concatenate them together
-      Object.keys(paths).forEach(function(path) {
-        loadComponents(res, paths[path]);
-      });
+      loadComponents(res, paths.coreComponents);
     }
   });
 

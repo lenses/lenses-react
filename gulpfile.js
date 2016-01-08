@@ -13,7 +13,8 @@ var argv = require('yargs').argv;
 var del = require('del');
 var requireGlobify = require('require-globify');
 var watchify = require('watchify');
-
+var glob = require('glob');
+var path = require('path');
 
 var paths = {
   SCSS: ['./app/styles/**/*.scss'],
@@ -46,34 +47,37 @@ gulp.task('sass:watch', function () {
 
 gulp.task('inject:assets', ['sass:compile'], function() {
   var target = gulp.src(['./app/views/*.hbs']);
-  var source = gulp.src(['./public/stylesheets/*.css', './public/js/*.js'], {read:false});
+  var source = gulp.src(['./public/stylesheets/*.css', './public/js/ui.js'], {read:false});
   return target.pipe(inject(source))
-  .pipe(gulp.dest('./app/views'));
+  .pipe(gulp.dest('./app/views/'));
 });
 
-function runWatchify(file ) {
+function runWatchify(file, output, standaloneLib) {
+
+  output += '.js';
   var b =  browserify({
     debug: !process.env.production,
     extensions: ['.jsx'],
     cache: {},
     packageCache: {},
-    fullPaths: true
+    fullPaths: true,
+    standalone: standaloneLib
   });
   b.add(file);
   b = watchify(b)
   b.on('update', function(){
-    browserifyBundle(b).on('end', function(){
+    browserifyBundle(b, output).on('end', function(){
       browserSync.reload({ stream: false });
     });
   });
   b.on('log', function(msg){
     console.log(msg);
   })
-  browserifyBundle(b);
+  browserifyBundle(b, output);
 
 }
 
-function browserifyBundle(b) {
+function browserifyBundle(b, output) {
   return b.transform(reactify)
   .transform(requireGlobify)
   .bundle()
@@ -81,30 +85,17 @@ function browserifyBundle(b) {
     console.log(e.message);
     this.emit('end');
   })
-  .pipe(source('app.js'))
-  .pipe(gulp.dest('./public/js'));
-}
-
-function browserifyCustomComponents() {
-  var b = browserify({
-    debug: !process.env.production,
-    extensions: ['.jsx']
-  });
-  b.add('app/components/customComponents/*.jsx');
-  b.transform(reactify)
-  .bundle()
-  .on('error', function(e){
-    console.log(e.message);
-    this.emit('end');
-  })
-  .pipe(source('customComponents.js'))
+  .pipe(source(output))
   .pipe(gulp.dest('./public/js'));
 }
 
 
 gulp.task('bundle', function(){
-  runWatchify('app/main.jsx');
-  browserifyCustomComponents();
+  var files = glob.sync('./app/components/custom/*.jsx');
+  runWatchify('app/main.jsx', 'ui', 'LensUI');
+  files.forEach(function(file) {
+    return runWatchify(file, path.basename(file, '.jsx'), path.basename(file, '.jsx'));
+  })
 });
 
 gulp.task('nodemon', function (cb) {
@@ -116,7 +107,7 @@ gulp.task('nodemon', function (cb) {
     options: {
       watchedExtensions: ['js']
     },
-    ignore: ['app/**', 'public/**', '*.js']
+    ignore: ['app/**', 'public/**', './*.js']
   }).on('start', function () {
     if (!started) {
       cb();

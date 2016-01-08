@@ -1,7 +1,7 @@
 var React = require('react');
 var $ = require('jquery');
 
-window.CustomGoogleBar = React.createClass({
+var CustomGoogleBar = React.createClass({
   drawChart: function() {
       var dt = new window.google.visualization.DataTable();
       var columns = this.props.columns;
@@ -46,3 +46,4 @@ window.CustomGoogleBar = React.createClass({
   }
 });
 
+module.exports = CustomGoogleBar;

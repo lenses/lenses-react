@@ -17,7 +17,7 @@ var lensComponentModel = function(name, type) {
     } else {
       // Require Custom Lens Components which should be in the public folder
       // Unfortunately add them to the global window context for now
-      $.getScript('/public/components/' + type + '.js', function() {
+      $.getScript('/public/js/' + type +'.js', function() {
         cb(window[type]);
       });
     }
