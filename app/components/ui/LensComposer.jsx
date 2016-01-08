@@ -64,11 +64,16 @@ module.exports = React.createClass({
   },
   addCustomComponent: function(type) {
     var newLibrary = this.state.lensComponentLibrary.slice(0);
-    var newComponent = new lensComponentModel(type);
-    newLibrary.push(newComponent);
-    this.setState({
-      lensComponentLibrary: newLibrary
-    });
+    new lensComponentModel(type, function(newComponent){
+      if(newComponent.reactCmp) {
+        newLibrary.push(newComponent);
+        this.setState({
+          lensComponentLibrary: newLibrary
+        });
+      } else {
+        alert('Component Does Not Exist');
+      }
+    }.bind(this));
   },
   render: function(){
 

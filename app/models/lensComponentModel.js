@@ -7,28 +7,30 @@ var comp = require('../components/core/*.jsx', {mode: 'hash'});
 // Takes in type which is the filename and
 // returns the name and loads the cmp function
 
-var lensComponentModel = function(type) {
-  function addReactCmp(type, cb) {
-    if(comp[type]) {
-      // Load Bundled Components
-      cb(comp[type]);
-    } else {
-      // Load Custom Components which should be in the public/js folder
-      // For now load them from the Global object but we'll move them
-      // to a LensObject to avoid polluting the namespcae
-      $.getScript('/public/js/' + type +'.js', function() {
-        cb(window[type]);
-      });
-    }
-  }
+var lensComponentModel = function(type, cb) {
   this.type = type;
   // Remove the extension, match groups that start with a capital letter
   // join them into one word
   // this is fragile on non-linux systems
   this.name = type.split('.')[0].split(/(?=[A-Z])/).join(' ');
-  addReactCmp(this.type, function(reactCmp) {
-    this.reactCmp = reactCmp;
-  }.bind(this));
+  if(comp[type]) {
+    // Load Bundled Components
+    this.reactCmp = comp[type];
+  } else {
+    // Load Custom Components which should be in the public/js folder
+    // For now load them from the Global object but we'll move them
+    // to a LensObject to avoid polluting the namespcae
+    $.getScript('/public/js/' + type +'.js')
+    .done(function() {
+      this.reactCmp = window[type];
+    }.bind(this))
+    .error(function() {
+      this.reactCmp = null;
+    }.bind(this))
+    .always(function(){
+      cb(this);
+    }.bind(this));
+  }
 }
 
 module.exports = lensComponentModel;
