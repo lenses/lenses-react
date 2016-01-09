@@ -62,7 +62,8 @@ function runWatchify(file, output, standaloneLib) {
     cache: {},
     packageCache: {},
     fullPaths: true,
-    standalone: standaloneLib
+    standalone: standaloneLib,
+    paths:['public/vendorJs']
   });
   b.add(file);
   b = watchify(b);
