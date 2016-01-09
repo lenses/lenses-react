@@ -24,7 +24,8 @@ var GoogleSheet = React.createClass({
     tabletop.init({
       key: this.state.value,
       callback: this.processData,
-      simpleSheet: true
+      simpleSheet: true,
+      parseNumbers: true
     })
   },
   processData: function(data, tbInstance) {
@@ -39,11 +40,15 @@ var GoogleSheet = React.createClass({
       }
       tempData.push(tempColumnData);
     }
+    columns = columns.map(function(column){
+      return [typeof data[0][column], column];
+    });
     this.setState({
       data: tempData,
       columns: columns,
       tbInstance: tbInstance
     });
+    this.props.updateData(this.state.columns, this.state.data);
   },
   componentDidMount: function() {
     // This is the method to load external dependencies when the component mounts
@@ -55,7 +60,9 @@ var GoogleSheet = React.createClass({
     return (
       <div className='google-sheet'>
         Enter the ID of a published Google Spreadsheet
-        <a href='#'>Follow Instructions here</a>
+        <div>
+          <a href='#'>Follow Instructions here</a>
+        </div>
         <div>
           <input className='google-sheet'
             type='text'

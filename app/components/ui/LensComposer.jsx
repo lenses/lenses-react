@@ -62,6 +62,12 @@ module.exports = React.createClass({
     });
     this.updateSelectedNode((this.state.currentSelectedNode-1));
   },
+  updateData: function(columns, data) {
+    this.setState({
+      data: data,
+      columns: columns
+    });
+  },
   addCustomComponent: function(type) {
     var newLibrary = this.state.lensComponentLibrary.slice(0);
     new lensComponentModel(type, function(newComponent){
@@ -111,6 +117,7 @@ module.exports = React.createClass({
           {viewPortMenu}
           <LensComponentViewer
             currentSelectedCmp={currentSelectedCmp}
+            updateData={this.updateData}
             data={this.state.data}
             columns={this.state.columns} />
         </div>
