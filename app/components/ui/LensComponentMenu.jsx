@@ -46,6 +46,7 @@ var LensComponentMenu = React.createClass({
     }
 
     if(this.state.inputField) {
+      // Abstract this into input field
       inputFields = [];
       inputFields.push(<input id='add-component-value'
         type='text'

@@ -80,6 +80,10 @@ module.exports = function (app){
     }
   });
 
+  app.route('/test')
+    .get(function(req, res) {
+      res.render('test-view.hbs')
+    });
   app.route('/lenses/create')
     .get(function(req,res){
       res.render('create-lens.hbs');
