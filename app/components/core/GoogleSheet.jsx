@@ -72,8 +72,6 @@ var GoogleSheet = React.createClass({
             onKeyDown={this.handleKeyDown}
           />
         </div>
-        <div>Columns: {this.props.columns}</div>
-        <div>Data: {this.props.data}</div>
       </div>
     )
   }

@@ -13,6 +13,9 @@ var lensComponentModel = function(type, finishedGettingComponent) {
   // join them into one word
   // this is fragile on non-linux systems
   this.name = type.split('.')[0].split(/(?=[A-Z])/).join(' ');
+  this.transformData = function(data) {
+    return data;
+  }
   if(comp[type]) {
     // Load Bundled Components
     this.reactCmp = comp[type];

@@ -62,9 +62,8 @@ module.exports = React.createClass({
     });
     this.updateSelectedNode((this.state.currentSelectedNode-1));
   },
-  updateData: function(columns, data) {
+  updateColumns: function(columns) {
     this.setState({
-      data: data,
       columns: columns
     });
   },
@@ -83,8 +82,7 @@ module.exports = React.createClass({
   },
   render: function(){
 
-    var viewPortMenu,
-    currentSelectedCmp;
+    var viewPortMenu;
 
     if(this.state.currentSelectedNode !== null) {
       viewPortMenu = <LensComponentActionMenu
@@ -95,13 +93,6 @@ module.exports = React.createClass({
         addComponent={this.addComponent}
         addCustomComponent={this.addCustomComponent}
         lensComponentLibrary={this.state.lensComponentLibrary} />;
-    }
-
-    // 0 is the first element; null defaults to add new component menu
-    if (this.state.currentSelectedNode !== null)  {
-      currentSelectedCmp = this.state.tracks[this.state.currentSelectedTrack][this.state.currentSelectedNode];
-    } else {
-      currentSelectedCmp = null;
     }
 
     return (
@@ -116,8 +107,10 @@ module.exports = React.createClass({
         <div className='lens-viewport'>
           {viewPortMenu}
           <LensComponentViewer
-            currentSelectedCmp={currentSelectedCmp}
-            updateData={this.updateData}
+            updateColumns={this.updateColumns}
+            currentSelectedNode={this.state.currentSelectedNode}
+            currentSelectedTrack={this.state.currentSelectedTrack}
+            tracks={this.state.tracks}
             data={this.state.data}
             columns={this.state.columns} />
         </div>
