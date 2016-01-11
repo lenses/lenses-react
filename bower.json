@@ -1,0 +1,24 @@
+{
+  "name": "lenses-react",
+  "description": "A tool for creating interactive graphics from composable components",
+  "main": "index.js",
+  "authors": [
+    "Nisha Batra",
+    "Kareem Amin",
+    "Sepand Ansari"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/lenses/lenses-react",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "lens-input-paste": "git@github.com:lenses/lens-input-paste#polymerOne"
+  }
+}

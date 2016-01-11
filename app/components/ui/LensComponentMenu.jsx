@@ -43,6 +43,14 @@ var LensComponentMenu = React.createClass({
           action={this.props.addComponent}
           margin='5px'/>);
       }, this);
+      lensComponents.push(<LensOvalButton key='lens-input-paste'
+          backgroundColor='#E0E0E0'
+          content='lens-input-paste'
+          actionPayload={'lens-input-paste'}
+          border='none'
+          action={this.props.addComponent}
+          margin='5px'/>);
+      
     }
 
     if(this.state.inputField) {
