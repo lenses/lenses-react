@@ -1,13 +1,13 @@
 var React = require('react');
 var tabletop = require('tabletop');
+var LensOvalButton = require('../ui/LensOvalButton.jsx');
 
 var GoogleSheet = React.createClass({
   getInitialState: function() {
     return {
       value: "",
       data: [],
-      columns: [],
-      tbInstance: null
+      columns: []
     }
   },
   handleInputChange: function(e) {
@@ -17,18 +17,19 @@ var GoogleSheet = React.createClass({
   },
   handleKeyDown: function (e) {
     if (e.keyCode == 13) {
-      this.getGoogleSheetData();
+      this.getGoogleSheetData(this.state.value);
     }
   },
-  getGoogleSheetData: function() {
+  getGoogleSheetData: function(key) {
     tabletop.init({
-      key: this.state.value,
+      key: key,
       callback: this.processData,
       simpleSheet: true,
       parseNumbers: true
     })
   },
-  processData: function(data, tbInstance) {
+  processData: function(data) {
+    //Transform into array of arrays
     var columns = [], tempData = [];
     for(var x = 0; x < data.length; x++) {
       var tempColumnData = [];
@@ -45,16 +46,18 @@ var GoogleSheet = React.createClass({
     });
     this.setState({
       data: tempData,
-      columns: columns,
-      tbInstance: tbInstance
+      columns: columns
     });
-    this.props.updateData(this.state.columns, this.state.data);
+    this.props.updateColumns(columns);
+    this.props.updateTransformFunction(this.transformData());
   },
-  componentDidMount: function() {
-    // This is the method to load external dependencies when the component mounts
-    // React automagically bind this to method calls on the component so you can use
-    // this safely in callback functions to refer to component methods
-    // $.getScript("https://www.google.com/jsapi").done(this.callbackMethod);
+  transformData: function() {
+    // Use a closure to transfer data
+    // What happens if this is a very large set of data
+    var data = this.state.data;
+    return function() {
+      return data;
+    }
   },
   render: function() {
     return (
@@ -71,6 +74,11 @@ var GoogleSheet = React.createClass({
             onChange={this.handleInputChange}
             onKeyDown={this.handleKeyDown}
           />
+          <LensOvalButton key='submit-new-component'
+            margin='5px'
+            action={this.getGoogleSheetData}
+            actionPayload={this.state.value}
+            content='GET DATA' />
         </div>
       </div>
     )

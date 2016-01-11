@@ -31,7 +31,7 @@ module.exports = React.createClass({
       });
     }.bind(this));
     // add test data once
-    lensComposerTester.loadTestData.call(this);
+    // lensComposerTester.loadTestData.call(this);
   },
   updateSelectedNode: function(newSelectedValue) {
     // When the user deletes the first node and there are more nodes in the track, select the new first node
@@ -65,6 +65,14 @@ module.exports = React.createClass({
   updateColumns: function(columns) {
     this.setState({
       columns: columns
+    });
+  },
+  updateTransformFunction: function(func) {
+    var tracks = this.state.tracks.slice(0);
+    var cmp = tracks[this.state.currentSelectedTrack][this.state.currentSelectedNode];
+    cmp.transformData = func;
+    this.setState({
+      tracks: tracks
     });
   },
   addCustomComponent: function(type) {
@@ -108,6 +116,7 @@ module.exports = React.createClass({
           {viewPortMenu}
           <LensComponentViewer
             updateColumns={this.updateColumns}
+            updateTransformFunction={this.updateTransformFunction}
             currentSelectedNode={this.state.currentSelectedNode}
             currentSelectedTrack={this.state.currentSelectedTrack}
             tracks={this.state.tracks}
