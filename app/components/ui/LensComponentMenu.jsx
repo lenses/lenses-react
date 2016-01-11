@@ -1,5 +1,6 @@
 var React = require('react');
 var LensOvalButton = require('./LensOvalButton');
+var lensComponentModel = require('../../models/lensComponentModel.js');
 
 
 var LensComponentMenu = React.createClass({
@@ -38,7 +39,7 @@ var LensComponentMenu = React.createClass({
         lensComponents.push(<LensOvalButton key={id}
           backgroundColor='#E0E0E0'
           content={component.name}
-          actionPayload={component}
+          actionPayload={new lensComponentModel(component.type)}
           border='none'
           action={this.props.addComponent}
           margin='5px'/>);
@@ -78,7 +79,6 @@ var LensComponentMenu = React.createClass({
       <div className='lens-component-menu'>
         {lensComponents}
         {inputFields}
-
       </div>
     )
   }

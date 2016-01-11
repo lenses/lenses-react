@@ -9,7 +9,6 @@ var LensComponentViewer = require('./LensComponentViewer');
 var LensShareButton = require('./LensShareButton');
 
 // Test Data Injector
-var lensComposerTester = require('../../tests/lensComposerTest');
 var lensComponentModel = require('../../models/lensComponentModel.js');
 
 module.exports = React.createClass({
@@ -30,8 +29,6 @@ module.exports = React.createClass({
         lensComponentLibrary: initialComponents
       });
     }.bind(this));
-    // add test data once
-    // lensComposerTester.loadTestData.call(this);
   },
   updateSelectedNode: function(newSelectedValue) {
     // When the user deletes the first node and there are more nodes in the track, select the new first node

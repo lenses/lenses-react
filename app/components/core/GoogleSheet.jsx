@@ -5,7 +5,7 @@ var LensOvalButton = require('../ui/LensOvalButton.jsx');
 var GoogleSheet = React.createClass({
   getInitialState: function() {
     return {
-      value: "",
+      value: ""
     }
   },
   handleInputChange: function(e) {
@@ -42,6 +42,8 @@ var GoogleSheet = React.createClass({
     columns = columns.map(function(column){
       return [typeof data[0][column], column];
     });
+    // At the end of processing data always call updateTransformFunction with a
+    // closure that update columns and returns the transformed data
     this.props.updateTransformFunction(this.transformData(columns, transformedData));
   },
   transformData: function(columns, data) {
