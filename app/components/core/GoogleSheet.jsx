@@ -6,8 +6,6 @@ var GoogleSheet = React.createClass({
   getInitialState: function() {
     return {
       value: "",
-      data: [],
-      columns: []
     }
   },
   handleInputChange: function(e) {
@@ -30,7 +28,7 @@ var GoogleSheet = React.createClass({
   },
   processData: function(data) {
     //Transform into array of arrays
-    var columns = [], tempData = [];
+    var columns = [], transformedData = [];
     for(var x = 0; x < data.length; x++) {
       var tempColumnData = [];
       for (var column in data[x]) {
@@ -39,47 +37,55 @@ var GoogleSheet = React.createClass({
         }
         tempColumnData.push(data[x][column]);
       }
-      tempData.push(tempColumnData);
+      transformedData.push(tempColumnData);
     }
     columns = columns.map(function(column){
       return [typeof data[0][column], column];
     });
-    this.setState({
-      data: tempData,
-      columns: columns
-    });
-    this.props.updateColumns(columns);
-    this.props.updateTransformFunction(this.transformData());
+    this.props.updateTransformFunction(this.transformData(columns, transformedData));
   },
-  transformData: function() {
+  transformData: function(columns, data) {
+    // Make any updates to columns here and pass on data transform function
     // Use a closure to transfer data
     // What happens if this is a very large set of data
-    var data = this.state.data;
+    this.props.updateColumns(columns);
     return function() {
       return data;
     }
   },
   render: function() {
+    // Styling for non UI components is inline
+    var inputStyle = {
+      border:'none',
+      background:'transparent',
+      outline:'none',
+      display:'inline-block',
+      height:'35px',
+      width:'250px',
+      verticalAlign:'top',
+      borderBottom:'1px solid #E1E1E1'
+    };
     return (
       <div className='google-sheet'>
         Enter the ID of a published Google Spreadsheet
         <div>
-          <a href='#'>Follow Instructions here</a>
         </div>
-        <div>
+        <div style={{margin:20}}>
           <input className='google-sheet'
             type='text'
             value={this.state.value}
             placeholder="ENTER SHEET ID"
             onChange={this.handleInputChange}
             onKeyDown={this.handleKeyDown}
+            style={inputStyle}
           />
           <LensOvalButton key='submit-new-component'
-            margin='5px'
+            margin='0px 0px 0px 10px'
             action={this.getGoogleSheetData}
             actionPayload={this.state.value}
             content='GET DATA' />
         </div>
+        <div><a href='#'>Need Help?</a></div>
       </div>
     )
   }
