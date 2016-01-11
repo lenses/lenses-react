@@ -31,6 +31,7 @@
     "browserify": "^12.0.1",
     "consolidate": "^0.13.1",
     "del": "^2.2.0",
+    "glob": "^6.0.4",
     "gulp": "^3.9.0",
     "gulp-bower": "0.0.11",
     "gulp-cssnano": "^2.0.0",
