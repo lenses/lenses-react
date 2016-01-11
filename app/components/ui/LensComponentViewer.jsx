@@ -20,7 +20,7 @@ var LensComponentViewer = React.createClass({
 
     return (
       <div className='lens-component-viewer'>
-        {(CurrentlySelectedCmp && CurrentlySelectedCmp.reactCmp) ? (<CurrentlySelectedCmp.reactCmp updateTransformFunction={this.props.updateTransformFunction} updateColumns={this.props.updateColumns} data={data} columns={this.props.columns}/>) : ""}
+        <CurrentlySelectedCmp.reactCmp updateTransformFunction={this.props.updateTransformFunction} updateColumns={this.props.updateColumns} data={data} columns={this.props.columns}/>
         <LensDataViewer data={data} columns={columns} />
       </div>
     )

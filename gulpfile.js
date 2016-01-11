@@ -122,6 +122,7 @@ gulp.task('nodemon', function (cb) {
   });
 });
 
+// Add a bundle for production builds without watchify
 gulp.task('build', ['inject:assets']);
 
 gulp.task('serve', ['bundle', 'inject:assets', 'sass:watch', 'nodemon'], function(){

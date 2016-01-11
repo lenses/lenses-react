@@ -17,7 +17,7 @@ module.exports = React.createClass({
     return {
       lensComponentLibrary: [],
       data: [],
-      columns: [],
+      columns: [[]],
       tracks: [[]],
       currentSelectedTrack: 0,
       currentSelectedNode: null
@@ -90,18 +90,27 @@ module.exports = React.createClass({
   },
   render: function(){
 
-    var viewPortMenu;
+    var viewPortMenu, lensComponentViewer;
 
     if(this.state.currentSelectedNode !== null) {
       viewPortMenu = <LensComponentActionMenu
         currentSelectedCmp={this.state.currentSelectedNode}
         deleteComponent={this.deleteComponent}/>;
+        lensComponentViewer = <LensComponentViewer
+            updateColumns={this.updateColumns}
+            updateTransformFunction={this.updateTransformFunction}
+            currentSelectedNode={this.state.currentSelectedNode}
+            currentSelectedTrack={this.state.currentSelectedTrack}
+            tracks={this.state.tracks}
+            data={this.state.data}
+            columns={this.state.columns} />;
     } else {
       viewPortMenu = <LensComponentMenu
         addComponent={this.addComponent}
         addCustomComponent={this.addCustomComponent}
         lensComponentLibrary={this.state.lensComponentLibrary} />;
     }
+
 
     return (
       <div id='lens-composer'>
@@ -114,14 +123,7 @@ module.exports = React.createClass({
           updateSelectedNode={this.updateSelectedNode} />
         <div className='lens-viewport'>
           {viewPortMenu}
-          <LensComponentViewer
-            updateColumns={this.updateColumns}
-            updateTransformFunction={this.updateTransformFunction}
-            currentSelectedNode={this.state.currentSelectedNode}
-            currentSelectedTrack={this.state.currentSelectedTrack}
-            tracks={this.state.tracks}
-            data={this.state.data}
-            columns={this.state.columns} />
+          {lensComponentViewer}
         </div>
       </div>
     )
