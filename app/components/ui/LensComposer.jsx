@@ -40,8 +40,21 @@ module.exports = React.createClass({
     }
     // Update node with the new selectedNode Value
     this.setState({
-      currentSelectedNode: newSelectedValue
+      currentSelectedNode: newSelectedValue,
+      data: this.getDataAtNode(newSelectedValue)
     });
+  },
+  getDataAtNode: function(currentNode) {
+    var startNode = -1;
+    var data = [];
+    var maxNode = (currentNode != null) ? currentNode : startNode;
+    return (function recurseData(maxNode, data, startNode) {
+      startNode++;
+      if (startNode <= maxNode) {
+        return recurseData.call(this, maxNode, this.state.tracks[this.state.currentSelectedTrack][startNode].transformData(data), startNode);
+      }
+      return data;
+    }.bind(this))(maxNode, data, startNode)
   },
   addComponent: function(cmp) {
     var tracks  = this.state.tracks.slice(0);
@@ -69,7 +82,8 @@ module.exports = React.createClass({
     var cmp = tracks[this.state.currentSelectedTrack][this.state.currentSelectedNode];
     cmp.transformData = func;
     this.setState({
-      tracks: tracks
+      tracks: tracks,
+      data: this.getDataAtNode(this.state.currentSelectedNode)
     });
   },
   addCustomComponent: function(type) {
