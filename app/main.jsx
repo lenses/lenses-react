@@ -10,6 +10,8 @@ var loadInitialComponents = function(cb) {
     initialComponents = data.map(function(cmp) {
       return new lensComponentModel(cmp.type);
     });
+  // needs to be another api call loading all polymer components
+  initialComponents.push(new lensComponentModel('lens-input-paste', function() {}))
   cb(initialComponents);
   });
 };

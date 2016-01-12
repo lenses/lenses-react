@@ -3,6 +3,9 @@ var $ = require('jquery');
 // Load Up Core Lens Models
 var comp = require('../components/core/*.jsx', {mode: 'hash'});
 
+//hacky temp variable for list of polymer components to use for below else if
+var polymerComponents = ['lens-input-paste'];
+
 
 // Takes in type which is the filename and
 // returns the name and loads the cmp function
@@ -16,6 +19,9 @@ var lensComponentModel = function(type, finishedGettingComponent) {
   if(comp[type]) {
     // Load Bundled Components
     this.reactCmp = comp[type];
+  } else if (polymerComponents.indexOf(type)>-1) {
+
+    this.reactCmp = type;
   } else {
     // Load Custom Components which should be in the public/js folder
     // For now load them from the Global object but we'll move them
