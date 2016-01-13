@@ -1,7 +1,7 @@
 var React = require('react');
 var $ = require('jquery');
 
-var LensGooglePieChart = React.createClass({
+module.exports = React.createClass({
   drawChart: function() {
       var dt = new window.google.visualization.DataTable();
       var columns = this.props.columns;
@@ -42,4 +42,3 @@ var LensGooglePieChart = React.createClass({
   }
 });
 
-module.exports = LensGooglePieChart;

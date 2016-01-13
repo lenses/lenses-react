@@ -61,4 +61,3 @@ module.exports = React.createClass({
   }
 });
 
-module.exports = LensGoogleBarChart;

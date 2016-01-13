@@ -13,6 +13,7 @@ var lensComponentModel = function(type, finishedGettingComponent) {
   // join them into one word
   // this is fragile on non-linux systems
   this.name = type.split('.')[0].split(/(?=[A-Z])/).join(' ');
+  // The Default transform is a no-op
   this.transformData = function(data) {
     return data;
   }

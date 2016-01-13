@@ -1,7 +1,7 @@
-var React = require('react');
-var tabletop = require('tabletop');
-var LensOvalButton = require('../ui/LensOvalButton.jsx');
-var url = require('url');
+var React          = require('react'),
+    tabletop       = require('tabletop'),
+    LensOvalButton = require('../ui/LensOvalButton.jsx'),
+    url            = require('url');
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -9,7 +9,6 @@ module.exports = React.createClass({
       value: ""
     }
   },
-
   handleInputChange: function(e) {
     this.setState({
       value: e.target.value
