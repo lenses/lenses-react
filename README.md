@@ -1,6 +1,6 @@
 # Welcome to Lenses!
 
-For guides and documentation, please visit our developers' wiki at:  
+For documentation and developers' guides, please visit our wiki at:  
 **[https://www.gitbook.com/book/helencarey/lenses](https://www.gitbook.com/book/helencarey/lenses)**
 
 
