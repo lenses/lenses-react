@@ -31,8 +31,13 @@ module.exports = React.createClass({
     // Do your drawing or data manipulations in any method that you define in this
     // object.
     // If your component returns manipulated data then make sure to call
-    // this.props.updateTransformFunction(your_transform_function_here)
+    // this.props.updateTransformFunction(yourTransformFunction)
+  },
+  yourTransformFunction: function() {
+    // make sure to call this.props.updateDataSchema(newDataSchema);
+    // this will update your dataschema wen you update your data
     // the transform function should not contain any async calls. If you need to make async calls
+    // make them before hand and pass the result to this function
   },
   componentDidUpdate: function() {
     // If you are creating a drawing component make sure to call your drawing function here

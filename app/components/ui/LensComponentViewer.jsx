@@ -43,7 +43,7 @@ var LensComponentViewer = React.createClass({
 
     var CurrentlySelectedCmp = null,
         data                 = this.props.data,
-        columns              = this.props.columns,
+        dataSchema           = this.props.dataSchema,
         selectedNode         = this.props.currentSelectedNode;
 
 
@@ -54,8 +54,8 @@ var LensComponentViewer = React.createClass({
 
     return (
       <div className='lens-component-viewer'>
-        <CurrentlySelectedCmp.reactCmp ref='currentViewComponent' updateTransformFunction={this.props.updateTransformFunction} updateColumns={this.props.updateColumns} data={data} columns={this.props.columns}/>
-        <LensDataViewer data={data} columns={columns} />
+        <CurrentlySelectedCmp.reactCmp ref='currentViewComponent' updateTransformFunction={this.props.updateTransformFunction} updateDataSchema={this.props.updateDataSchema} data={data} dataSchema={this.props.dataSchema}/>
+        <LensDataViewer data={data} dataSchema={dataSchema} />
         {this.state.inputComponents}
       </div>
     )

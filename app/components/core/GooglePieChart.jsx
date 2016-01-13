@@ -17,13 +17,13 @@ module.exports = React.createClass({
     }
   },
   drawChart: function() {
-      var dt      = new window.google.visualization.DataTable(),
-          columns = this.props.columns,
-          data    = this.props.data,
-          options = this.state,
-          chart = new window.google.visualization.PieChart(document.getElementById('chart-div'));
+      var dt         = new window.google.visualization.DataTable(),
+          dataSchema = this.props.dataSchema,
+          data       = this.props.data,
+          options    = this.state,
+          chart      = new window.google.visualization.PieChart(document.getElementById('chart-div'));
 
-      columns.forEach(function(column){
+      dataSchema.forEach(function(column){
         var type = column[0],
             name = column[1];
         dt.addColumn(type, name);

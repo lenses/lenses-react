@@ -62,7 +62,7 @@ module.exports = React.createClass({
     // Make any updates to columns here and pass on data transform function
     // Use a closure to transfer data
     // What happens if this is a very large set of data
-    this.props.updateColumns(columns);
+    this.props.updateDataSchema(columns);
     return function() {
       return data;
     }

@@ -16,7 +16,7 @@ module.exports = React.createClass({
     return {
       lensComponentLibrary: [],
       data: [],
-      columns: [[]],
+      dataSchema: [[]],
       tracks: [[]],
       currentSelectedTrack: 0,
       currentSelectedNode: null
@@ -72,9 +72,9 @@ module.exports = React.createClass({
     });
     this.updateSelectedNode((this.state.currentSelectedNode-1));
   },
-  updateColumns: function(columns) {
+  updateDataSchema: function(dataSchema) {
     this.setState({
-      columns: columns
+      dataSchema: dataSchema
     });
   },
   updateTransformFunction: function(func) {
@@ -108,13 +108,13 @@ module.exports = React.createClass({
         currentSelectedCmp={this.state.currentSelectedNode}
         deleteComponent={this.deleteComponent}/>;
         lensComponentViewer = <LensComponentViewer
-            updateColumns={this.updateColumns}
+            updateDataSchema={this.updateDataSchema}
             updateTransformFunction={this.updateTransformFunction}
             currentSelectedNode={this.state.currentSelectedNode}
             currentSelectedTrack={this.state.currentSelectedTrack}
             tracks={this.state.tracks}
             data={this.state.data}
-            columns={this.state.columns} />;
+            dataSchema={this.state.dataSchema} />;
     } else {
       viewPortMenu = <LensComponentMenu
         addComponent={this.addComponent}
