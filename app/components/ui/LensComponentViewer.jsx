@@ -17,23 +17,27 @@ var LensComponentViewer = React.createClass({
   },
   componentDidMount: function() {
     var inputComponents = [];
-    // Using refs here instead of callbacks so that component creators don't have to do 
+    // Using refs here instead of callbacks so that component creators don't have to do
     // extra work or accidentally delete the callbacks in their components
-    var customOptions = this.refs.currentViewComponent.getCustomOptions();
-    var customOptionsInitialvalues = this.refs.currentViewComponent.getInitialState();
-    for(var option in customOptions) {
-      if(customOptions.hasOwnProperty(option)) {
-        inputComponents.push(<LensInputField inputType    = {customOptions[option]}
-                                             initialValue = {customOptionsInitialvalues[option]}
-                                             name         = {option}
-                                             key          = {option}
-                                             action       = {this.handleChangeInputs}/>);
+    var refCurrentViewComponent = this.refs.currentViewComponent;
+    // If there are custom options set in the component then add controls for them
+    if(refCurrentViewComponent.getCustomOptions && refCurrentViewComponent.getInitialState){
+      var customOptions = refCurrentViewComponent.getCustomOptions();
+      var customOptionsInitialValues = refCurrentViewComponent.getInitialState();
+      for(var option in customOptions) {
+        if(customOptions.hasOwnProperty(option)) {
+          inputComponents.push(<LensInputField inputType    = {customOptions[option]}
+                                               initialValue = {customOptionsInitialValues[option]}
+                                               name         = {option}
+                                               key          = {option}
+                                               action       = {this.handleChangeInputs}/>);
+        }
       }
+      // Generate the input components on the fly based on the currently selected component and render them
+      this.setState({
+        inputComponents: inputComponents
+      })
     }
-    // Generate the input components on the fly based on the currently selected component and render them
-    this.setState({
-      inputComponents: inputComponents
-    })
   },
   render: function() {
 
