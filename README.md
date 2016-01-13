@@ -9,5 +9,3 @@
 1. `gulp serve`
 2. create a .jsx react file in app/components/custom
 3. add component in ui using it's name
-
-just testing
