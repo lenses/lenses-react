@@ -1,13 +1,15 @@
 var React = require('react');
 var tabletop = require('tabletop');
 var LensOvalButton = require('../ui/LensOvalButton.jsx');
+var url = require('url');
 
-var GoogleSheet = React.createClass({
+module.exports = React.createClass({
   getInitialState: function() {
     return {
       value: ""
     }
   },
+
   handleInputChange: function(e) {
     this.setState({
       value: e.target.value
@@ -87,7 +89,7 @@ var GoogleSheet = React.createClass({
           <input className='google-sheet'
             type='text'
             value={this.state.value}
-            placeholder="ENTER SHEET ID"
+            placeholder="ENTER SHEET URL"
             onChange={this.handleInputChange}
             onKeyDown={this.handleKeyDown}
             style={inputStyle}
