@@ -20,18 +20,29 @@ var GoogleSheet = React.createClass({
   },
   getGoogleSheetData: function(key) {
     tabletop.init({
-      key: key,
+      key: this.getKeyFromInput(key),
       callback: this.processData,
       simpleSheet: true,
       parseNumbers: true
     })
   },
+  getKeyFromInput: function(key) {
+    // Try to get from full url otherwise try to use the key as is
+    // typical format https://docs.google.com/spreadsheets/d/2WbmbAW5Gruj_anSgweXOKEO0H6iNF2M0NTimom_jRh8/edit#gid=0 
+    // return what's between /d/ and /edit/.*
+    return url.parse(key).path.match(/(\/d\/)(.*)(\/)/)[2] || key;
+  },
   processData: function(data) {
     //Transform into array of arrays
-    var columns = [], transformedData = [];
-    for(var x = 0; x < data.length; x++) {
-      var tempColumnData = [];
-      for (var column in data[x]) {
+    var columns         = [],
+        transformedData = [],
+        x               = 0;
+
+    for(x = 0; x < data.length; x++) {
+      var tempColumnData = [],
+          column         = null;
+
+      for (column in data[x]) {
         if(columns.indexOf(column) == -1){
           columns.push(column);
         }
@@ -93,4 +104,3 @@ var GoogleSheet = React.createClass({
   }
 });
 
-module.exports = GoogleSheet;
