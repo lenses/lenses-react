@@ -1,6 +1,7 @@
 var React = require('react');
+var $ = require('jquery');
 
-var LensGoogleBarGraph = React.createClass({
+var LensGoogleBarChart = React.createClass({
   drawChart: function() {
       var dt = new window.google.visualization.DataTable();
       var columns = this.props.columns;
@@ -20,23 +21,22 @@ var LensGoogleBarGraph = React.createClass({
         'height':400};
 
       // Instantiate and draw our chart, passing in some options.
-      var chart = new window.google.visualization.PieChart(document.getElementById('chart-div'));
+      var chart = new window.google.visualization.ColumnChart(document.getElementById('chart-div'));
       chart.draw(dt, options);
+  },
+  loadGoogleViz: function() {
+    window.google.load('visualization', '1.0',
+                       {packages:['corechart'],
+                         callback:this.drawChart
+                       });
+
   },
   componentDidMount: function() {
     // Inject google viz jsapi
     // This is the method to load external dependencies when the component mounts
-    var script = document.createElement('script');
-    script.type="text/javascript";
-    var drawChart = this.drawChart;
-    script.onload = (function() {
-      window.google.load('visualization', '1.0',
-                         {packages:['corechart'],
-                           callback:drawChart
-                         });
-    });
-    (document.getElementsByTagName( "head" )[ 0 ]).appendChild( script );
-    script.src="https://www.google.com/jsapi";
+    // React automagically bind this to method calls on the component so you can use 
+    // this safely in callback functions to refer to component methods
+    $.getScript("https://www.google.com/jsapi").done(this.loadGoogleViz);
   },
   render: function() {
     return (
@@ -46,4 +46,4 @@ var LensGoogleBarGraph = React.createClass({
   }
 });
 
-module.exports = LensGoogleBarGraph;
+module.exports = LensGoogleBarChart;

@@ -5,16 +5,18 @@ var source = require('vinyl-source-stream');
 var reactify = require('reactify');
 var nodemon = require('gulp-nodemon');
 var sass = require('gulp-sass');
-var concat = require('gulp-concat');
 var nano = require('gulp-cssnano');
 var inject = require('gulp-inject');
 var gulpif = require('gulp-if');
 var rename = require('gulp-rename');
 var argv = require('yargs').argv;
 var del = require('del');
-var gulpdebug = require('gulp-debug');
+var requireGlobify = require('require-globify');
+var watchify = require('watchify');
+var glob = require('glob');
+var path = require('path');
 
-
+// TODO: Use these
 var paths = {
   SCSS: ['./app/styles/**/*.scss'],
   HBS: ['./app/views/**/*.hbs'],
@@ -33,51 +35,69 @@ gulp.task('sass:compile', ['clean'],  function(){
   .pipe(sass.sync().on('error', function(err){
     sass.logError(err);
   }))
-  .pipe(gulp.dest('./public/stylesheets'));
-});
-
-// TODO: Make this compile directly in dev mode
-gulp.task('sass:watch', function () {
-  gulp.watch('./app/styles/**/*.scss', ['concat:css']);
-});
-
-gulp.task('reactify:watch', function(){
-  gulp.watch(['./app/**/*', '!./app/styles/**'], ['bundle']);
-})
-
-
-gulp.task('concat:css', ['sass:compile'], function() {
-  return gulp.src('./public/stylesheets/**/*.css')
-  // .pipe(gulpif(argv.production, concat('all.css')))
   .pipe(gulpif(argv.production, nano()))
   .pipe(gulpif(argv.production, rename({suffix: '.min'})))
-  .pipe(gulp.dest('./public/stylesheets'));
+  .pipe(gulp.dest('./public/stylesheets'))
+  .pipe(browserSync.stream());
 
 });
 
-gulp.task('inject:assets', ['concat:css'], function() {
+gulp.task('sass:watch', function () {
+  gulp.watch('./app/styles/**/*.scss', ['sass:compile']);
+});
+
+gulp.task('inject:assets', ['sass:compile'], function() {
   var target = gulp.src(['./app/views/*.hbs']);
-
-  var source = gulp.src(['./public/stylesheets/*.css', './public/js/*.js'], {read:false});
-
+  var source = gulp.src(['./public/stylesheets/*.css', './public/js/ui.js'], {read:false});
   return target.pipe(inject(source))
-    .pipe(gulp.dest('./app/views'));
-
+  .pipe(gulp.dest('./app/views/'));
 });
 
-gulp.task('bundle', function(){
-  return browserify({
-    entries: 'app/main.jsx',
-    debug: !process.env.production
+function runWatchify(file, output, standaloneLib) {
+
+  output += '.js';
+  var b =  browserify({
+    debug: !process.env.production,
+    extensions: ['.jsx'],
+    cache: {},
+    packageCache: {},
+    fullPaths: true,
+    standalone: standaloneLib,
+    paths:['public/vendorJs']
+  });
+  b.add(file);
+  b = watchify(b);
+  b.transform(reactify)
+  .transform(requireGlobify)
+  .on('update', function(){
+    browserifyBundle(b, output).on('end', function(){
+      browserSync.reload({ stream: false });
+    });
   })
-  .transform(reactify)
-  .bundle()
+  .on('log', function(msg){
+    console.log(msg);
+  });
+  return browserifyBundle(b, output);
+
+}
+
+function browserifyBundle(b, output) {
+  return b.bundle()
   .on('error', function(e){
     console.log(e.message);
     this.emit('end');
   })
-  .pipe(source('app.js'))
-  .pipe(gulp.dest('./public/js'))
+  .pipe(source(output))
+  .pipe(gulp.dest('./public/js'));
+}
+
+
+gulp.task('bundle', function(){
+  var files = glob.sync('./app/components/custom/*.jsx');
+  runWatchify('app/main.jsx', 'ui', 'LensUI');
+  files.forEach(function(file) {
+    return runWatchify(file, path.basename(file, '.jsx'), path.basename(file, '.jsx'));
+  })
 });
 
 gulp.task('nodemon', function (cb) {
@@ -85,26 +105,30 @@ gulp.task('nodemon', function (cb) {
   var started = false;
 
   return nodemon({
-      script: 'server/main.js'
+    script: 'server/main.js',
+    options: {
+      watchedExtensions: ['js']
+    },
+    ignore: ['app/**', 'public/**', './*.js']
   }).on('start', function () {
     if (!started) {
       cb();
       started = true;
-
     }
   }) .on('restart', function () {
     setTimeout(function() {
       browserSync.reload({ stream: false });
-}, 1000);
+    }, 1000);
   });
 });
 
+// Add a bundle for production builds without watchify
 gulp.task('build', ['inject:assets']);
 
-gulp.task('serve', ['bundle', 'reactify:watch', 'inject:assets', 'sass:watch', 'nodemon'], function(){
+gulp.task('serve', ['bundle', 'inject:assets', 'sass:watch', 'nodemon'], function(){
   browserSync.init(null, {
     proxy: "http://localhost:7777",
-    files: ["app/**/*.*"],
+    files: ['public/images'],
     port: 9001
   });
 });

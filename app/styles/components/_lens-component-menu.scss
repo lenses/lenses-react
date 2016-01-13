@@ -1,4 +1,16 @@
 .lens-component-menu {
   vertical-align:top;
   padding:20px;
+  #add-component-value {
+    border:none;
+    background:transparent;
+    outline:none;
+    display:inline-block;
+    margin-top:5px;
+    margin-left: 15px;
+    height:35px;
+    vertical-align:top;
+    border-bottom:1px solid $lightGray;
+    font-size: $action-font-size;
+  }
 }
