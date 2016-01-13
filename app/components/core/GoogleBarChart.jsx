@@ -49,7 +49,7 @@ module.exports = React.createClass({
   componentDidMount: function() {
     // Inject google viz jsapi
     // This is the method to load external dependencies when the component mounts
-    // React automagically bind this to method calls on the component so you can use 
+    // React automagically binds this to method calls on the component so you can use
     // this safely in callback functions to refer to component methods
     $.getScript("https://www.google.com/jsapi").done(this.loadGoogleViz);
   },
