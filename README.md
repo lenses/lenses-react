@@ -1,9 +1,9 @@
 # Welcome to Lenses!
 
-For guides and documentation, please visit our developers' wiki at:
-[https://www.gitbook.com/book/helencarey/lenses](https://www.gitbook.com/book/helencarey/lenses)
+For guides and documentation, please visit our developers' wiki at:  
+**[https://www.gitbook.com/book/helencarey/lenses](https://www.gitbook.com/book/helencarey/lenses)**
 
----
+
 ## Quickstart 
 ### setup
 1. clone repo
