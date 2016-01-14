@@ -20,16 +20,13 @@ var LensTrackManager = React.createClass({
     // TODO: currently all tracks go to one long list of nodes fix this
     this.props.tracks.forEach(function(track){
       track.forEach(function(cmp, id, trackArr){
-        // TODO make sure that this always works through nodes created only from
-        // lens component factories by checking that they are the singelton instance
-
-          lensNodes.push(<LensNode  node={cmp}
-                                    key={id}
-                                    index={id}
-                                    updateSelectedNode={this.props.updateSelectedNode}
-                                    selected={(this.props.currentSelectedNode == id) ? true : false}
-                                    connector-type={(id == trackArr.length-1) ? 'dashed' : 'solid' } />
-                        );
+        lensNodes.push(<LensNode  node={cmp}
+          key={id}
+          index={id}
+          updateSelectedNode={this.props.updateSelectedNode}
+          selected={(this.props.currentSelectedNode == id) ? true : false}
+          connector-type={(id == trackArr.length-1) ? 'dashed' : 'solid' } />
+                      );
 
       }, this);
     }, this);
@@ -37,7 +34,6 @@ var LensTrackManager = React.createClass({
     return (
       <div className='lens-track-manager'>
         <div id='wrapper'>
-          <LensOvalButton {...lensOvalButtonProps}/>
           {lensNodes}
           <div id='circle-button-wrapper'>
             <LensAddButton {...lensAddButtonProps} />

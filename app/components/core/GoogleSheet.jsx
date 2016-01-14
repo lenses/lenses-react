@@ -1,8 +1,9 @@
-var React = require('react');
-var tabletop = require('tabletop');
-var LensOvalButton = require('../ui/LensOvalButton.jsx');
+var React          = require('react'),
+    tabletop       = require('tabletop'),
+    LensOvalButton = require('../ui/LensOvalButton.jsx'),
+    url            = require('url');
 
-var GoogleSheet = React.createClass({
+module.exports = React.createClass({
   getInitialState: function() {
     return {
       value: ""
@@ -20,37 +21,45 @@ var GoogleSheet = React.createClass({
   },
   getGoogleSheetData: function(key) {
     tabletop.init({
-      key: key,
+      key: this.getKeyFromInput(key),
       callback: this.processData,
       simpleSheet: true,
       parseNumbers: true
     })
   },
+  getKeyFromInput: function(key) {
+    // Try to get from full url otherwise try to use the key as is
+    // typical format https://docs.google.com/spreadsheets/d/2WbmbAW5Gruj_anSgweXOKEO0H6iNF2M0NTimom_jRh8/edit#gid=0 
+    // return what's between /d/ and /edit/.*
+    return url.parse(key).path.match(/(\/d\/)(.*)(\/)/)[2] || key;
+  },
   processData: function(data) {
     //Transform into array of arrays
-    var columns = [], transformedData = [];
-    for(var x = 0; x < data.length; x++) {
-      var tempColumnData = [];
-      for (var column in data[x]) {
-        if(columns.indexOf(column) == -1){
-          columns.push(column);
+    var dataSchema         = [],
+        transformedData = [],
+        x               = 0;
+
+    for(x = 0; x < data.length; x++) {
+      var tempColumnData = [],
+          column         = null;
+
+      for (column in data[x]) {
+        if(dataSchema.indexOf(column) == -1){
+          dataSchema.push(column);
         }
         tempColumnData.push(data[x][column]);
       }
       transformedData.push(tempColumnData);
     }
-    columns = columns.map(function(column){
+    dataSchema = dataSchema.map(function(column){
       return [typeof data[0][column], column];
     });
     // At the end of processing data always call updateTransformFunction with a
-    // closure that update columns and returns the transformed data
-    this.props.updateTransformFunction(this.transformData(columns, transformedData));
+    // closure that update dataSchema and returns the transformed data
+    this.props.updateTransformFunction(this.transformData(transformedData), dataSchema);
   },
-  transformData: function(columns, data) {
-    // Make any updates to columns here and pass on data transform function
+  transformData: function(data) {
     // Use a closure to transfer data
-    // What happens if this is a very large set of data
-    this.props.updateColumns(columns);
     return function() {
       return data;
     }
@@ -76,7 +85,7 @@ var GoogleSheet = React.createClass({
           <input className='google-sheet'
             type='text'
             value={this.state.value}
-            placeholder="ENTER SHEET ID"
+            placeholder="ENTER SHEET URL"
             onChange={this.handleInputChange}
             onKeyDown={this.handleKeyDown}
             style={inputStyle}
@@ -93,4 +102,3 @@ var GoogleSheet = React.createClass({
   }
 });
 
-module.exports = GoogleSheet;

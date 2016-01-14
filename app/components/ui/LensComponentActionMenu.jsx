@@ -7,9 +7,6 @@ var LensComponentActionMenu = React.createClass({
 
     return (
       <div className='lens-component-menu'>
-        <LensOvalButton key='customize-component'
-                        margin='5px'
-                        content='CUSTOMIZE COMPONENT' />
         <LensOvalButton key='delete-component'
                         margin='5px'
                         action={this.props.deleteComponent}
