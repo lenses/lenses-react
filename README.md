@@ -16,12 +16,7 @@ For documentation and developers' guides, please visit our wiki at:
 ### setup
 1. clone repo
 2. `npm install`
-<<<<<<< HEAD
 3. if gulp is not installed, `npm install -g gulp`
-=======
-3. `gulp serve` (`npm install -g gulp` if gulp is not installed.)
->>>>>>> lenses/master
-
 run npm install again if it failed to install all the dependencies
 
 ## develop a custom component
