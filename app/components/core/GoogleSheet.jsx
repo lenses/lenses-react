@@ -35,7 +35,7 @@ module.exports = React.createClass({
   },
   processData: function(data) {
     //Transform into array of arrays
-    var columns         = [],
+    var dataSchema         = [],
         transformedData = [],
         x               = 0;
 
@@ -44,25 +44,22 @@ module.exports = React.createClass({
           column         = null;
 
       for (column in data[x]) {
-        if(columns.indexOf(column) == -1){
-          columns.push(column);
+        if(dataSchema.indexOf(column) == -1){
+          dataSchema.push(column);
         }
         tempColumnData.push(data[x][column]);
       }
       transformedData.push(tempColumnData);
     }
-    columns = columns.map(function(column){
+    dataSchema = dataSchema.map(function(column){
       return [typeof data[0][column], column];
     });
     // At the end of processing data always call updateTransformFunction with a
-    // closure that update columns and returns the transformed data
-    this.props.updateTransformFunction(this.transformData(columns, transformedData));
+    // closure that update dataSchema and returns the transformed data
+    this.props.updateTransformFunction(this.transformData(transformedData), dataSchema);
   },
-  transformData: function(columns, data) {
-    // Make any updates to columns here and pass on data transform function
+  transformData: function(data) {
     // Use a closure to transfer data
-    // What happens if this is a very large set of data
-    this.props.updateDataSchema(columns);
     return function() {
       return data;
     }

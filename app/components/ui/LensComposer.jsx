@@ -37,7 +37,7 @@ module.exports = React.createClass({
       // When the user deletes the first node and there are no more nodes, default to add component
     } else if (newSelectedValue < 0) {
       newSelectedValue = null;
-      this.updateDataSchema([[]]);
+      this.updateDataSchema([[]])
     }
     // Update node with the new selectedNode Value
     this.setState({
@@ -78,13 +78,14 @@ module.exports = React.createClass({
       dataSchema: dataSchema
     });
   },
-  updateTransformFunction: function(func) {
+  updateTransformFunction: function(func, dataSchema) {
     var tracks = this.state.tracks.slice(0);
     var cmp = tracks[this.state.currentSelectedTrack][this.state.currentSelectedNode];
     cmp.transformData = func;
     this.setState({
       tracks: tracks,
-      data: this.getDataAtNode(this.state.currentSelectedNode)
+      data: this.getDataAtNode(this.state.currentSelectedNode),
+      dataSchema: dataSchema || this.state.dataSchema
     });
   },
   addCustomComponent: function(type) {
@@ -109,7 +110,6 @@ module.exports = React.createClass({
         currentSelectedCmp={this.state.currentSelectedNode}
         deleteComponent={this.deleteComponent}/>;
         lensComponentViewer = <LensComponentViewer
-            updateDataSchema={this.updateDataSchema}
             updateTransformFunction={this.updateTransformFunction}
             currentSelectedNode={this.state.currentSelectedNode}
             currentSelectedTrack={this.state.currentSelectedTrack}
