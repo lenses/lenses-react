@@ -30,7 +30,7 @@ module.exports = React.createClass({
       });
     }.bind(this));
     //Load Test Data for development
-    this.addComponent(new lensComponentModel('TestData'));
+    //this.addComponent(new lensComponentModel('TestData'));
   },
   updateSelectedNode: function(newSelectedValue) {
     // When the user deletes the first node and there are more nodes in the track, select the new first node
