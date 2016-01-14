@@ -16,7 +16,7 @@ module.exports = React.createClass({
     return {
       lensComponentLibrary: [],
       data: [],
-      columns: [[]],
+      dataSchema: [[]],
       tracks: [[]],
       currentSelectedTrack: 0,
       currentSelectedNode: null
@@ -37,11 +37,25 @@ module.exports = React.createClass({
       // When the user deletes the first node and there are no more nodes, default to add component
     } else if (newSelectedValue < 0) {
       newSelectedValue = null;
+      this.updateDataSchema([[]])
     }
     // Update node with the new selectedNode Value
     this.setState({
-      currentSelectedNode: newSelectedValue
+      currentSelectedNode: newSelectedValue,
+      data: this.getDataAtNode(newSelectedValue)
     });
+  },
+  getDataAtNode: function(currentNode) {
+    var startNode = -1;
+    var data = [];
+    var maxNode = (currentNode != null) ? currentNode : startNode;
+    return (function recurseData(maxNode, data, startNode) {
+      startNode++;
+      if (startNode <= maxNode) {
+        return recurseData.call(this, maxNode, this.state.tracks[this.state.currentSelectedTrack][startNode].transformData(data), startNode);
+      }
+      return data;
+    }.bind(this))(maxNode, data, startNode)
   },
   addComponent: function(cmp) {
     var tracks  = this.state.tracks.slice(0);
@@ -59,17 +73,19 @@ module.exports = React.createClass({
     });
     this.updateSelectedNode((this.state.currentSelectedNode-1));
   },
-  updateColumns: function(columns) {
+  updateDataSchema: function(dataSchema) {
     this.setState({
-      columns: columns
+      dataSchema: dataSchema
     });
   },
-  updateTransformFunction: function(func) {
+  updateTransformFunction: function(func, dataSchema) {
     var tracks = this.state.tracks.slice(0);
     var cmp = tracks[this.state.currentSelectedTrack][this.state.currentSelectedNode];
     cmp.transformData = func;
     this.setState({
-      tracks: tracks
+      tracks: tracks,
+      data: this.getDataAtNode(this.state.currentSelectedNode),
+      dataSchema: dataSchema || this.state.dataSchema
     });
   },
   addCustomComponent: function(type) {
@@ -94,13 +110,12 @@ module.exports = React.createClass({
         currentSelectedCmp={this.state.currentSelectedNode}
         deleteComponent={this.deleteComponent}/>;
         lensComponentViewer = <LensComponentViewer
-            updateColumns={this.updateColumns}
             updateTransformFunction={this.updateTransformFunction}
             currentSelectedNode={this.state.currentSelectedNode}
             currentSelectedTrack={this.state.currentSelectedTrack}
             tracks={this.state.tracks}
             data={this.state.data}
-            columns={this.state.columns} />;
+            dataSchema={this.state.dataSchema} />;
     } else {
       viewPortMenu = <LensComponentMenu
         addComponent={this.addComponent}

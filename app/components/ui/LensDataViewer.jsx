@@ -7,7 +7,7 @@ var LensDataViewer = React.createClass({
   createTable: function() {
     var config = {
       destroy: true,
-      columns: this.props.columns.map(function(columnArray) {
+      columns: this.props.dataSchema.map(function(columnArray) {
         return {'title': columnArray[1]};
       }),
       data: this.props.data
