@@ -26,6 +26,7 @@ module.exports = React.createClass({
       simpleSheet: true,
       parseNumbers: true
     })
+    this.props.saveCustomOption('value', key);
   },
   getKeyFromInput: function(key) {
     // Try to get from full url otherwise try to use the key as is
@@ -65,6 +66,11 @@ module.exports = React.createClass({
     this.props.updateDataSchema(columns);
     return function() {
       return data;
+    }
+  },
+  componentDidMount: function() {
+    if(Object.keys(this.props.customOptions) !== 0) {
+      this.setState( this.props.customOptions)
     }
   },
   render: function() {
