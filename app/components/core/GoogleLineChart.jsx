@@ -21,7 +21,7 @@ module.exports = React.createClass({
           dataSchema = this.props.dataSchema,
           data       = this.props.data,
           options    = this.state,
-          chart      = new window.google.visualization.PieChart(document.getElementById('chart-div'));
+          chart      = new window.google.visualization.LineChart(document.getElementById('chart-div'));
 
       dataSchema.forEach(function(column){
         var type = column[0],
