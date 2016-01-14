@@ -37,6 +37,7 @@ module.exports = React.createClass({
       // When the user deletes the first node and there are no more nodes, default to add component
     } else if (newSelectedValue < 0) {
       newSelectedValue = null;
+      this.updateDataSchema([[]]);
     }
     // Update node with the new selectedNode Value
     this.setState({
