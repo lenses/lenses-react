@@ -1,3 +1,6 @@
+// CURRENT BEING DRAFTED
+
+
 /* ======================================
 IMPORT DEPENDANCIES: NODE MODULES & CHILD COMPONENTS
    import with 'require('fileName');'
@@ -13,6 +16,19 @@ var React = require('react');
 NOTES ABOUT <YourComp> 
   - please create a file called [YourComponentGoesHere]README.md to accompany your component in apps > components > custom
   - notes about your comp should go in its README file 
+
+  Example notes:
+  This component draws a pie chart using the Google Charts API
+
+  API: 
+  https://developers.google.com/chart/interactive/docs/gallery/piechart
+  
+  Custom Fx:
+  Drawchart: callback fx that creates and populates a data table, instantiates the pie chart, passes in the data and draws it.
+
+  UI Options:
+  
+
 */
 
 /* ======================================
@@ -31,7 +47,7 @@ var Tutorial = React.createClass({
     Your component is simply a js object.
 
     Data enters your component thru:
-      this.props.columns;  //these are the headers
+      this.props.columns;   //these are the headers
       this.props.data;      //rows of data
     
     Write helper fx here to be called at render.
