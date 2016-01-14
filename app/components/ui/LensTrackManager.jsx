@@ -34,7 +34,6 @@ var LensTrackManager = React.createClass({
     return (
       <div className='lens-track-manager'>
         <div id='wrapper'>
-          <LensOvalButton {...lensOvalButtonProps}/>
           {lensNodes}
           <div id='circle-button-wrapper'>
             <LensAddButton {...lensAddButtonProps} />
