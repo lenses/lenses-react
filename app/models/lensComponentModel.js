@@ -35,6 +35,7 @@ var lensComponentModel = function(type, finishedGettingComponent) {
       finishedGettingComponent(this);
     }.bind(this));
   }
+  this.customInputOptions = {};
 }
 
 module.exports = lensComponentModel;

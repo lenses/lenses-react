@@ -50,6 +50,8 @@ module.exports = React.createClass({
     // React automagically bind this to method calls on the component so you can use
     // this safely in callback functions to refer to component methods
     // $.getScript("https://www.google.com/jsapi").done(this.callbackMethod);
+    // This line sets up the custom input ui with the the default values from the initial state
+    this.props.getInitialInputValues(this.getCustomOptions(), this.state);
   },
   render: function() {
     return (

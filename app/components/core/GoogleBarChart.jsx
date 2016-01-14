@@ -52,6 +52,7 @@ module.exports = React.createClass({
     // React automagically binds this to method calls on the component so you can use
     // this safely in callback functions to refer to component methods
     $.getScript("https://www.google.com/jsapi").done(this.loadGoogleViz);
+    this.props.getInitialInputValues(this.getCustomOptions(), this.state);
   },
   render: function() {
     return (

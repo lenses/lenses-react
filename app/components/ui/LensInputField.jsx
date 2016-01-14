@@ -20,7 +20,7 @@ var LensInputField = React.createClass({
     }
     return (
       <div style={wrapperStyles} className='lens-input-field-wrapper'>
-        {this.props.name}
+        {this.props.name}:
         <input type  = {this.props.inputType}
                value = {this.state.value}
                onChange={this.handleChangeInputs}/>
