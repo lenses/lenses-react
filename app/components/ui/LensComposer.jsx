@@ -8,11 +8,13 @@ var LensComponentActionMenu = require('./LensComponentActionMenu');
 var LensComponentViewer = require('./LensComponentViewer');
 var LensShareButton = require('./LensShareButton');
 
-// Test Data Injector
 var lensComponentModel = require('../../models/lensComponentModel.js');
 
 module.exports = React.createClass({
   getInitialState: function() {
+    // Data reflects the data at the currentSelectedTrack + Node
+    // It should not be changed directly but instead it's calculated
+    // using getDataAtNode from the transform functions of the nodes
     return {
       lensComponentLibrary: [],
       data: [],
@@ -57,7 +59,7 @@ module.exports = React.createClass({
         return recurseData.call(this, maxNode, this.state.tracks[this.state.currentSelectedTrack][startNode].transformData(data), startNode);
       }
       return data;
-    }.bind(this))(maxNode, data, startNode)
+    }.bind(this))(maxNode, data, startNode);
   },
   addComponent: function(cmp) {
     var tracks  = this.state.tracks.slice(0);
