@@ -1,6 +1,6 @@
 var React = require('react');
 var $ = require('jquery');
-var dt = require('datatables.net')(window, $);
+require('datatables.net')(window, $);
 
 
 var LensDataViewer = React.createClass({
@@ -12,15 +12,15 @@ var LensDataViewer = React.createClass({
       }),
       data: this.props.data
     }
-    $('#example').DataTable(config);
+    $('#lens-data-table').DataTable(config);
   },
   componentDidMount: function() {
     this.createTable();
   },
   componentDidUpdate: function() {
-    if($.fn.DataTable.isDataTable('#example')) {
-      $('#example').DataTable().destroy();
-      $('#example').empty();
+    if($.fn.DataTable.isDataTable('#lens-data-table')) {
+      $('#lens-data-table').DataTable().destroy();
+      $('#lens-data-table').empty();
     }
     this.createTable();
   },
@@ -28,7 +28,7 @@ var LensDataViewer = React.createClass({
 
     return (
       <div className='lens-data-viewer'>
-        <table id="example" className="display" width="100%"></table>
+        <table id="lens-data-table" className="display" width="100%"></table>
       </div>
     )
   }

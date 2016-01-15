@@ -84,8 +84,11 @@ module.exports = React.createClass({
   },
   updateTransformFunction: function(func, dataSchema) {
     var tracks = this.state.tracks.slice(0);
-    var cmp = tracks[this.state.currentSelectedTrack][this.state.currentSelectedNode];
-    cmp.transformData = func;
+    // If the function is not null add it as a new transform function
+    if(func != null) {
+      var cmp = tracks[this.state.currentSelectedTrack][this.state.currentSelectedNode];
+      cmp.transformData = func;
+    }
     this.setState({
       tracks: tracks,
       data: this.getDataAtNode(this.state.currentSelectedNode),
