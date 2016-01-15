@@ -7,22 +7,16 @@ module.exports = React.createClass({
       'title': 'text',
       'width': 'number',
       'height': 'number',
-      'columns': 'text',
-      'columnsType' : 'text'
+      'columns': 'text'
     }
   },
   getInitialState: function() {
-    var columnsType = this.props.dataSchema.map(function(column){
-      return column[0]
-    });
-    columnsType.join(',');
     return {
-      'title' : 'Enter Title',
-      'width' : 600,
+      'title': 'Enter Title',
+      'width': 600,
       'height': 400,
-      'columns': 'all',
-      'columnsType': columnsType
-    }
+      'columns': 'all'
+    };
   },
   drawChart: function() {
     var dt         = new window.google.visualization.DataTable(),
@@ -31,27 +25,29 @@ module.exports = React.createClass({
         options    = this.state,
         chart      = new window.google.visualization.ColumnChart(document.getElementById('chart-div'));
 
-        if(this.state.columns == 'all') {
-          // Select all columns and rows
-          dataSchema.forEach(function(column){
-            var type = column[0],
-              name = column[1];
-              dt.addColumn(type, name);
-          })
-          dt.addRows(data);
-        } else {
-          // Filter Columns and Rows based on input
-          var selectedColumns = this.state.columns.split(',');
-          selectedColumns.forEach(function(column){
-            dt.addColumn(this.props.dataSchema[column][0], this.props.dataSchema[column][1]);
-          }.bind(this));
-          dt.addRows(this.props.data.map(function(row){
-            var filteredRow = [];
-            selectedColumns.forEach(function(column) {
-              filteredRow.push(row[column]);
+        if(data.length !== 0 && dataSchema.length !== 0) {
+          if(this.state.columns == 'all') {
+            // Select all columns and rows
+            dataSchema.forEach(function(column){
+              var type = column[0],
+                name = column[1];
+                dt.addColumn(type, name);
             })
-            return filteredRow;
-          }));
+            dt.addRows(data);
+          } else {
+            // Filter Columns and Rows based on input
+            var selectedColumns = this.state.columns.split(',');
+            selectedColumns.forEach(function(column){
+              dt.addColumn(this.props.dataSchema[column][0], this.props.dataSchema[column][1]);
+            }.bind(this));
+            dt.addRows(this.props.data.map(function(row){
+              var filteredRow = [];
+              selectedColumns.forEach(function(column) {
+                filteredRow.push(row[column]);
+              })
+              return filteredRow;
+            }));
+          }
         }
 
 

@@ -5,11 +5,15 @@ require('datatables.net')(window, $);
 
 var LensDataViewer = React.createClass({
   createTable: function() {
+    var columns = [[]];
+    if(this.props.dataSchema.length !== 0) {
+      columns = this.props.dataSchema.map(function(columnArray) {
+        return {'title': columnArray[1]};
+      })
+    }
     var config = {
       destroy: true,
-      columns: this.props.dataSchema.map(function(columnArray) {
-        return {'title': columnArray[1]};
-      }),
+      columns:columns,
       data: this.props.data
     }
     $('#lens-data-table').DataTable(config);

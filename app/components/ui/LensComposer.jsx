@@ -7,6 +7,7 @@ var LensComponentMenu = require('./LensComponentMenu');
 var LensComponentActionMenu = require('./LensComponentActionMenu');
 var LensComponentViewer = require('./LensComponentViewer');
 var LensShareButton = require('./LensShareButton');
+var LensInputField = require('./LensInputField.jsx');
 
 var lensComponentModel = require('../../models/lensComponentModel.js');
 
@@ -18,7 +19,7 @@ module.exports = React.createClass({
     return {
       lensComponentLibrary: [],
       data: [],
-      dataSchema: [[]],
+      dataSchema: [],
       tracks: [[]],
       currentSelectedTrack: 0,
       currentSelectedNode: null
@@ -108,9 +109,21 @@ module.exports = React.createClass({
       }
     }.bind(this));
   },
+  handleSchemaChange: function(newColumnValue, columnName) {
+    var newSchemaValue = this.state.dataSchema;
+    var x = 0;
+    for(x; x < newSchemaValue.length; x++) {
+      if(newSchemaValue[x][1] == columnName) {
+        newSchemaValue[x][0] = newColumnValue;
+        break;
+      }
+    }
+    // update data to match schema
+    this.updateTransformFunction(null, newSchemaValue);
+  },
   render: function(){
 
-    var viewPortMenu, lensComponentViewer;
+    var viewPortMenu, lensComponentViewer, lensColumnSelector = [];
 
     if(this.state.currentSelectedNode !== null) {
       viewPortMenu = <LensComponentActionMenu
@@ -123,12 +136,23 @@ module.exports = React.createClass({
             tracks={this.state.tracks}
             data={this.state.data}
             dataSchema={this.state.dataSchema} />;
+        if(this.state.dataSchema.length != 0) {
+          this.state.dataSchema.forEach(function(column) {
+            lensColumnSelector.push(<LensInputField name={column[1]}
+              key={column[1]}
+              inputType='columnSelect'
+              action={this.handleSchemaChange}
+              initialValue={column[0]}/>);
+          }.bind(this));
+            }
     } else {
       viewPortMenu = <LensComponentMenu
         addComponent={this.addComponent}
         addCustomComponent={this.addCustomComponent}
         lensComponentLibrary={this.state.lensComponentLibrary} />;
     }
+
+
 
 
     return (
@@ -143,6 +167,7 @@ module.exports = React.createClass({
         <div className='lens-viewport'>
           {viewPortMenu}
           {lensComponentViewer}
+          {lensColumnSelector}
         </div>
       </div>
     )
