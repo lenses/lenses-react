@@ -111,15 +111,31 @@ module.exports = React.createClass({
   },
   handleSchemaChange: function(newColumnValue, columnName) {
     var newSchemaValue = this.state.dataSchema;
-    var x = 0;
-    for(x; x < newSchemaValue.length; x++) {
-      if(newSchemaValue[x][1] == columnName) {
-        newSchemaValue[x][0] = newColumnValue;
+    var columnNumber = 0;
+    for(columnNumber; columnNumber < newSchemaValue.length; columnNumber++) {
+      if(newSchemaValue[columnNumber][1] == columnName) {
+        newSchemaValue[columnNumber][0] = newColumnValue;
         break;
       }
     }
     // update data to match schema
-    this.updateTransformFunction(null, newSchemaValue);
+    var newData = this.state.data;
+    newData.map(function(row) {
+      var newRow = row;
+      if(newColumnValue == 'string'){
+        newRow[columnNumber] = row[columnNumber].toString();
+      } else if(newColumnValue == 'number') {
+        newRow[columnNumber] = Number.parseFloat(row[columnNumber]);
+
+      }
+      return newRow;
+    })
+    var newTransformFunction = function() {
+      return function() {
+        return newData;
+      }
+    }
+    this.updateTransformFunction(newTransformFunction(), newSchemaValue);
   },
   render: function(){
 
