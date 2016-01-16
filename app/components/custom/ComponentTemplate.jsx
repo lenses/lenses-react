@@ -69,6 +69,11 @@ module.exports = React.createClass({
     // make them before hand and pass the result to this function
     // It should pass the data in a closure to be used later. i.e. you should return a function here that
     // returns your newly transformed or retrieved data
+
+    //you need to map your data to your transform fx
+    //you must return the fx -- I think this is called closure
+    //the yourTransform should be called by CompWillMount
+
   },
   componentDidUpdate: function() {
     // If you are creating a drawing component make sure to call your drawing function here
