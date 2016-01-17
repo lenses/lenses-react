@@ -195,7 +195,7 @@ module.exports = React.createClass({
 
 
     return (
-      <div id='lens-composer'>
+      <div className='lens-composer'>
         <LensTitleBar />
         <LensShareButton />
         <LensTrackManager
