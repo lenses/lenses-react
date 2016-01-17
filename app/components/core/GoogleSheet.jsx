@@ -78,7 +78,7 @@ module.exports = React.createClass({
     };
     return (
       <div className='google-sheet'>
-        Enter the ID of a published Google Spreadsheet
+        Enter the url of a public google spreadsheet. Find out how to make it public here.
         <div>
         </div>
         <div style={{margin:20}}>
@@ -96,7 +96,6 @@ module.exports = React.createClass({
             actionPayload={this.state.value}
             content='GET DATA' />
         </div>
-        <div><a href='#'>Need Help?</a></div>
       </div>
     )
   }
