@@ -24,15 +24,17 @@ var LensInputField = React.createClass({
         value = {this.state.value}
         onChange={this.handleChangeInputs}/>)
     } else if (this.props.inputType === 'columnSelect') {
-      inputType = [];
-      inputType.push(<select name={this.props.name} value={this.state.value} onChange={this.handleChangeInputs}>);
-      inputType.push(<option value='string' >string</option>);
-      inputType.push(<option value='number' >number</option>);
-      inputType.push(</select>);
+      inputType = <select name={this.props.name} value={this.state.value} onChange={this.handleChangeInputs}>
+      <option value='string' >string</option>
+      <option value='number' >number</option>
+      </select>;
     }
     return (
       <div style={wrapperStyles} className='lens-input-field-wrapper'>
-        {this.props.name}:{inputType}
+        {this.props.name}:
+        <div className='lens-input-field'>
+          {inputType}
+        </div>
       </div>
     );
   }
