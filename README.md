@@ -1,15 +1,14 @@
 # Line Graph 
 **created by:** helencarey  
 **status:** in progress  
-**gh repo:**  
+**gh repo:**  https://github.com/helencarey/lenses-react_hc/tree/hc_lineGraph
 (discription of component goes here)
 
-## Issues
-
-
 ## Customization Options
-##### GLOBAL DRAWCHART DIV PROPS
+** GLOBAL DRAWCHART DIV PROPS **
 
-## EDL (Edit Decision List)
+## Future Plans
+**trendlines/r^2 values** --working on this  
+**tooltip** need customization options
 
-
+## Issues
