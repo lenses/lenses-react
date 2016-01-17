@@ -12,7 +12,7 @@ module.exports = React.createClass({
   },
   getInitialState: function() {
     return {
-      'title' : 'Enter Title',
+      'title' : 'Hello',
       'width' : 600,
       'height': 400,
       'columns': 'all'
