@@ -1,13 +1,10 @@
 # Line Graph 
 (title of your comp goes here)
 
-## Description
+**created by:** helencarey  
+**status:** in progress  
+**gh repo:** (url)  
 (discription of component goes here)
-suggested by: core chart  
-made by: helencarey  
-status: in progress
-gh repo: (url)  
-(description goes here)
 
 ## Issues
 
