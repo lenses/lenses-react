@@ -1,6 +1,4 @@
 # Line Graph 
-(title of your comp goes here)
-
 **created by:** helencarey  
 **status:** in progress  
 **gh repo:** (url)  
