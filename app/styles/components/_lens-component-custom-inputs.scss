@@ -5,8 +5,21 @@
   background-color:$mediumGray;
   width:20%;
   box-sizing:border-box;
-  display:inline-block;
   text-align:center;
+  float:right;
+  vertical-align:top;
+  padding:10px 30px 30px 10px;
+  color: $darkGray;
+  font-size:12px;
+  font-weight:600;
+  font-family:'lato';
+  height:100%;
+  .lens-input-field-wrapper {
+    margin:5px;
+  }
+  .lens-input-field {
+    margin:5px;
+  }
 }
 
 

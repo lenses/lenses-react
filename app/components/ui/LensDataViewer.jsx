@@ -1,26 +1,30 @@
 var React = require('react');
 var $ = require('jquery');
-var dt = require('datatables.net')(window, $);
+require('datatables.net')(window, $);
 
 
 var LensDataViewer = React.createClass({
   createTable: function() {
+    var columns = [[]];
+    if(this.props.dataSchema.length !== 0) {
+      columns = this.props.dataSchema.map(function(columnArray) {
+        return {'title': columnArray[1]};
+      })
+    }
     var config = {
       destroy: true,
-      columns: this.props.dataSchema.map(function(columnArray) {
-        return {'title': columnArray[1]};
-      }),
+      columns:columns,
       data: this.props.data
     }
-    $('#example').DataTable(config);
+    $('#lens-data-table').DataTable(config);
   },
   componentDidMount: function() {
     this.createTable();
   },
   componentDidUpdate: function() {
-    if($.fn.DataTable.isDataTable('#example')) {
-      $('#example').DataTable().destroy();
-      $('#example').empty();
+    if($.fn.DataTable.isDataTable('#lens-data-table')) {
+      $('#lens-data-table').DataTable().destroy();
+      $('#lens-data-table').empty();
     }
     this.createTable();
   },
@@ -28,7 +32,7 @@ var LensDataViewer = React.createClass({
 
     return (
       <div className='lens-data-viewer'>
-        <table id="example" className="display" width="100%"></table>
+        <table id="lens-data-table" className="display" width="100%"></table>
       </div>
     )
   }

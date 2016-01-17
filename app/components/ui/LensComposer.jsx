@@ -7,21 +7,23 @@ var LensComponentMenu = require('./LensComponentMenu');
 var LensComponentActionMenu = require('./LensComponentActionMenu');
 var LensComponentViewer = require('./LensComponentViewer');
 var LensShareButton = require('./LensShareButton');
+var LensInputField = require('./LensInputField.jsx');
 
 var lensComponentModel = require('../../models/lensComponentModel.js');
 
 module.exports = React.createClass({
   getInitialState: function() {
-    // Data reflects the data at the currentSelectedTrack + Node
-    // It should not be changed directly but instead it's calculated
-    // using getDataAtNode from the transform functions of the nodes
+    // TODO:Data and Dataschema are not really part of the state
+    // Refactor to remove them and remove functions that manipulate them to
+    // LensComponentVieLenw. They are calculated on the fly
     return {
       lensComponentLibrary: [],
       data: [],
-      dataSchema: [[]],
+      dataSchema: [],
       tracks: [[]],
       currentSelectedTrack: 0,
-      currentSelectedNode: null
+      currentSelectedNode: null,
+      componentCustomInputOptions: null
     }
   },
   componentWillMount: function() {
@@ -41,7 +43,7 @@ module.exports = React.createClass({
       // When the user deletes the first node and there are no more nodes, default to add component
     } else if (newSelectedValue < 0) {
       newSelectedValue = null;
-      this.updateDataSchema([[]])
+      this.updateDataSchema([])
     }
     // Update node with the new selectedNode Value
     this.setState({
@@ -84,8 +86,11 @@ module.exports = React.createClass({
   },
   updateTransformFunction: function(func, dataSchema) {
     var tracks = this.state.tracks.slice(0);
-    var cmp = tracks[this.state.currentSelectedTrack][this.state.currentSelectedNode];
-    cmp.transformData = func;
+    // If the function is not null add it as a new transform function
+    if(func != null) {
+      var cmp = tracks[this.state.currentSelectedTrack][this.state.currentSelectedNode];
+      cmp.transformData = func;
+    }
     this.setState({
       tracks: tracks,
       data: this.getDataAtNode(this.state.currentSelectedNode),
@@ -105,9 +110,54 @@ module.exports = React.createClass({
       }
     }.bind(this));
   },
+  handleSchemaChange: function(newColumnValue, columnName) {
+    var newSchemaValue = this.state.dataSchema;
+    var columnNumber = 0;
+    for(columnNumber; columnNumber < newSchemaValue.length; columnNumber++) {
+      if(newSchemaValue[columnNumber][1] == columnName) {
+        newSchemaValue[columnNumber][0] = newColumnValue;
+        break;
+      }
+    }
+    // update data to match schema
+    var newData = this.state.data;
+    newData.map(function(row) {
+      var newRow = row;
+      if(newColumnValue == 'string'){
+        newRow[columnNumber] = row[columnNumber].toString();
+      } else if(newColumnValue == 'number') {
+        newRow[columnNumber] = Number.parseFloat(row[columnNumber]);
+
+      }
+      return newRow;
+    })
+    var newTransformFunction = function() {
+      return function() {
+        return newData;
+      }
+    }
+    this.updateTransformFunction(newTransformFunction(), newSchemaValue);
+  },
+  setupCustomInputComponents: function(actionFunction) {
+    var currentComponentCustomOptions = this.state.tracks[this.state.currentSelectedTrack][this.state.currentSelectedNode].customInputOptions;
+    var inputComponents = [];
+    for(var option in currentComponentCustomOptions) {
+      var optionObject = currentComponentCustomOptions[option];
+      if(currentComponentCustomOptions.hasOwnProperty(option) && optionObject.configurable){
+        inputComponents.push(<LensInputField inputType = {optionObject['configurable']}
+          initialValue = {optionObject['value']}
+          name         = {option}
+          key          = {option}
+          action       = {actionFunction}/>);
+      }
+    }
+    this.setState({
+      componentCustomInputOptions: inputComponents
+    })
+  },
   render: function(){
 
-    var viewPortMenu, lensComponentViewer;
+    var viewPortMenu, lensComponentViewer, componentsCustomOptions = [];
 
     if(this.state.currentSelectedNode !== null) {
       viewPortMenu = <LensComponentActionMenu
@@ -118,8 +168,24 @@ module.exports = React.createClass({
             currentSelectedNode={this.state.currentSelectedNode}
             currentSelectedTrack={this.state.currentSelectedTrack}
             tracks={this.state.tracks}
+            setupCustomInputComponents={this.setupCustomInputComponents}
             data={this.state.data}
             dataSchema={this.state.dataSchema} />;
+        if(this.state.dataSchema.length != 0) {
+          this.state.dataSchema.forEach(function(column) {
+            componentsCustomOptions.push(<LensInputField name={column[1]}
+              key={column[1]}
+              inputType='columnSelect'
+              action={this.handleSchemaChange}
+              initialValue={column[0]}/>);
+          }, this);
+        }
+        // add inputs to customize values in current viewable component
+        if(this.state.componentCustomInputOptions) {
+          this.state.componentCustomInputOptions.forEach(function(component){
+            componentsCustomOptions.push(component);
+          });
+        }
     } else {
       viewPortMenu = <LensComponentMenu
         addComponent={this.addComponent}
@@ -129,7 +195,7 @@ module.exports = React.createClass({
 
 
     return (
-      <div id='lens-composer'>
+      <div className='lens-composer'>
         <LensTitleBar />
         <LensShareButton />
         <LensTrackManager
@@ -139,6 +205,9 @@ module.exports = React.createClass({
           updateSelectedNode={this.updateSelectedNode} />
         <div className='lens-viewport'>
           {viewPortMenu}
+          <div className={(componentsCustomOptions.length !== 0) ? 'lens-component-custom-inputs' : ''}>
+            {componentsCustomOptions}
+          </div>
           {lensComponentViewer}
         </div>
       </div>
