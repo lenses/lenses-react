@@ -8,7 +8,7 @@
 
 
 ## Customization Options
-#### GLOBAL DRAWCHART DIV PROPS
+##### GLOBAL DRAWCHART DIV PROPS
 
 ## EDL (Edit Decision List)
 
