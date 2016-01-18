@@ -86,10 +86,16 @@ module.exports = React.createClass({
   },
   updateTransformFunction: function(func, dataSchema) {
     var tracks = this.state.tracks.slice(0);
+    var cmp = tracks[this.state.currentSelectedTrack][this.state.currentSelectedNode];
     // If the function is not null add it as a new transform function
-    if(func != null) {
-      var cmp = tracks[this.state.currentSelectedTrack][this.state.currentSelectedNode];
+    if(func != null && (func instanceof Function)) {
       cmp.transformData = func;
+    // If they just passed data from an input component then wrap it in a function
+    // and it saves the data in the closure
+    } else if(func != null) {
+      cmp.transformData = function() {
+          return func;
+      }
     }
     this.setState({
       tracks: tracks,
