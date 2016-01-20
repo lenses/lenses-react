@@ -33,6 +33,20 @@ module.exports = React.createClass({
         lensComponentLibrary: initialComponents
       });
     }.bind(this));
+    // Load Data if available
+    this.props.loadLens(function(tracks) {
+      var newTracks = tracks.map(function(track){
+        var newTrack = track.map(function(node){
+          // Need to load configuration and data
+          return new lensComponentModel(node.type);
+          })
+        return newTrack;
+        });
+
+      this.setState({
+        tracks: newTracks
+      });
+    }.bind(this));
     // Load Test Data for development
     // this.addComponent(new lensComponentModel('TestData'));
   },
@@ -203,7 +217,7 @@ module.exports = React.createClass({
     return (
       <div className='lens-composer'>
         <LensTitleBar />
-        <LensShareButton />
+        <LensShareButton tracks={this.state.tracks} saveHelper={this.props.saveHelper}/>
         <LensTrackManager
           currentSelectedNode={this.state.currentSelectedNode}
           currentSelectedTrack={this.state.currentSelectedTrack}
