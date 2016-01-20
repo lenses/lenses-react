@@ -80,10 +80,16 @@ module.exports = function (app){
     }
   });
 
-  app.route('/lenses/create')
-    .get(function(req,res){
-      res.render('create-lens.hbs');
+  app.route('/lenses')
+    .get(function(req, res){
+      res.render('list-lenses.hbs', {lensPage: 'list'});
     });
+
+  app.route('/lenses/new')
+    .get(function(req,res){
+      res.render('create-lens.hbs', {lensPage: 'new'});
+    });
+
   app.route('/lenses/:id/edit')
     .get(function(req, res){
     res.render('create-lens.hbs', {lensId: req.params.id});

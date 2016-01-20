@@ -6,7 +6,7 @@ var LensTrackManager = require('./LensTrackManager');
 var LensComponentMenu = require('./LensComponentMenu');
 var LensComponentActionMenu = require('./LensComponentActionMenu');
 var LensComponentViewer = require('./LensComponentViewer');
-var LensShareButton = require('./LensShareButton');
+var LensPublishButton = require('./LensPublishButton');
 var LensInputField = require('./LensInputField.jsx');
 
 var lensComponentModel = require('../../models/lensComponentModel.js');
@@ -23,7 +23,10 @@ module.exports = React.createClass({
       tracks: [[]],
       currentSelectedTrack: 0,
       currentSelectedNode: null,
-      componentCustomInputOptions: null
+      componentCustomInputOptions: null,
+      title: '',
+      author: '',
+      publishState: { published: false }
     }
   },
   componentWillMount: function() {
@@ -34,21 +37,46 @@ module.exports = React.createClass({
       });
     }.bind(this));
     // Load Data if available
+    this.load(window.lensId);
+
+    // Load Test Data for development
+    // this.addComponent(new lensComponentModel('TestData'));
+  },
+  load: function(lensId) {
+    if(lensId) {
     this.props.loadLens(function(tracks) {
+      if(tracks.message) {
+        alert('Lens Does Not Exist; Redirecting you to lens directory');
+        window.location.replace('/lenses/');
+      }
       var newTracks = tracks.map(function(track){
         var newTrack = track.map(function(node){
-          // Need to load configuration and data
-          return new lensComponentModel(node.type);
+          // Need to recreate model using type and data
+          return new lensComponentModel(node.type, null, node.customInputOptions);
           })
         return newTrack;
         });
-
+        this.setState({
+          tracks: newTracks,
+          publishState: {published: true, id: window.lensId}
+        });
+      }.bind(this));
+    }
+  },
+  save: function() {
+    var successCallback = function(lensObj) {
       this.setState({
-        tracks: newTracks
+        publishState: {
+          published: true,
+          id: lensObj.id
+        }
       });
-    }.bind(this));
-    // Load Test Data for development
-    // this.addComponent(new lensComponentModel('TestData'));
+    }.bind(this);
+    this.props.saveLens({
+      tracks: this.state.tracks,
+      title: this.state.title,
+      author: this.state.author
+    }, successCallback);
   },
   updateSelectedNode: function(newSelectedValue) {
     // When the user deletes the first node and there are more nodes in the track, select the new first node
@@ -175,6 +203,9 @@ module.exports = React.createClass({
       componentCustomInputOptions: inputComponents
     })
   },
+  updateTitleAndAuthor: function(state){
+    this.setState(state);
+  },
   render: function(){
 
     var viewPortMenu, lensComponentViewer, componentsCustomOptions = [];
@@ -216,8 +247,8 @@ module.exports = React.createClass({
 
     return (
       <div className='lens-composer'>
-        <LensTitleBar />
-        <LensShareButton tracks={this.state.tracks} saveHelper={this.props.saveHelper}/>
+        <LensTitleBar updateTitleAndAuthor={this.updateTitleAndAuthor}/>
+        <LensPublishButton publishState={this.state.publishState} save={this.save}/>
         <LensTrackManager
           currentSelectedNode={this.state.currentSelectedNode}
           currentSelectedTrack={this.state.currentSelectedTrack}

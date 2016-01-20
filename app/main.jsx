@@ -4,26 +4,36 @@ var LensComposer = require('./components/ui/LensComposer');
 var lensComponentModel = require('./models/lensComponentModel');
 var $ = require('jquery');
 var Parse = require('parse');
+var LensList = require('./components/ui/LensList.jsx');
 
 Parse.initialize("4AJgWMJyWKqTWnurFnwlHCalhrFl9AKFAmx5EuUu", "1EzsdsTuTocp9RFlGQPTf0xj36A3GUpCGd3ASf08");
 var Lens = Parse.Object.extend('Lens');
-
+var lens = new Lens();
 var query = new Parse.Query('Lens');
 
 var loadLensHelper = function(cb) {
   if(window.lensId) {
-    query.get('fqxo7DnMNL', {
+    query.get(window.lensId, {
       success: function(lens) {
-        console.log('retrieved it');
         cb(lens.get('tracks'));
       },
       error: function(object, error) {
-        console.log('failed to retrieve');
+        cb(error);
       }
     });
   }
 }
 
+var loadAllLenses = function(cb) {
+  query.find({
+    success: function(result) {
+      cb(result);
+    },
+    error: function(object, error) {
+      console.log("couldn't load all lenses");
+    }
+  })
+};
 
 var loadInitialComponents = function(cb) {
   var initialComponents = [];
@@ -35,27 +45,24 @@ var loadInitialComponents = function(cb) {
   });
 };
 
-var lens = new Lens();
-var saveHelper = function(tracks) {
-  lens.save({tracks: tracks}, {
+var saveHelper = function(lensObj, cb) {
+  lens.save(lensObj, {
     success: function(lens) {
-      console.log('success');
-      console.log(lens);
+      cb(lens);
+      alert('Lens Saved! ID:' + lens.id)
     },
     error: function(lens, error) {
-      console.log(error);
+      alert('Failed to save');
     }
   });
 };
-//Main render function to attach React component to the dom
 
+if(document.getElementById('lens-list')) {
+  ReactDOM.render(<LensList lenses={loadAllLenses}/>, document.getElementById('lens-list'));
 
-// If it is load page then pull the data from the api
-// if not just show blank tracks
-// initially just save and load tracks
-
-
-
-
-ReactDOM.render(<LensComposer loadLens={loadLensHelper} saveHelper={saveHelper} loadInitialComponents={loadInitialComponents} />, document.getElementById('app'));
+} else if(document.getElementById('app')) {
+  ReactDOM.render(<LensComposer loadLens={loadLensHelper}
+    saveLens={saveHelper}
+    loadInitialComponents={loadInitialComponents} />, document.getElementById('app'));
+}
 
