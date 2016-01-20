@@ -7,19 +7,15 @@ module.exports = React.createClass({
     this.props.save();
   },
   render: function() {
-    var style;
+    var style = {};
+    style['cursor'] = 'pointer';
     if(this.props.publishState.published) {
-      style = {
-        backgroundColor: 'green'
-      }
-    } else {
-      style = {
-        backgroundColor: 'red'
-      }
-    }
+      style['backgroundColor'] = '#00db7c'
+      style['color'] = white;
+    }     
     var lensUrl = '/lenses/' + this.props.publishState.id + '/edit';
     return (
-      <div className='lens-share-button-wrapper' style={style}>
+      <div className='lens-publish-button-wrapper' style={style}>
         <div onClick={this.save} className='lens-share-button'>
           {(this.props.publishState.published) ? <a href={lensUrl}>Published</a> : 'Publish'}
         </div>
