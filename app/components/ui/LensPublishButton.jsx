@@ -11,7 +11,7 @@ module.exports = React.createClass({
     style['cursor'] = 'pointer';
     if(this.props.publishState.published) {
       style['backgroundColor'] = '#00db7c'
-      style['color'] = white;
+      style['color'] = 'white';
     }     
     var lensUrl = '/lenses/' + this.props.publishState.id + '/edit';
     return (
