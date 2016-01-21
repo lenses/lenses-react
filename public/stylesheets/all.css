@@ -204,21 +204,19 @@ body {
     margin-top: 22px; }
   #lens-marketing #content {
     margin: 0px auto;
-    max-width: 890px;
     text-align: center; }
   #lens-marketing #ytplayer {
     display: inline-block; }
   #lens-marketing #explanation {
-    width: calc(50% - 50px);
-    width: -moz-calc(50% - 50px);
-    width: -webkit-calc(50% - 50px);
-    padding: 20px 0px 0px 50px;
     display: inline-block;
     vertical-align: top;
     font-size: 17px; }
   #lens-marketing #contribute-button-container {
     width: 245px; }
   #lens-marketing #explanation-blurb {
+    max-width: 525px;
+    margin-left: auto;
+    margin-right: auto;
     line-height: 1.25;
     margin-bottom: 30px; }
 

@@ -48,7 +48,6 @@
 
 #content {
   margin:0px auto;
-  max-width:890px;
   text-align:center;
 }
 
@@ -56,19 +55,19 @@
   display:inline-block;
 }
 #explanation {
-  @include calc("width", "50% - 50px");
-  padding:20px 0px 0px 50px;
   display:inline-block;
   vertical-align:top;
   font-size:$regular-font-size;
 }
 
 #contribute-button-container{
-
   width:245px;
 }
 
 #explanation-blurb {
+  max-width:525px;
+  margin-left:auto;
+  margin-right:auto;
   line-height:1.25;
   margin-bottom:30px;
 }
