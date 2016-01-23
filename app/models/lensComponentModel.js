@@ -7,7 +7,7 @@ var comp = require('../components/core/*.jsx', {mode: 'hash'});
 // Takes in type which is the filename and
 // returns the name and loads the cmp function
 
-var lensComponentModel = function(type, finishedGettingComponent, customInputOptions) {
+var lensComponentModel = function(type, finishedGettingComponent) {
   this.type = type;
   // Remove the extension, match groups that start with a capital letter
   // join them into one word
@@ -32,12 +32,10 @@ var lensComponentModel = function(type, finishedGettingComponent, customInputOpt
       this.reactCmp = null;
     }.bind(this))
     .always(function(){
-      if(typeof finishedGettingComponent == 'function'){
-        finishedGettingComponent(this);
-      }
+      finishedGettingComponent(this);
     }.bind(this));
   }
-  this.customInputOptions = customInputOptions || {};
+  this.customInputOptions = {};
 }
 
 module.exports = lensComponentModel;

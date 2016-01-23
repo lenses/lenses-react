@@ -56,7 +56,13 @@ module.exports = React.createClass({
     });
     // At the end of processing data always call updateTransformFunction with a
     // closure that update dataSchema and returns the transformed data
-    this.props.updateTransformFunction(transformedData, dataSchema);
+    this.props.updateTransformFunction(this.transformData(transformedData), dataSchema);
+  },
+  transformData: function(data) {
+    // Use a closure to transfer data
+    return function() {
+      return data;
+    }
   },
   render: function() {
     // Styling for non UI components is inline
