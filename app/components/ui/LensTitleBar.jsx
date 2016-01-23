@@ -1,20 +1,36 @@
 var React = require('react');
 
-var LensTitleBar = React.createClass({
-  getDefaultProps: function() {
+module.exports = React.createClass({
+  getInitialState: function() {
     return {
-      title: "LENSTITLE",
-      author: "Author"
-    };
+      title: this.props.title,
+      author: this.props.author
+    }
+  },
+  handlePropChange: function(e) {
+    var state = {};
+    state[e.target.name]=e.target.value;
+    this.setState(state);
+    this.props.updateTitleAndAuthor(state);
   },
   render: function() {
     return (
       <div id='lens-title-bar' >
-        <input id='lens-title' className='title-bar-input latoregular' type='text' name='lens-title' placeholder={this.props.title} />
-        <input id='lens-author' className='title-bar-input latosemibolditalic' type='text' name='lens-author' placeholder={this.props.author} />
+        <input id='lens-title' className='title-bar-input latoregular'
+          type='text'
+          name='title'
+          value={this.state.title}
+          onChange={this.handlePropChange}
+          placeholder='LENSTITLE' />
+        <input id='lens-author'
+          className='title-bar-input latosemibolditalic'
+          type='text'
+          value={this.state.author}
+          onChange={this.handlePropChange}
+          name='author'
+          placeholder='AUTHOR' />
       </div>
     )
   }
 });
 
-module.exports = LensTitleBar;
