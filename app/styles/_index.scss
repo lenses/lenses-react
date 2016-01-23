@@ -49,6 +49,7 @@
 #content {
   margin:0px auto;
   max-width:890px;
+  text-align:center;
 }
 
 #ytplayer {
@@ -62,6 +63,10 @@
   font-size:$regular-font-size;
 }
 
+#contribute-button-container{
+
+  width:245px;
+}
 
 #explanation-blurb {
   line-height:1.25;
@@ -69,7 +74,6 @@
 }
 
 #contribute-button {
-  width:245px;
 }
 
 

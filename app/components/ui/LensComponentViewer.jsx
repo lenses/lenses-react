@@ -10,25 +10,20 @@ var LensComponentViewer = React.createClass({
     var customOptions = (this.refs.currentViewComponent.getCustomOptions) ? this.refs.currentViewComponent.getCustomOptions() : {};
     // Save state and whether options are configurable to the lensModel representing the component
     if(currentComponent && currentComponentState){
-      for(var option in currentComponentState) {
-        if(currentComponentState.hasOwnProperty(option)){
-          // add to the lenscomponentmodel the current value and whether it's configurable
+      Object.keys(currentComponentState).forEach(function(option) {
           currentComponent.customInputOptions[option] = {
             value: currentComponentState[option],
             configurable: (customOptions[option]) ? customOptions[option] : false
           }
-        }
-      }
-    }
+      });
+   }
   },
   loadViewComponentState: function() {
     var currentComponent = this.props.tracks[this.props.currentSelectedTrack][this.props.currentSelectedNode];
     var stateObject = {};
-    for(var option in currentComponent.customInputOptions) {
-      if(currentComponent.customInputOptions.hasOwnProperty(option)) {
-        stateObject[option] = currentComponent.customInputOptions[option].value;
-      }
-    }
+    Object.keys(currentComponent.customInputOptions).forEach(function(option) {
+      stateObject[option] = currentComponent.customInputOptions[option].value;
+    });
     this.refs.currentViewComponent.setState(stateObject);
   },
   updateStateBasedOnCustomValues: function(value, name) {
