@@ -80,20 +80,14 @@ module.exports = function (app){
     }
   });
 
-  app.route('/lenses')
-    .get(function(req, res){
-      res.render('list-lenses.hbs', {lensPage: 'list'});
+  app.route('/test')
+    .get(function(req, res) {
+      res.render('test-view.hbs')
     });
-
-  app.route('/lenses/new')
+  app.route('/lenses/create')
     .get(function(req,res){
-      res.render('create-lens.hbs', {lensPage: 'new'});
+      res.render('create-lens.hbs');
     });
-
-  app.route('/lenses/:id/edit')
-    .get(function(req, res){
-    res.render('create-lens.hbs', {lensId: req.params.id});
-  })
 };
 
 
