@@ -56,13 +56,7 @@ module.exports = React.createClass({
     });
     // At the end of processing data always call updateTransformFunction with a
     // closure that update dataSchema and returns the transformed data
-    this.props.updateTransformFunction(this.transformData(transformedData), dataSchema);
-  },
-  transformData: function(data) {
-    // Use a closure to transfer data
-    return function() {
-      return data;
-    }
+    this.props.updateTransformFunction(transformedData, dataSchema);
   },
   render: function() {
     // Styling for non UI components is inline
@@ -78,7 +72,7 @@ module.exports = React.createClass({
     };
     return (
       <div className='google-sheet'>
-        Enter the ID of a published Google Spreadsheet
+        Enter the url of a public google spreadsheet. Find out how to make it public here.
         <div>
         </div>
         <div style={{margin:20}}>
@@ -96,7 +90,6 @@ module.exports = React.createClass({
             actionPayload={this.state.value}
             content='GET DATA' />
         </div>
-        <div><a href='#'>Need Help?</a></div>
       </div>
     )
   }

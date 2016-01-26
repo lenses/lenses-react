@@ -21,6 +21,16 @@ a {
   text-decoration:none;
   color:inherit;
 }
+html {
+  height:100%;
+}
+body {
+  height: 100%;
+}
+
+#app {
+  height: 100%;
+}
 ::-webkit-input-placeholder {
   color: $lightGray;
 }

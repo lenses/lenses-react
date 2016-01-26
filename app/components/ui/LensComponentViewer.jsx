@@ -1,80 +1,76 @@
 var React          = require('react'),
-    LensDataViewer = require('./LensDataViewer.jsx'),
-    LensInputField = require('./LensInputField.jsx');
+    LensDataViewer = require('./LensDataViewer.jsx');
 
 var LensComponentViewer = React.createClass({
-  getInitialState: function() {
-    return {
-      inputComponents: [],
-      currentlySelectedCmp: this.props.tracks[this.props.currentSelectedTrack][this.props.currentSelectedNode]
-    }
-  },
-  handleChangeInputs: function(value, name) {
-    // Once an input has changed reflect that in the state
-    // of the currently viewed component
-    var newState = {};
-    newState[name] = value;
-    this.refs.currentViewComponent.setState(newState);
-  },
-  updateInputComponents: function(customOptions, customOptionsInitialValues) {
-    var inputComponents = [];
-    for(var option in customOptions) {
-      if(customOptions.hasOwnProperty(option)) {
-        // Load the input components with the saved changed value or the default initial value
-        inputComponents.push(<LensInputField inputType    = {customOptions[option]}
-          initialValue = {this.state.currentlySelectedCmp.customInputOptions[option] || customOptionsInitialValues[option]}
-          name         = {option}
-          key          = {option}
-          action       = {this.handleChangeInputs}/>);
-      }
-    }
-    // Generate the input components on the fly based on the currently selected component and render them
-    this.setState({
-      inputComponents: inputComponents
-    })
-  },
-  componentDidMount: function() {
-    if(this.refs.currentViewComponent.getCustomOptions){
-      this.updateInputComponents(this.refs.currentViewComponent.getCustomOptions(), this.refs.currentViewComponent.state);
-    }
-  },
-  componentWillReceiveProps: function(nextProps) {
+  saveViewComponentState: function() {
     // Using refs here so that component creators get the benefit of saving their components
     // state automagically
-
-    // Before switching to new component save the state of the input components
-    this.state.currentlySelectedCmp.customInputOptions = this.refs.currentViewComponent.state;
-
-    // Switch to new component
-    this.setState({
-      currentlySelectedCmp: this.props.tracks[this.props.currentSelectedTrack][nextProps.currentSelectedNode],
-      inputComponents: []
-    });
+    var currentComponent = this.props.tracks[this.props.currentSelectedTrack][this.props.currentSelectedNode];
+    var currentComponentState = this.refs.currentViewComponent.state;
+    var customOptions = (this.refs.currentViewComponent.getCustomOptions) ? this.refs.currentViewComponent.getCustomOptions() : {};
+    // Save state and whether options are configurable to the lensModel representing the component
+    if(currentComponent && currentComponentState){
+      Object.keys(currentComponentState).forEach(function(option) {
+          currentComponent.customInputOptions[option] = {
+            value: currentComponentState[option],
+            configurable: (customOptions[option]) ? customOptions[option] : false
+          }
+      });
+   }
   },
-  componentDidUpdate: function() {
-    // Add input components for the new component on the screen
-    if(this.state.inputComponents.length == 0 && this.refs.currentViewComponent.getCustomOptions){
-      this.updateInputComponents(this.refs.currentViewComponent.getCustomOptions(), this.refs.currentViewComponent.state);
+  loadViewComponentState: function() {
+    var currentComponent = this.props.tracks[this.props.currentSelectedTrack][this.props.currentSelectedNode];
+    var stateObject = {};
+    Object.keys(currentComponent.customInputOptions).forEach(function(option) {
+      stateObject[option] = currentComponent.customInputOptions[option].value;
+    });
+    this.refs.currentViewComponent.setState(stateObject);
+  },
+  updateStateBasedOnCustomValues: function(value, name) {
+    var state = {};
+    state[name] = value;
+    this.refs.currentViewComponent.setState(state);
+  },
+  componentDidMount: function() {
+    var currentComponent = this.props.tracks[this.props.currentSelectedTrack][this.props.currentSelectedNode];
+    // Load if customInputOptions have been saved otherwise save and render custom input components
+    if(Object.keys(currentComponent.customInputOptions).length !== 0){
+      this.loadViewComponentState();
+    } else {
+      this.saveViewComponentState();
     }
-    // Load save input options values from the model
-    this.refs.currentViewComponent.setState(this.state.currentlySelectedCmp.customInputOptions);
+    this.props.setupCustomInputComponents(this.updateStateBasedOnCustomValues);
+  },
+  componentWillUnmount: function() {
+    this.saveViewComponentState();
+  },
+  componentWillReceiveProps: function(nextProps) {
+    // if switching to a new component, save the current components state
+    if(nextProps.currentSelectedTrack !== this.props.currentSelectedTrack ||
+       nextProps.currentSelectedNode  !== this.props.currentSelectedNode) {
+       this.saveViewComponentState();
+    }
+  },
+  componentDidUpdate: function(prevProps) {
+    // If the view component switched the active view component
+    // load the customInput state into the component
+    if(prevProps.currentSelectedTrack !== this.props.currentSelectedTrack ||
+       prevProps.currentSelectedNode  !== this.props.currentSelectedNode) {
+         this.props.setupCustomInputComponents(this.updateStateBasedOnCustomValues);
+         this.loadViewComponentState();
+    }
   },
   render: function() {
 
-    var CurrentlySelectedCmp = this.state.currentlySelectedCmp;
+    var CurrentlySelectedCmp = this.props.tracks[this.props.currentSelectedTrack][this.props.currentSelectedNode];
 
     return (
       <div className='lens-component-viewer'>
         <CurrentlySelectedCmp.reactCmp ref='currentViewComponent'
           updateTransformFunction={this.props.updateTransformFunction}
           data={this.props.data}
-          customOptions={CurrentlySelectedCmp.customInputOptions}
           dataSchema={this.props.dataSchema}/>
         <LensDataViewer data={this.props.data} dataSchema={this.props.dataSchema} />
-        <div className='lens-component-custom-inputs'>
-          <div>Configurable Values</div>
-          {this.state.inputComponents}
-        </div>
       </div>
     )
   }

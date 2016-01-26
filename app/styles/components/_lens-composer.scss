@@ -3,4 +3,11 @@
   width:80%;
   box-sizing:border-box;
   vertical-align:top;
+  height:calc(100% - 126px);
+}
+.lens-composer{
+  height:100%;
+}
+.lens-title-bar-container {
+  height:123px;
 }

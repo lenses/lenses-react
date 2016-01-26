@@ -1,6 +1,6 @@
 node_modules
 bower_components
 .tmp/
-public/js/
-public/stylesheets/
 public/components
+public/js
+public/stylesheets

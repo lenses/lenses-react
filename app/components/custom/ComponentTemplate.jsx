@@ -1,5 +1,5 @@
 var React = require('react');
-// var $ = require('jquery');
+var $ = require('jquery');
 
 module.exports = React.createClass({
   // Lenses works with Tabular Data

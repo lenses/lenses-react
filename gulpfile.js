@@ -100,6 +100,18 @@ gulp.task('bundle', function(){
   })
 });
 
+gulp.task('watch:components', function() {
+  gulp.watch('app/components/core/*.jsx', function(e){
+    if(e.type == 'deleted') {
+      del('public/js/' + path.basename(e.path, '.jsx') + '.js');
+      console.log('deleted: public/js/' + path.basename(e.path, '.jsx') + '.js');
+    } else if(e.type == 'added') {
+      console.log('Started Watching:' + path.basename(e.path));
+      runWatchify(e.path, path.basename(e.path, '.jsx'), path.basename(e.path, '.jsx'));
+    }
+  });
+});
+
 gulp.task('nodemon', function (cb) {
 
   var started = false;
@@ -125,7 +137,7 @@ gulp.task('nodemon', function (cb) {
 // Add a bundle for production builds without watchify
 gulp.task('build', ['inject:assets']);
 
-gulp.task('serve', ['bundle', 'inject:assets', 'sass:watch', 'nodemon'], function(){
+gulp.task('serve', ['bundle', 'inject:assets', 'sass:watch', 'nodemon', 'watch:components'], function(){
   browserSync.init(null, {
     proxy: "http://localhost:7777",
     files: ['public/images'],
