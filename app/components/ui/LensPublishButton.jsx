@@ -15,10 +15,8 @@ module.exports = React.createClass({
     }     
     var lensUrl = '/lenses/' + this.props.publishState.id + '/edit';
     return (
-      <div className='lens-publish-button-wrapper' style={style}>
-        <div onClick={this.save} className='lens-share-button'>
-          {(this.props.publishState.published) ? <a href={lensUrl}>Published</a> : 'Publish'}
-        </div>
+      <div className='lens-publish-button' onClick={this.save} style={style}>
+        {(this.props.publishState.published) ? <a href={lensUrl}>Published</a> : 'Publish'}
       </div>
      )
   }

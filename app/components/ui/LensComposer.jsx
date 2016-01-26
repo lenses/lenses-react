@@ -247,8 +247,10 @@ module.exports = React.createClass({
 
     return (
       <div className='lens-composer'>
-        <LensTitleBar updateTitleAndAuthor={this.updateTitleAndAuthor}/>
-        <LensPublishButton publishState={this.state.publishState} save={this.save}/>
+        <div id='lens-title-bar-container'>
+          <LensTitleBar updateTitleAndAuthor={this.updateTitleAndAuthor}/>
+          <LensPublishButton publishState={this.state.publishState} save={this.save}/>
+        </div>
         <LensTrackManager
           currentSelectedNode={this.state.currentSelectedNode}
           currentSelectedTrack={this.state.currentSelectedTrack}
