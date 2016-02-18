@@ -16,6 +16,7 @@
     "gulp-nodemon": "^1.0.4",
     "handlebars": "^4.0.5",
     "jquery": "2.1.4",
+    "lodash": "^3.10.0",
     "mongoose": "^4.3.0",
     "node-gyp": "^3.2.1",
     "node-jsx": "^0.13.3",
