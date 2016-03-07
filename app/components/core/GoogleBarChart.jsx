@@ -6,8 +6,7 @@ module.exports = React.createClass({
     return {
       'title': 'text',
       'width': 'number',
-      'height': 'number',
-      'columns': 'text'
+      'height': 'number'
     }
   },
   getInitialState: function() {
@@ -26,7 +25,7 @@ module.exports = React.createClass({
         chart      = new window.google.visualization.ColumnChart(document.getElementById('chart-div'));
 
         if(data.length !== 0 && dataSchema.length !== 0) {
-          if(this.state.columns == 'all') {
+          if(this.props.selectedColumns == 'all') {
             // Select all columns and rows
             dataSchema.forEach(function(column){
               var type = column[0],
@@ -36,7 +35,7 @@ module.exports = React.createClass({
             dt.addRows(data);
           } else {
             // Filter Columns and Rows based on input
-            var selectedColumns = this.state.columns.split(',');
+            var selectedColumns = this.props.selectedColumns.split(',');
             selectedColumns.forEach(function(column){
               dt.addColumn(this.props.dataSchema[column][0], this.props.dataSchema[column][1]);
             }.bind(this));

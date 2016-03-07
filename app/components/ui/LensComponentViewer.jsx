@@ -68,6 +68,7 @@ var LensComponentViewer = React.createClass({
       <div className='lens-component-viewer'>
         <CurrentlySelectedCmp.reactCmp ref='currentViewComponent'
           updateTransformFunction={this.props.updateTransformFunction}
+          selectedColumns={this.props.selectedColumns}
           data={this.props.data}
           dataSchema={this.props.dataSchema}/>
         <LensDataViewer data={this.props.data} dataSchema={this.props.dataSchema} />

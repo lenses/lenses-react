@@ -7,6 +7,14 @@ module.exports = React.createClass({
       author: this.props.author
     }
   },
+  componentWillReceiveProps: function(nextProps) {
+    if(nextProps) {
+      this.setState({
+        title: nextProps.title,
+        author: nextProps.author
+      });
+    }
+  },
   handlePropChange: function(e) {
     var state = {};
     state[e.target.name]=e.target.value;

@@ -24,6 +24,7 @@ module.exports = React.createClass({
       currentSelectedTrack: 0,
       currentSelectedNode: null,
       componentCustomInputOptions: null,
+      selectedColumns: 'all',
       title: '',
       author: '',
       publishState: { published: false }
@@ -44,11 +45,14 @@ module.exports = React.createClass({
   },
   load: function(lensId) {
     if(lensId) {
-    this.props.loadLens(function(tracks) {
-      if(tracks.message) {
+    this.props.loadLens(function(lens) {
+      if(lens.message) {
         alert('Lens Does Not Exist; Redirecting you to lens directory');
         window.location.replace('/lenses/');
       }
+      var tracks = lens.get('tracks');
+      var title = lens.get('title');
+      var author = lens.get('author');
       var newTracks = tracks.map(function(track){
         var newTrack = track.map(function(node){
           // Need to recreate model using type and data
@@ -57,6 +61,8 @@ module.exports = React.createClass({
         return newTrack;
         });
         this.setState({
+          title: title,
+          author: author,
           tracks: newTracks,
           publishState: {published: true, id: window.lensId}
         });
@@ -64,6 +70,10 @@ module.exports = React.createClass({
     }
   },
   save: function() {
+    if(this.state.title == '' || this.state.author == '') {
+      alert('you need to have a title and an author')
+      return
+    }
     var successCallback = function(lensObj) {
       this.setState({
         publishState: {
@@ -75,7 +85,9 @@ module.exports = React.createClass({
     this.props.saveLens({
       tracks: this.state.tracks,
       title: this.state.title,
-      author: this.state.author
+      author: this.state.author,
+      selectedColumns: this.state.selectedColumns
+
     }, successCallback);
   },
   updateSelectedNode: function(newSelectedValue) {
@@ -186,6 +198,9 @@ module.exports = React.createClass({
     }
     this.updateTransformFunction(newTransformFunction(), newSchemaValue);
   },
+  setSelectedColumns: function(selectedColumns) {
+    this.setState({selectedColumns: selectedColumns});
+  },
   setupCustomInputComponents: function(actionFunction) {
     var currentComponentCustomOptions = this.state.tracks[this.state.currentSelectedTrack][this.state.currentSelectedNode].customInputOptions;
     var inputComponents = [];
@@ -220,6 +235,7 @@ module.exports = React.createClass({
             currentSelectedTrack={this.state.currentSelectedTrack}
             tracks={this.state.tracks}
             setupCustomInputComponents={this.setupCustomInputComponents}
+            selectedColumns={this.state.selectedColumns}
             data={this.state.data}
             dataSchema={this.state.dataSchema} />;
         if(this.state.dataSchema.length != 0) {
@@ -230,6 +246,11 @@ module.exports = React.createClass({
               action={this.handleSchemaChange}
               initialValue={column[0]}/>);
           }, this);
+          componentsCustomOptions.push(<LensInputField name='columns'
+            key='columns'
+            inputType='text'
+            action={this.setSelectedColumns}
+            initialValue={this.state.selectedColumns}/>);
         }
         // add inputs to customize values in current viewable component
         if(this.state.componentCustomInputOptions) {
@@ -248,7 +269,7 @@ module.exports = React.createClass({
     return (
       <div className='lens-composer'>
         <div id='lens-title-bar-container'>
-          <LensTitleBar updateTitleAndAuthor={this.updateTitleAndAuthor}/>
+          <LensTitleBar title={this.state.title} author={this.state.author} updateTitleAndAuthor={this.updateTitleAndAuthor}/>
           <LensPublishButton publishState={this.state.publishState} save={this.save}/>
         </div>
         <LensTrackManager

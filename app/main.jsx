@@ -15,7 +15,7 @@ var loadLensHelper = function(cb) {
   if(window.lensId) {
     query.get(window.lensId, {
       success: function(lens) {
-        cb(lens.get('tracks'));
+        cb(lens);
       },
       error: function(object, error) {
         cb(error);
