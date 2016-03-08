@@ -15,6 +15,20 @@ module.exports = React.createClass({
       this.load(window.lensId);
     }
   },
+  componentDidUpdate: function() {
+    var currentComponent = this.state.tracks[0][1];
+    if(Object.keys(currentComponent.customInputOptions).length !== 0){
+      this.loadViewComponentState();
+    }
+  },
+  loadViewComponentState: function() {
+    var currentComponent = this.state.tracks[0][1];
+    var stateObject = {};
+    Object.keys(currentComponent.customInputOptions).forEach(function(option) {
+      stateObject[option] = currentComponent.customInputOptions[option].value;
+    });
+    this.refs.currentViewComponent.setState(stateObject);
+  },
   load: function(lensId) {
     if(lensId) {
     this.props.loadLens(function(lens) {
@@ -49,7 +63,7 @@ module.exports = React.createClass({
 
     return (
       <div className='lens-published-component-viewer'>
-        {(CurrentlySelectedCmp) ?  <CurrentlySelectedCmp selectedColumns={this.state.selectedColumns}
+        {(CurrentlySelectedCmp) ?  <CurrentlySelectedCmp ref='currentViewComponent' selectedColumns={this.state.selectedColumns}
           data={this.state.data}
           dataSchema={this.state.dataSchema}/> : <div> loading </div>}
       </div>

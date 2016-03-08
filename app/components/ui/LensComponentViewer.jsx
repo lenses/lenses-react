@@ -51,14 +51,17 @@ var LensComponentViewer = React.createClass({
        this.saveViewComponentState();
     }
   },
-  componentDidUpdate: function(prevProps) {
+  componentDidUpdate: function(prevProps, prevState) {
     // If the view component switched the active view component
     // load the customInput state into the component
     if(prevProps.currentSelectedTrack !== this.props.currentSelectedTrack ||
        prevProps.currentSelectedNode  !== this.props.currentSelectedNode) {
          this.props.setupCustomInputComponents(this.updateStateBasedOnCustomValues);
          this.loadViewComponentState();
-    }
+     } else {
+     this.saveViewComponentState();
+     }
+
   },
   render: function() {
 
