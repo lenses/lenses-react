@@ -50,8 +50,14 @@ module.exports = function (app){
 
   app.route('/lenses/:id/edit')
     .get(function(req, res){
-    res.render('create-lens.hbs', {lensId: req.params.id});
-  })
+      res.render('create-lens.hbs', {lensId: req.params.id});
+  });
+
+  app.route('/lenses/:id')
+    .get(function(req, res) {
+      res.render('view-published-lens.hbs', {lensId: req.params.id});
+    })
+
 };
 
 

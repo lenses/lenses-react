@@ -61,10 +61,12 @@ var saveHelper = function(lensObj, cb) {
 
 if(document.getElementById('lens-list')) {
   ReactDOM.render(<LensList lenses={loadAllLenses}/>, document.getElementById('lens-list'));
-
 } else if(document.getElementById('app')) {
   ReactDOM.render(<LensComposer loadLens={loadLensHelper}
     saveLens={saveHelper}
     loadInitialComponents={loadInitialComponents} />, document.getElementById('app'));
+} else if(document.getElementById('published-component')) {
+  ReactDOM.render(<LensPublishedComponentViewer loadLens={loadLensHelper} />,
+                  document.getElementById('published-component'));
 }
 
