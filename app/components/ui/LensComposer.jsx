@@ -38,8 +38,9 @@ module.exports = React.createClass({
       });
     }.bind(this));
     // Load Data if available
-    this.load(window.lensId);
-
+    if(window.lensId) {
+      this.load(window.lensId);
+    }
     // Load Test Data for development
     // this.addComponent(new lensComponentModel('TestData'));
   },
@@ -51,8 +52,6 @@ module.exports = React.createClass({
         window.location.replace('/lenses/');
       }
       var tracks = lens.get('tracks');
-      var title = lens.get('title');
-      var author = lens.get('author');
       var newTracks = tracks.map(function(track){
         var newTrack = track.map(function(node){
           // Need to recreate model using type and data
@@ -61,9 +60,10 @@ module.exports = React.createClass({
         return newTrack;
         });
         this.setState({
-          title: title,
-          author: author,
+          title: lens.get('title'),
+          author: lens.get('author'),
           tracks: newTracks,
+          selectedColumns: lens.get('selectedColumns'),
           publishState: {published: true, id: window.lensId}
         });
       }.bind(this));
@@ -74,6 +74,7 @@ module.exports = React.createClass({
       alert('you need to have a title and an author')
       return
     }
+
     var successCallback = function(lensObj) {
       this.setState({
         publishState: {
@@ -82,13 +83,17 @@ module.exports = React.createClass({
         }
       });
     }.bind(this);
-    this.props.saveLens({
+
+    var lensData = {
       tracks: this.state.tracks,
       title: this.state.title,
       author: this.state.author,
+      data: this.getDataAtNode(this.state.tracks.length - 1),
+      dataSchema: this.state.dataSchema,
       selectedColumns: this.state.selectedColumns
+    }
 
-    }, successCallback);
+    this.props.saveLens(lensData, successCallback);
   },
   updateSelectedNode: function(newSelectedValue) {
     // When the user deletes the first node and there are more nodes in the track, select the new first node

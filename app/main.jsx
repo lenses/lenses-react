@@ -1,12 +1,14 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var LensComposer = require('./components/ui/LensComposer');
-var lensComponentModel = require('./models/lensComponentModel');
-var $ = require('jquery');
-var Parse = require('parse');
-var LensList = require('./components/ui/LensList.jsx');
+var React = require('react')
+, ReactDOM = require('react-dom')
+, LensComposer = require('./components/ui/LensComposer')
+, lensComponentModel = require('./models/lensComponentModel')
+, $ = require('jquery')
+, Parse = require('parse')
+, LensList = require('./components/ui/LensList.jsx')
+, LensPublishedComponentViewer = require('./components/ui/LensPublishedComponentViewer.jsx');
 
 Parse.initialize("4AJgWMJyWKqTWnurFnwlHCalhrFl9AKFAmx5EuUu", "1EzsdsTuTocp9RFlGQPTf0xj36A3GUpCGd3ASf08");
+
 var Lens = Parse.Object.extend('Lens');
 var lens = new Lens();
 var query = new Parse.Query('Lens');
