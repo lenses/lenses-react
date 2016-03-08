@@ -2,12 +2,12 @@ var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
-var reactify = require('reactify');
 var nodemon = require('gulp-nodemon');
 var sass = require('gulp-sass');
 var nano = require('gulp-cssnano');
 var inject = require('gulp-inject');
 var gulpif = require('gulp-if');
+var babelify = require('babelify');
 var rename = require('gulp-rename');
 var argv = require('yargs').argv;
 var del = require('del');
@@ -67,7 +67,7 @@ function runWatchify(file, output, standaloneLib) {
   });
   b.add(file);
   b = watchify(b);
-  b.transform(reactify)
+  b.transform(babelify, {presets: ["es2015", "react"]})
   .transform(requireGlobify)
   .on('update', function(){
     browserifyBundle(b, output).on('end', function(){
