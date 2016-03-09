@@ -41,9 +41,6 @@ var LensComponentViewer = React.createClass({
     }
     this.props.setupCustomInputComponents(this.updateStateBasedOnCustomValues);
   },
-  componentWillUnmount: function() {
-    this.saveViewComponentState();
-  },
   componentWillReceiveProps: function(nextProps) {
     // if switching to a new component, save the current components state
     if(nextProps.currentSelectedTrack !== this.props.currentSelectedTrack ||
