@@ -51,7 +51,6 @@ var saveHelper = function(lensObj, cb) {
   lens.save(lensObj, {
     success: function(lens) {
       cb(lens);
-      alert('Lens Saved! ID:' + lens.id)
     },
     error: function(lens, error) {
       alert('Failed to save');

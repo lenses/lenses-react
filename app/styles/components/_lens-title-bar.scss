@@ -19,6 +19,16 @@
     display:block;
     margin-top:5px;
   }
+  #lens-title-wrapper {
+    display:inline-block;
+    width:20%;
+  }
+  #lens-published-links {
+    display:inline-block;
+    font-size:$regular-font-size;
+    line-height:2;
+    margin-left:50px;
+  }
 }
 
 

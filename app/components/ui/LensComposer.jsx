@@ -27,7 +27,7 @@ module.exports = React.createClass({
       selectedColumns: 'all',
       title: '',
       author: '',
-      publishState: { published: false }
+      id: null
     }
   },
   componentWillMount: function() {
@@ -64,7 +64,7 @@ module.exports = React.createClass({
           author: lens.get('author'),
           tracks: newTracks,
           selectedColumns: lens.get('selectedColumns'),
-          publishState: {published: true, id: window.lensId}
+          id: window.lensId
         });
       }.bind(this));
     }
@@ -77,11 +77,9 @@ module.exports = React.createClass({
 
     var successCallback = function(lensObj) {
       this.setState({
-        publishState: {
-          published: true,
-          id: lensObj.id
-        }
+        id: lensObj.id
       });
+
     }.bind(this);
 
     var lensData = {
@@ -274,8 +272,8 @@ module.exports = React.createClass({
     return (
       <div className='lens-composer'>
         <div id='lens-title-bar-container'>
-          <LensTitleBar title={this.state.title} author={this.state.author} updateTitleAndAuthor={this.updateTitleAndAuthor}/>
-          <LensPublishButton publishState={this.state.publishState} save={this.save}/>
+          <LensTitleBar id={this.state.id} title={this.state.title} author={this.state.author} updateTitleAndAuthor={this.updateTitleAndAuthor}/>
+          <LensPublishButton id={this.state.id} save={this.save}/>
         </div>
         <LensTrackManager
           currentSelectedNode={this.state.currentSelectedNode}

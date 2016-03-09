@@ -22,21 +22,32 @@ module.exports = React.createClass({
     this.props.updateTitleAndAuthor(state);
   },
   render: function() {
+    var lensUrl,
+      lensEmbedUrl;
+
+      lensUrl = 'http://' + window.location.host + '/lenses/' + this.props.id;
+      lensEmbedUrl = '<iframe src='+lensUrl+' frameborder="0" width=100% height=100% />'; 
     return (
       <div id='lens-title-bar' >
-        <input id='lens-title' className='title-bar-input latoregular'
-          type='text'
-          name='title'
-          value={this.state.title}
-          onChange={this.handlePropChange}
-          placeholder='LENSTITLE' />
-        <input id='lens-author'
-          className='title-bar-input latosemibolditalic'
-          type='text'
-          value={this.state.author}
-          onChange={this.handlePropChange}
-          name='author'
-          placeholder='AUTHOR' />
+        <div id='lens-title-wrapper'>
+          <input id='lens-title' className='title-bar-input latoregular'
+            type='text'
+            name='title'
+            value={this.state.title}
+            onChange={this.handlePropChange}
+            placeholder='LENSTITLE' />
+          <input id='lens-author'
+            className='title-bar-input latosemibolditalic'
+            type='text'
+            value={this.state.author}
+            onChange={this.handlePropChange}
+            name='author'
+            placeholder='AUTHOR' />
+        </div>
+        <div id='lens-published-links'>
+          <div>View: <a href={lensUrl}>{lensUrl}</a></div>
+          <div>Embed: {lensEmbedUrl}</div>
+        </div>
       </div>
     )
   }
