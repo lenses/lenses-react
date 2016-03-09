@@ -41,8 +41,6 @@ module.exports = React.createClass({
     if(window.lensId) {
       this.load(window.lensId);
     }
-    // Load Test Data for development
-    // this.addComponent(new lensComponentModel('TestData'));
   },
   load: function(lensId) {
     if(lensId) {
@@ -59,13 +57,21 @@ module.exports = React.createClass({
           })
         return newTrack;
         });
-        this.setState({
-          title: lens.get('title'),
-          author: lens.get('author'),
-          tracks: newTracks,
-          selectedColumns: lens.get('selectedColumns'),
-          id: window.lensId
-        });
+      newTracks = this.updateTransformFunctionAtTrackAndNode(lens.get('inputData'),
+                                                   lens.get('dataSchema'),
+                                                   newTracks,
+                                                   this.state.currentSelectedTrack,
+                                                   0);
+      this.setState({
+        title: lens.get('title'),
+        author: lens.get('author'),
+        tracks: newTracks,
+        data: lens.get('inputData'),
+        dataSchema: lens.get('dataSchema'),
+        selectedColumns: lens.get('selectedColumns'),
+        id: window.lensId
+      });
+
       }.bind(this));
     }
   },
@@ -79,14 +85,15 @@ module.exports = React.createClass({
       this.setState({
         id: lensObj.id
       });
-
+      window.location.href = '/lenses/' + lensObj.id + '/edit';
     }.bind(this);
 
     var lensData = {
       tracks: this.state.tracks,
       title: this.state.title,
       author: this.state.author,
-      data: this.getDataAtNode(this.state.tracks.length - 1),
+      inputData: this.getDataAtNode(0),
+      outputData: this.getDataAtNode(this.state.tracks.length - 1),
       dataSchema: this.state.dataSchema,
       selectedColumns: this.state.selectedColumns
     }
@@ -141,9 +148,9 @@ module.exports = React.createClass({
       dataSchema: dataSchema
     });
   },
-  updateTransformFunction: function(func, dataSchema) {
-    var tracks = this.state.tracks.slice(0);
-    var cmp = tracks[this.state.currentSelectedTrack][this.state.currentSelectedNode];
+  updateTransformFunctionAtTrackAndNode: function(func, dataSchema, tracks, trackIndex, nodeIndex) {
+    var newTracks = tracks.slice(0);
+    var cmp = newTracks[trackIndex][nodeIndex];
     // If the function is not null add it as a new transform function
     if(func != null && (func instanceof Function)) {
       cmp.transformData = func;
@@ -154,8 +161,12 @@ module.exports = React.createClass({
           return func;
       }
     }
+    return newTracks;
+  },
+  updateTransformFunction: function(func, dataSchema) {
+    var newTracks = this.updateTransformFunctionAtTrackAndNode(func, dataSchema, this.state.tracks, this.state.currentSelectedTrack, this.state.currentSelectedNode);
     this.setState({
-      tracks: tracks,
+      tracks: newTracks,
       data: this.getDataAtNode(this.state.currentSelectedNode),
       dataSchema: dataSchema || this.state.dataSchema
     });

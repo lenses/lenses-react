@@ -2,10 +2,12 @@ var React          = require('react')
 , lensComponentModel = require('../../models/lensComponentModel.js');
 
 module.exports = React.createClass({
+  // Hard coded to one track for now
   getInitialState: function() {
     return {
       tracks: null,
       selectedColumns: 'all',
+      outputComponentIndex: null,
       data: [],
       dataSchema: []
     }
@@ -16,13 +18,13 @@ module.exports = React.createClass({
     }
   },
   componentDidUpdate: function() {
-    var currentComponent = this.state.tracks[0][1];
+    var currentComponent = this.state.tracks[0][this.state.outputComponentIndex];
     if(Object.keys(currentComponent.customInputOptions).length !== 0){
       this.loadViewComponentState();
     }
   },
   loadViewComponentState: function() {
-    var currentComponent = this.state.tracks[0][1];
+    var currentComponent = this.state.tracks[0][this.state.outputComponentIndex];
     var stateObject = {};
     Object.keys(currentComponent.customInputOptions).forEach(function(option) {
       stateObject[option] = currentComponent.customInputOptions[option].value;
@@ -46,9 +48,10 @@ module.exports = React.createClass({
         });
         this.setState({
           tracks: newTracks,
-          data: lens.get('data'),
+          data: lens.get('outputData'),
           dataSchema: lens.get('dataSchema'),
           selectedColumns: lens.get('selectedColumns'),
+          outputComponentIndex: newTracks[0].length -1,
           publishState: {published: true, id: window.lensId}
         });
       }.bind(this));
@@ -58,7 +61,7 @@ module.exports = React.createClass({
 
     var CurrentlySelectedCmp = null;
     if(this.state.tracks) {
-      CurrentlySelectedCmp = this.state.tracks[0][1].reactCmp;
+      CurrentlySelectedCmp = this.state.tracks[0][this.state.outputComponentIndex].reactCmp;
     }
 
     return (

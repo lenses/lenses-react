@@ -23,10 +23,19 @@ module.exports = React.createClass({
   },
   render: function() {
     var lensUrl,
+      lensPublishedLinks,
       lensEmbedUrl;
 
-      lensUrl = 'http://' + window.location.host + '/lenses/' + this.props.id;
-      lensEmbedUrl = '<iframe src='+lensUrl+' frameborder="0" width=100% height=100% />'; 
+      if(this.props.id) {
+        lensUrl = 'http://' + window.location.host + '/lenses/' + this.props.id;
+        lensEmbedUrl = '<iframe src='+lensUrl+' frameborder="0" width=100% height=100% />'; 
+        lensPublishedLinks =
+        <div id='lens-published-links'>
+          <div>View: <a href={lensUrl}>{lensUrl}</a></div>
+          <div>Embed: {lensEmbedUrl}</div>
+        </div>;
+      }
+      
     return (
       <div id='lens-title-bar' >
         <div id='lens-title-wrapper'>
@@ -44,10 +53,7 @@ module.exports = React.createClass({
             name='author'
             placeholder='AUTHOR' />
         </div>
-        <div id='lens-published-links'>
-          <div>View: <a href={lensUrl}>{lensUrl}</a></div>
-          <div>Embed: {lensEmbedUrl}</div>
-        </div>
+        {lensPublishedLinks}
       </div>
     )
   }
