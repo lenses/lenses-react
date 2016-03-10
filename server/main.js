@@ -1,6 +1,8 @@
 var express = require('express');
 var parser = require('body-parser'); // middleware to parse data from post requests
 var cons = require('consolidate');
+var compress = require('compression');
+
 
 var app = new express();
 
@@ -9,6 +11,8 @@ var app = new express();
 var port = process.env.PORT || 7777;
 
 require('node-jsx').install();
+
+app.use(compress());
 
 app.use(parser.json()); // Allows express to process JSON requests
 app.use(parser.urlencoded({extended:false})); // Allows express to handle posts requests

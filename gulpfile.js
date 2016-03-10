@@ -83,6 +83,27 @@ function runWatchify(file, output, standaloneLib) {
 
 }
 
+function runBrowserifyProduction(file, output, standaloneLib) {
+  output += '.js';
+  var b =  browserify({
+    debug: false,
+    extensions: ['.jsx'],
+    cache: {},
+    packageCache: {},
+    fullPaths: true,
+    standalone: standaloneLib,
+    paths:['public/vendorJs']
+  });
+  b.add(file);
+  b.transform(babelify, {presets: ["es2015", "react"]})
+   .transform(requireGlobify)
+   .bundle()
+   .pipe(source(output))
+   .pipe(buffer())
+   .pipe(uglify())
+   .pipe(gulp.dest('./public/js'));
+}
+
 function browserifyBundle(b, output) {
   return b.bundle()
   .on('error', function(e){
@@ -104,23 +125,8 @@ gulp.task('bundle', function(){
 });
 
 gulp.task('bundle:production', function(){
-  var b =  browserify({
-    debug: false,
-    extensions: ['.jsx'],
-    cache: {},
-    packageCache: {},
-    fullPaths: true,
-    standalone: 'LensUI',
-    paths:['public/vendorJs']
-  });
-  b.add('app/main.jsx');
-  b.transform(babelify, {presets: ["es2015", "react"]})
-   .transform(requireGlobify)
-   .bundle()
-   .pipe(source('main.min.js'))
-   .pipe(buffer())
-   .pipe(uglify())
-   .pipe(gulp.dest('./public/js'));
+  runBrowserifyProduction('app/main.jsx', 'ui', 'LensUI');
+  runBrowserifyProduction('app/published.jsx', 'published', 'LensPublished');
 });
 
 gulp.task('watch:components', function() {
