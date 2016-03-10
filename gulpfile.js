@@ -2,6 +2,8 @@ var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var uglify = require('gulp-uglify');
 var nodemon = require('gulp-nodemon');
 var sass = require('gulp-sass');
 var nano = require('gulp-cssnano');
@@ -81,6 +83,27 @@ function runWatchify(file, output, standaloneLib) {
 
 }
 
+function runBrowserifyProduction(file, output, standaloneLib) {
+  output += '.js';
+  var b =  browserify({
+    debug: false,
+    extensions: ['.jsx'],
+    cache: {},
+    packageCache: {},
+    fullPaths: true,
+    standalone: standaloneLib,
+    paths:['public/vendorJs']
+  });
+  b.add(file);
+  b.transform(babelify, {presets: ["es2015", "react"]})
+   .transform(requireGlobify)
+   .bundle()
+   .pipe(source(output))
+   .pipe(buffer())
+   .pipe(uglify())
+   .pipe(gulp.dest('./public/js'));
+}
+
 function browserifyBundle(b, output) {
   return b.bundle()
   .on('error', function(e){
@@ -95,9 +118,15 @@ function browserifyBundle(b, output) {
 gulp.task('bundle', function(){
   var files = glob.sync('./app/components/custom/*.jsx');
   runWatchify('app/main.jsx', 'ui', 'LensUI');
+  runWatchify('app/published.jsx', 'published', 'LensPublished');
   files.forEach(function(file) {
     return runWatchify(file, path.basename(file, '.jsx'), path.basename(file, '.jsx'));
   })
+});
+
+gulp.task('bundle:production', function(){
+  runBrowserifyProduction('app/main.jsx', 'ui', 'LensUI');
+  runBrowserifyProduction('app/published.jsx', 'published', 'LensPublished');
 });
 
 gulp.task('watch:components', function() {
@@ -135,7 +164,7 @@ gulp.task('nodemon', function (cb) {
 });
 
 // Add a bundle for production builds without watchify
-gulp.task('build', ['inject:assets']);
+gulp.task('build', ['inject:assets', 'sass:compile', 'bundle:production']);
 
 gulp.task('serve', ['bundle', 'inject:assets', 'sass:watch', 'nodemon', 'watch:components'], function(){
   browserSync.init(null, {

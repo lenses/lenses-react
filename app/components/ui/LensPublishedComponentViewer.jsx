@@ -64,8 +64,29 @@ module.exports = React.createClass({
       CurrentlySelectedCmp = this.state.tracks[0][this.state.outputComponentIndex].reactCmp;
     }
 
+    var lensesLinkStyle = {
+      verticalAlign: 'super',
+      marginLeft: '10px'
+    };
+    var logoStyle = {
+      marginLeft: '5px',
+      marginTop: '5px'
+    }
+    var attributionDivStyle = {
+      marginTop: '20px',
+      marginLeft: '5px'
+    }
     return (
       <div className='lens-published-component-viewer'>
+        <div style={attributionDivStyle}>
+          <div>
+            <img style={logoStyle} src='/public/images/lenses-logo.png' width='30px' height='25px'/>
+            <a href={'http://' + window.location.host + '/lenses/' + window.lensId + '/edit'} target='_blank'>
+              <span style={lensesLinkStyle}>Download Data</span>
+            </a>
+            <div>Lenses</div>
+          </div>
+        </div>
         {(CurrentlySelectedCmp) ?  <CurrentlySelectedCmp ref='currentViewComponent' selectedColumns={this.state.selectedColumns}
           data={this.state.data}
           dataSchema={this.state.dataSchema}/> : <div> loading </div>}
