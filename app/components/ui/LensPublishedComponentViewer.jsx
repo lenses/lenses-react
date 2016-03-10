@@ -81,7 +81,7 @@ module.exports = React.createClass({
         <div style={attributionDivStyle}>
           <div>
             <img style={logoStyle} src='/public/images/lenses-logo.png' width='30px' height='25px'/>
-            <a href={window.location.host + '/lenses/' + window.lensId + '/edit'} target='_blank'>
+            <a href={'http://' + window.location.host + '/lenses/' + window.lensId + '/edit'} target='_blank'>
               <span style={lensesLinkStyle}>Download Data</span>
             </a>
             <div>Lenses</div>

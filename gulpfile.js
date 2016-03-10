@@ -2,6 +2,8 @@ var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var uglify = require('gulp-uglify');
 var nodemon = require('gulp-nodemon');
 var sass = require('gulp-sass');
 var nano = require('gulp-cssnano');
@@ -101,6 +103,26 @@ gulp.task('bundle', function(){
   })
 });
 
+gulp.task('bundle:production', function(){
+  var b =  browserify({
+    debug: false,
+    extensions: ['.jsx'],
+    cache: {},
+    packageCache: {},
+    fullPaths: true,
+    standalone: 'LensUI',
+    paths:['public/vendorJs']
+  });
+  b.add('app/main.jsx');
+  b.transform(babelify, {presets: ["es2015", "react"]})
+   .transform(requireGlobify)
+   .bundle()
+   .pipe(source('main.min.js'))
+   .pipe(buffer())
+   .pipe(uglify())
+   .pipe(gulp.dest('./public/js'));
+});
+
 gulp.task('watch:components', function() {
   gulp.watch('app/components/core/*.jsx', function(e){
     if(e.type == 'deleted') {
@@ -136,7 +158,7 @@ gulp.task('nodemon', function (cb) {
 });
 
 // Add a bundle for production builds without watchify
-gulp.task('build', ['inject:assets']);
+gulp.task('build', ['inject:assets', 'sass:compile', 'bundle:production']);
 
 gulp.task('serve', ['bundle', 'inject:assets', 'sass:watch', 'nodemon', 'watch:components'], function(){
   browserSync.init(null, {
