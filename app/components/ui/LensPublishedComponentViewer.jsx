@@ -64,11 +64,30 @@ module.exports = React.createClass({
       CurrentlySelectedCmp = this.state.tracks[0][this.state.outputComponentIndex].reactCmp;
     }
 
+    var lensesLinkStyle = {
+      verticalAlign: 'super',
+      marginLeft: '5px'
+    };
+    var logoStyle = {
+      marginLeft: '5px'
+    }
+    var attributionDivStyle = {
+      marginTop: '20px'
+    }
     return (
       <div className='lens-published-component-viewer'>
         {(CurrentlySelectedCmp) ?  <CurrentlySelectedCmp ref='currentViewComponent' selectedColumns={this.state.selectedColumns}
           data={this.state.data}
           dataSchema={this.state.dataSchema}/> : <div> loading </div>}
+        <div style={attributionDivStyle}>
+          <a href='http://www.makelenses.com'>
+            <img style={logoStyle} src='/public/images/lenses-logo.png' width='30px' height='25px'/>
+            <span style={lensesLinkStyle}>Powered by Lenses</span>
+          </a>
+        </div>
+        <div>
+          <a href={window.location.host + '/lenses/' + window.lensId + '/edit'}>Explore the data</a>
+        </div>
       </div>
     )
   }
