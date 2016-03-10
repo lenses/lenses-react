@@ -95,6 +95,7 @@ function browserifyBundle(b, output) {
 gulp.task('bundle', function(){
   var files = glob.sync('./app/components/custom/*.jsx');
   runWatchify('app/main.jsx', 'ui', 'LensUI');
+  runWatchify('app/published.jsx', 'published', 'LensPublished');
   files.forEach(function(file) {
     return runWatchify(file, path.basename(file, '.jsx'), path.basename(file, '.jsx'));
   })

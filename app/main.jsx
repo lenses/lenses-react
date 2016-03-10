@@ -5,7 +5,6 @@ var React = require('react')
 , $ = require('jquery')
 , Parse = require('parse')
 , LensList = require('./components/ui/LensList.jsx')
-, LensPublishedComponentViewer = require('./components/ui/LensPublishedComponentViewer.jsx');
 
 Parse.initialize("4AJgWMJyWKqTWnurFnwlHCalhrFl9AKFAmx5EuUu", "1EzsdsTuTocp9RFlGQPTf0xj36A3GUpCGd3ASf08");
 
@@ -64,8 +63,4 @@ if(document.getElementById('lens-list')) {
   ReactDOM.render(<LensComposer loadLens={loadLensHelper}
     saveLens={saveHelper}
     loadInitialComponents={loadInitialComponents} />, document.getElementById('app'));
-} else if(document.getElementById('published-component')) {
-  ReactDOM.render(<LensPublishedComponentViewer loadLens={loadLensHelper} />,
-                  document.getElementById('published-component'));
 }
-
