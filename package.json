@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.14.1",
+    "compression": "1.6.1",
     "consolidate": "^0.13.1",
     "datatables.net": "1.10.10",
     "express": "^4.13.3",
