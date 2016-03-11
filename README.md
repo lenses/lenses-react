@@ -55,6 +55,7 @@ run npm install again if it failed to install all the dependencies
 ## license
 
 Copyright (c) 2016 Kareem Amin, Sepand Ansari, Nisha Batra
+
 The MIT License [MIT](http://opensource.org/licenses/mit-license.php)
 
 ## thanks to
