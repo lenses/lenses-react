@@ -1,4 +1,4 @@
-# Lenses ![Lenses](https://raw.githubusercontent.com/lenses/lenses-react/master/public/images/lenses-logo.png "Lenses")
+# ![Lenses](https://raw.githubusercontent.com/lenses/lenses-react/master/public/images/lenses-logo.png "Lenses") Lenses 
 
 ## introduction
 Lenses is an open source tool to create and publish data visualizations quickly on
