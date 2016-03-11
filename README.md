@@ -1,5 +1,4 @@
-# Lenses ![Lenses](https://raw.githubusercontent.com/lenses/lenses-react/master/public/images/lenses-logo.png
-"Lenses")
+# Lenses ![Lenses](https://raw.githubusercontent.com/lenses/lenses-react/master/public/images/lenses-logo.png "Lenses")
 
 ## introduction
 Lenses is an open source tool to create and publish data visualizations quickly on
@@ -77,13 +76,5 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## thanks to
 
-Sepand Ansari
-Nisha Batra
-Puneet Sabharwal 
-Nicolae Rusan
-NYC Media Lab
-Luke Dubois
-Mark Hansen
-Helen Carson
-Nivvedan Selvan
+Sepand Ansari, Nisha Batra, Helen Carson, Amy Chen, Luke Dubois, Katie Gemmill, Mark Hansen, Justin Hendrix, Nicolae Rusan, Puneet Sabharwal, Nivvedan Selvan, NYC Media Lab
 
