@@ -7,9 +7,6 @@ types of components. Input components to grab or create data, transform
 components that manipulate data, and output components that get
 published to visualize the data.
 
-You can run it locally but we also maintain a hosted version at
-<www.makelenses.com>
-
 The benefits of using Lenses for visualization creators are:
 
 1. Every visualization links back to the set of components that created
@@ -36,8 +33,13 @@ For Developers:
    that pass in the data, dataSchema and a function to allow your component 
    to manipulate the data if necessary.
 
+## how to i use it
+
+1. You can use it at www.makelenses.com
+2. You can run it locally by following the instructions below for setup.
+
 ## setup
-1. clone repo
+1. `git clone https://github.com/lenses/lenses-react.git`
 2. `npm install`
 3. `gulp serve` (`npm install -g gulp` if gulp is not installed.)
 
