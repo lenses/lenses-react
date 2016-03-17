@@ -6,7 +6,8 @@ module.exports = React.createClass({
     return {
       'title': 'text',
       'width': 'number',
-      'height': 'number'
+      'height': 'number',
+      'legend': 'text'
     }
   },
   getInitialState: function() {
@@ -14,7 +15,8 @@ module.exports = React.createClass({
       'title': 'Enter Title',
       'width': 600,
       'height': 400,
-      'columns': 'all'
+      'columns': 'all',
+      'legend': 'right'
     };
   },
   drawChart: function() {
