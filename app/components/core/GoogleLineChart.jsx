@@ -7,27 +7,26 @@ module.exports = React.createClass({
       'title': 'text',
       'width': 'number',
       'height': 'number',
-      'columns': 'text',
       'legend': 'text'
     }
   },
   getInitialState: function() {
     return {
-      'title' : 'Enter Title',
-      'width' : 600,
+      'title': 'Enter Title',
+      'width': 600,
       'height': 400,
       'columns': 'all',
       'legend': 'right'
-    }
+    };
   },
   drawChart: function() {
     var dt         = new window.google.visualization.DataTable(),
         dataSchema = this.props.dataSchema,
         data       = this.props.data,
         options    = this.state,
-        chart      = new window.google.visualization.PieChart(document.getElementById('chart-div'));
+        chart      = new window.google.visualization.LineChart(document.getElementById('chart-div'));
 
-        if(data.length !== 0 && dataSchema !== 0) {
+        if(data.length !== 0 && dataSchema.length !== 0) {
           if(this.props.selectedColumns == 'all') {
             // Select all columns and rows
             dataSchema.forEach(function(column){
@@ -53,7 +52,6 @@ module.exports = React.createClass({
         }
 
 
-
         // Instantiate and draw our chart, passing in some options.
         chart.draw(dt, options);
   },
@@ -65,9 +63,9 @@ module.exports = React.createClass({
 
   },
   componentDidUpdate: function() {
-    if(window.google){
-      this.drawChart();
-    }
+        if(window.google){
+          this.drawChart();
+        }
   },
   componentDidMount: function() {
         // Inject google viz jsapi
