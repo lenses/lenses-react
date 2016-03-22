@@ -17,7 +17,7 @@ module.exports = React.createClass({
     }
 
     var newDataSchema = this.props.dataSchema.slice(0); 
-    newDataSchema.push(['number', 'GroupedByResult']);
+    newDataSchema[this.state.groupByColumnValue] = ['number', 'Grouped By ' + newDataSchema[this.state.groupByColumnValue][1]];
 
     var state = this.state;
     if(aggFunctionType == 'average') {
@@ -37,21 +37,23 @@ module.exports = React.createClass({
 
 
         var rowCounter = 0;
-        var groupedRowCounter = 1;
+        var groupedRowCounter = 0;
         var groupedData = [];
+        var sum = 0;
 
         sortedData.forEach((row, n, arr) => {
           if(n < arr.length-1) {
             var el = arr[n+1][state.groupColumnValue]
           , nextEl = row[state.groupColumnValue];
 
-            var avg=row[state.groupByColumnValue];
           if(el == nextEl) {
-            avg = avg + arr[n+1][state.groupByColumnValue] / groupedRowCounter;
+            groupedRowCounter++;
+            sum = sum + arr[n+1][state.groupByColumnValue];
           } else {
-            groupedRowCounter = 1;
-            row.push(avg)
+            row[state.groupByColumnValue] = (sum !== 0) ? sum/groupedRowCounter : row[state.groupByColumnValue];
             groupedData.push(row);
+            sum = 0;
+            groupedRowCounter = 0;
             rowCounter++;
           }
           }
