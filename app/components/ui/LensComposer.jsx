@@ -256,7 +256,7 @@ module.exports = React.createClass({
           this.state.dataSchema.forEach(function(column) {
             componentsCustomOptions.push(<LensInputField name={column[1]}
               key={column[1]}
-              inputType='columnSelect'
+              inputType='columnType'
               action={this.handleSchemaChange}
               initialValue={column[0]}/>);
           }, this);
