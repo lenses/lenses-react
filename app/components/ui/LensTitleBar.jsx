@@ -38,6 +38,7 @@ module.exports = React.createClass({
       
     return (
       <div id='lens-title-bar' >
+        <img className='title-bar-logo' src='/public/images/lenses-logo.png' alt='Lenses Owl Logo' />
         <div id='lens-title-wrapper'>
           <input id='lens-title' className='title-bar-input latoregular'
             type='text'
