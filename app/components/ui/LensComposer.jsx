@@ -250,7 +250,7 @@ module.exports = React.createClass({
             tracks={this.state.tracks}
             setupCustomInputComponents={this.setupCustomInputComponents}
             selectedColumns={this.state.selectedColumns}
-            data={this.state.data}
+            getDataAtNode={this.getDataAtNode}
             dataSchema={this.state.dataSchema} />;
         if(this.state.dataSchema.length != 0) {
           this.state.dataSchema.forEach(function(column) {
