@@ -90,7 +90,7 @@ module.exports = React.createClass({
     // Column options into a variable
     //
     var columns = this.props.dataSchema.map((column, n) => {
-      return <option value={n}>{column[1]}</option>
+      return <option key={n} value={n}>{column[1]}</option>
     });
 
     return (
