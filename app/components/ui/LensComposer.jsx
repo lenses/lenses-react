@@ -119,6 +119,7 @@ module.exports = React.createClass({
     var startNode = -1;
     var data = [];
     var maxNode = (currentNode != null) ? currentNode : startNode;
+
     return (function recurseData(maxNode, data, startNode) {
       startNode++;
       if (startNode <= maxNode) {
@@ -167,7 +168,6 @@ module.exports = React.createClass({
     var newTracks = this.updateTransformFunctionAtTrackAndNode(func, dataSchema, this.state.tracks, this.state.currentSelectedTrack, this.state.currentSelectedNode);
     this.setState({
       tracks: newTracks,
-      data: this.getDataAtNode(this.state.currentSelectedNode),
       dataSchema: dataSchema || this.state.dataSchema
     });
   },
