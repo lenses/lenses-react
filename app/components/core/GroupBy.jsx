@@ -9,62 +9,72 @@ module.exports = React.createClass({
     };
   },
   handleChangeAggFunction: function(e) {
-    var aggFunctionType = e.target.value;
+    var aggFunctionType = e.target.value
+     ,  newDataSchema = this.props.dataSchema.slice(0)
+     ,  state = this.state;
 
     if(this.state.groupColumnValue == null || this.state.groupByColumnValue == null) {
       alert('select a column first');
       return
     }
 
-    var newDataSchema = this.props.dataSchema.slice(0); 
-    newDataSchema[this.state.groupByColumnValue] = ['number', 'Grouped By ' + newDataSchema[this.state.groupByColumnValue][1]];
+    this.setState({aggFunction: aggFunctionType});
 
-    var state = this.state;
-    if(aggFunctionType == 'average') {
-      this.props.updateTransformFunction(() => {
-        var sortedData = this.props.data.sort((row, nextRow) => {
-          var el = row[state.groupColumnValue],
-            nextEl = nextRow[state.groupColumnValue];
-
-            if(el < nextEl) {
-              return -1;
-            } else if (el > nextEl) {
-              return 1;
-            } else {
-              return 0;
-            }
-        });
-
-
-        var rowCounter = 0;
-        var groupedRowCounter = 0;
-        var groupedData = [];
-        var sum = 0;
-
-        sortedData.forEach((row, n, arr) => {
-          if(n < arr.length-1) {
-            var el = arr[n+1][state.groupColumnValue]
-          , nextEl = row[state.groupColumnValue];
-
-          if(el == nextEl) {
-            groupedRowCounter++;
-            sum = sum + arr[n+1][state.groupByColumnValue];
-          } else {
-            row[state.groupByColumnValue] = (sum !== 0) ? sum/groupedRowCounter : row[state.groupByColumnValue];
-            groupedData.push(row);
-            sum = 0;
-            groupedRowCounter = 0;
-            rowCounter++;
-          }
-          }
-        });
-
-        return groupedData;
-
-      }, newDataSchema);
-
-    } else if (aggFunctionType == 'sum') {
+    if(newDataSchema[newDataSchema.length - 1][1].startsWith('GroupedBy')) {
+      newDataSchema.pop();
     }
+    newDataSchema.push(['number', 'Grouped By ' + newDataSchema[this.state.groupByColumnValue][1]]);
+
+    this.props.updateTransformFunction(() => {
+      return this.groupRowsByColumnWithFunction(state.groupColumnValue, state.groupByColumnValue, aggFunctionType, this.props.data);
+    }, newDataSchema);
+  },
+  groupRowsByColumnWithFunction(groupColumnValue, groupByColumnValue, aggFunction, data) {
+    var rowCounter = 0
+    , groupedRowCounter = 0
+    , groupedData = []
+    , sortedData
+    , sum = null;
+
+   // Sort the data lexically so we can group it easily
+    sortedData = data.sort((row, nextRow) => {
+      var el = row[groupColumnValue]
+        , nextEl = nextRow[groupColumnValue];
+
+        if(el < nextEl) {
+          return -1;
+        } else if (el > nextEl) {
+          return 1;
+        } else {
+          return 0;
+        }
+    });
+
+    // Group the data if the next el is the same as the current el
+    // otherwise add as a new el.
+    sortedData.forEach((row, n, arr) => {
+      if(n < arr.length-1) {
+        var el = arr[n+1][groupColumnValue]
+          , nextEl = row[groupColumnValue];
+
+        if(el == nextEl) {
+          groupedRowCounter++;
+          sum = sum + arr[n+1][groupByColumnValue];
+        } else {
+          if (aggFunction == 'average') {
+            row.push((sum !== null) ? sum/groupedRowCounter : row[groupByColumnValue]);
+          } else if (aggFunction == 'sum') {
+            row.push((sum !== null) ? sum : row[groupByColumnValue]);
+          }
+          groupedData.push(row);
+          sum = null;
+          groupedRowCounter = 0;
+          rowCounter++;
+        }
+      }
+    });
+
+    return groupedData;
   },
   handleChangeColumn: function(e) {
     var state = {}
