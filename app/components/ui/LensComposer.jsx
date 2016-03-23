@@ -93,7 +93,7 @@ module.exports = React.createClass({
       title: this.state.title,
       author: this.state.author,
       inputData: this.getDataAtNode(0),
-      outputData: this.getDataAtNode(this.state.tracks.length - 1),
+      outputData: this.getDataAtNode(this.state.tracks[0].length - 1),
       dataSchema: this.state.dataSchema,
       selectedColumns: this.state.selectedColumns
     }
