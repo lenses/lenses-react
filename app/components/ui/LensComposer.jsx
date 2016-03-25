@@ -122,8 +122,7 @@ module.exports = React.createClass({
     }
     // Update node with the new selectedNode Value
     this.setState({
-      currentSelectedNode: newSelectedValue,
-      data: this.getDataAtNode(newSelectedValue)
+      currentSelectedNode: newSelectedValue
     });
   },
   getDataAtNode: function(currentNode) {
