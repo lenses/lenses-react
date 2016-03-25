@@ -18,7 +18,6 @@ module.exports = React.createClass({
     // LensComponentVieLenw. They are calculated on the fly
     return {
       lensComponentLibrary: [],
-      data: [],
       dataSchema: [],
       tracks: [[]],
       currentSelectedTrack: 0,
@@ -68,6 +67,7 @@ module.exports = React.createClass({
         return newTrack;
         });
 
+      // load input data for first node
       newTracks = this.updateTransformFunctionAtTrackAndNode(lens.get('inputData'),
                                                    newTracks,
                                                    this.state.currentSelectedTrack,
@@ -105,6 +105,7 @@ module.exports = React.createClass({
       author: this.state.author,
       inputData: this.getDataAtNode(0),
       outputData: this.getDataAtNode(this.state.tracks[0].length - 1),
+      outputWidth: this.state.tracks[0][this.state.tracks[0].length-1].customInputOptions.width.value || '600',
       dataSchema: this.state.dataSchema,
       selectedColumns: this.state.selectedColumns
     }

@@ -125,7 +125,6 @@ module.exports = React.createClass({
             sum
           </option>
         </select>
-
       </div>
     )
   }
