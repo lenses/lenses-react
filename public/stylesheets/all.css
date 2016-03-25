@@ -244,11 +244,17 @@ body {
     color: #B0B0B0; }
   #lens-title-bar #lens-author {
     font-size: 17px; }
+  #lens-title-bar .title-bar-logo {
+    display: inline-block;
+    width: 65px;
+    height: 50px;
+    margin-left: 20px;
+    vertical-align: bottom; }
   #lens-title-bar .title-bar-input {
     border: none;
     background: transparent;
     outline: none;
-    padding-left: 50px;
+    padding-left: 20px;
     display: block;
     margin-top: 5px; }
   #lens-title-bar #lens-title-wrapper {
@@ -412,7 +418,9 @@ body {
   padding: 0px 30px;
   text-align: center;
   display: inline-block;
-  width: 80%; }
+  width: 80%;
+  height: 100%;
+  overflow: overlay; }
   .lens-component-viewer #chart-div {
     display: inline-block; }
 
