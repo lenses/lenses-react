@@ -79,6 +79,8 @@ module.exports = React.createClass({
         tracks: newTracks,
         data: lens.get('inputData'),
         dataSchema: lens.get('dataSchema'),
+        outputWidth: lens.get('outputWidth'),
+        outputHeight: lens.get('outputHeight'),
         selectedColumns: lens.get('selectedColumns'),
         currentSelectedNode: newTracks[0].length-1,
         id: window.lensId
@@ -106,7 +108,8 @@ module.exports = React.createClass({
       author: this.state.author,
       inputData: this.getDataAtNode(0),
       outputData: this.getDataAtNode(this.state.tracks[0].length - 1),
-      outputWidth: this.state.tracks[0][this.state.tracks[0].length-1].customInputOptions.width.value || '600',
+      outputWidth: parseInt(this.state.tracks[0][this.state.tracks[0].length-1].customInputOptions.width.value) || 600,
+      outputHeight: parseInt(this.state.tracks[0][this.state.tracks[0].length-1].customInputOptions.height.value) || 400,
       dataSchema: this.state.dataSchema,
       selectedColumns: this.state.selectedColumns
     }
@@ -313,7 +316,8 @@ module.exports = React.createClass({
       <div className='lens-composer'>
         <div id='lens-title-bar-container'>
           <LensTitleBar id={this.state.id}
-            tracks={this.state.tracks}
+            width={this.state.outputWidth}
+            height={this.state.outputHeight}
             title={this.state.title}
             author={this.state.author}
             updateTitleAndAuthor={this.updateTitleAndAuthor}/>

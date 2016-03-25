@@ -27,8 +27,8 @@ module.exports = React.createClass({
       lensEmbedUrl;
 
       if(this.props.id) {
-        var width = this.props.tracks[0][this.props.tracks[0].length-1].customInputOptions.width.value  || '600';
-        var height = this.props.tracks[0][this.props.tracks[0].length-1].customInputOptions.height.value  + 100 || '400';
+        var width = this.props.width;
+        var height = this.props.height  + 100;
         lensUrl = 'http://' + window.location.host + '/lenses/' + this.props.id;
         lensEmbedUrl = '<iframe src='+lensUrl+' frameborder="0" width=' + width + ' height=' + height + ' />'; 
         lensPublishedLinks =
