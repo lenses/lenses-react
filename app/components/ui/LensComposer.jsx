@@ -80,6 +80,7 @@ module.exports = React.createClass({
         data: lens.get('inputData'),
         dataSchema: lens.get('dataSchema'),
         selectedColumns: lens.get('selectedColumns'),
+        currentSelectedNode: newTracks[0].length-1,
         id: window.lensId
       });
 
@@ -311,7 +312,10 @@ module.exports = React.createClass({
     return (
       <div className='lens-composer'>
         <div id='lens-title-bar-container'>
-          <LensTitleBar id={this.state.id} title={this.state.title} author={this.state.author} updateTitleAndAuthor={this.updateTitleAndAuthor}/>
+          <LensTitleBar id={this.state.id}
+            title={this.state.title}
+            author={this.state.author}
+            updateTitleAndAuthor={this.updateTitleAndAuthor}/>
           <LensPublishButton id={this.state.id} save={this.save}/>
         </div>
         <LensTrackManager

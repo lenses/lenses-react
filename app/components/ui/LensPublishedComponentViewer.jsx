@@ -85,7 +85,8 @@ module.exports = React.createClass({
     }
     return (
       <div className='lens-published-component-viewer'>
-        {(CurrentlySelectedCmp) ?  <CurrentlySelectedCmp ref='currentViewComponent' selectedColumns={this.state.selectedColumns}
+        {(CurrentlySelectedCmp) ?  <CurrentlySelectedCmp ref='currentViewComponent' 
+          selectedColumns={this.state.selectedColumns}
           data={this.state.data}
           dataSchema={this.state.dataSchema}/> : <div> loading </div>}
         <div style={attributionStyle}>
