@@ -313,6 +313,7 @@ module.exports = React.createClass({
       <div className='lens-composer'>
         <div id='lens-title-bar-container'>
           <LensTitleBar id={this.state.id}
+            tracks={this.state.tracks}
             title={this.state.title}
             author={this.state.author}
             updateTitleAndAuthor={this.updateTitleAndAuthor}/>
