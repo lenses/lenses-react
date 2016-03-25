@@ -31,7 +31,7 @@ module.exports = React.createClass({
         lensEmbedUrl = '<iframe src='+lensUrl+' frameborder="0" width=100% height=100% />'; 
         lensPublishedLinks =
         <div id='lens-published-links'>
-          <div>View: <a href={lensUrl}>{lensUrl}</a></div>
+          <div>View: <a href={lensUrl} target='_blank'>{lensUrl}</a></div>
           <div>Embed: {lensEmbedUrl}</div>
         </div>;
       }

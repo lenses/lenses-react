@@ -52,6 +52,7 @@ module.exports = React.createClass({
           dataSchema: lens.get('dataSchema'),
           selectedColumns: lens.get('selectedColumns'),
           outputComponentIndex: newTracks[0].length -1,
+          width: lens.get('outputWidth'),
           publishState: {published: true, id: window.lensId}
         });
       }.bind(this));
@@ -66,30 +67,38 @@ module.exports = React.createClass({
 
     var lensesLinkStyle = {
       verticalAlign: 'super',
-      marginLeft: '10px'
+      position: 'absolute',
+      left: this.state.width-120 + 'px',
+      textDecoration: 'underline',
+      marginTop:'5px'
     };
     var logoStyle = {
-      marginLeft: '5px',
-      marginTop: '5px'
+      marginLeft: '30px'
     }
-    var attributionDivStyle = {
-      marginTop: '20px',
-      marginLeft: '5px'
+    var attributionStyle = {
+      marginTop: '30px'
+    }
+    var attributionTextStyle = {
+      display: 'inline-block',
+      marginLeft: '10px',
+      verticalAlign: 'super'
     }
     return (
       <div className='lens-published-component-viewer'>
-        <div style={attributionDivStyle}>
-          <div>
-            <img style={logoStyle} src='/public/images/lenses-logo.png' width='30px' height='25px'/>
-            <a href={'http://' + window.location.host + '/lenses/' + window.lensId + '/edit'} target='_blank'>
-              <span style={lensesLinkStyle}>Download Data</span>
-            </a>
-            <div>Lenses</div>
-          </div>
-        </div>
         {(CurrentlySelectedCmp) ?  <CurrentlySelectedCmp ref='currentViewComponent' selectedColumns={this.state.selectedColumns}
           data={this.state.data}
           dataSchema={this.state.dataSchema}/> : <div> loading </div>}
+        <div style={attributionStyle}>
+          <img style={logoStyle} src='/public/images/lenses-logo.png' width='30px' height='25px'/>
+          <div style={attributionTextStyle}>
+            Made With Lenses
+          </div>
+          <a href={'http://' + window.location.host + '/lenses/' + window.lensId + '/edit'} target='_blank'>
+            <span style={lensesLinkStyle}>
+              Download Data
+            </span>
+          </a>
+        </div>
       </div>
     )
   }
