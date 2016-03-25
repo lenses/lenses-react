@@ -50,18 +50,29 @@ module.exports = React.createClass({
         window.location.replace('/lenses/');
       }
       var tracks = lens.get('tracks');
-      var newTracks = tracks.map(function(track){
-        var newTrack = track.map(function(node){
+      var newTracks = tracks.map((track) => {
+        var newTrack = track.map((node) => {
           // Need to recreate model using type and data
-          return new lensComponentModel(node.type, null, node.customInputOptions);
+          var lensModel = new lensComponentModel(node.type, null, node.customInputOptions);
+          if(node.transformFunc) {
+            var transformFunc = () => {
+              return {
+                funcName: node.transformFunc.funcName,
+                funcParams: node.transformFunc.funcParams
+              }
+            }
+          }
+          this.updateTransformFunctionWithComponent(lensModel, transformFunc);
+          return lensModel;
           })
         return newTrack;
         });
+
       newTracks = this.updateTransformFunctionAtTrackAndNode(lens.get('inputData'),
-                                                   lens.get('dataSchema'),
                                                    newTracks,
                                                    this.state.currentSelectedTrack,
                                                    0);
+
       this.setState({
         title: lens.get('title'),
         author: lens.get('author'),
@@ -149,23 +160,36 @@ module.exports = React.createClass({
       dataSchema: dataSchema
     });
   },
-  updateTransformFunctionAtTrackAndNode: function(func, dataSchema, tracks, trackIndex, nodeIndex) {
-    var newTracks = tracks.slice(0);
-    var cmp = newTracks[trackIndex][nodeIndex];
+  updateTransformFunctionWithComponent: function(cmp, func) {
     // If the function is not null add it as a new transform function
     if(func != null && (func instanceof Function)) {
-      cmp.transformData = func;
-    // If they just passed data from an input component then wrap it in a function
-    // and it saves the data in the closure
+      var funcData = func()
+        , funcName = funcData.funcName
+        , funcParams = funcData.funcParams;
+
+      cmp.transformFunc = funcData;
+
+      cmp.transformData = function (data) {
+        var paramsWithData = funcParams.slice(0);
+        paramsWithData.push(data);
+        return cmp.reactCmp.prototype[funcName].apply(cmp.reactCmp, paramsWithData);
+      }
     } else if(func != null) {
+      // Otherwise wrap the data in a function
+      cmp.transformFunc = null;
       cmp.transformData = function() {
-          return func;
+        return func;
       }
     }
+  },
+  updateTransformFunctionAtTrackAndNode: function(func, tracks, trackIndex, nodeIndex) {
+    var newTracks = tracks.slice(0);
+    var cmp = newTracks[trackIndex][nodeIndex];
+    this.updateTransformFunctionWithComponent(cmp, func);
     return newTracks;
   },
   updateTransformFunction: function(func, dataSchema) {
-    var newTracks = this.updateTransformFunctionAtTrackAndNode(func, dataSchema, this.state.tracks, this.state.currentSelectedTrack, this.state.currentSelectedNode);
+    var newTracks = this.updateTransformFunctionAtTrackAndNode(func, this.state.tracks, this.state.currentSelectedTrack, this.state.currentSelectedNode);
     this.setState({
       tracks: newTracks,
       dataSchema: dataSchema || this.state.dataSchema

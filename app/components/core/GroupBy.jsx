@@ -10,8 +10,9 @@ module.exports = React.createClass({
   },
   handleChangeAggFunction: function(e) {
     var aggFunctionType = e.target.value
-     ,  newDataSchema = this.props.dataSchema.slice(0)
-     ,  state = this.state;
+      , funcName = 'groupRowsByColumnWithFunction'
+      , funcParams = [this.state.groupColumnValue, this.state.groupByColumnValue, aggFunctionType]
+      , newDataSchema = this.props.dataSchema.slice(0);
 
     if(this.state.groupColumnValue == null || this.state.groupByColumnValue == null) {
       alert('select a column first');
@@ -26,7 +27,10 @@ module.exports = React.createClass({
     newDataSchema.push(['number', 'Grouped By ' + newDataSchema[this.state.groupByColumnValue][1]]);
 
     this.props.updateTransformFunction(() => {
-      return this.groupRowsByColumnWithFunction(state.groupColumnValue, state.groupByColumnValue, aggFunctionType, this.props.data);
+      return {
+        funcName: funcName,
+        funcParams: funcParams
+      }
     }, newDataSchema);
   },
   groupRowsByColumnWithFunction(groupColumnValue, groupByColumnValue, aggFunction, data) {
