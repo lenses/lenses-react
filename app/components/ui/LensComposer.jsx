@@ -18,7 +18,6 @@ module.exports = React.createClass({
     // LensComponentVieLenw. They are calculated on the fly
     return {
       lensComponentLibrary: [],
-      data: [],
       dataSchema: [],
       tracks: [[]],
       currentSelectedTrack: 0,
@@ -50,18 +49,30 @@ module.exports = React.createClass({
         window.location.replace('/lenses/');
       }
       var tracks = lens.get('tracks');
-      var newTracks = tracks.map(function(track){
-        var newTrack = track.map(function(node){
+      var newTracks = tracks.map((track) => {
+        var newTrack = track.map((node) => {
           // Need to recreate model using type and data
-          return new lensComponentModel(node.type, null, node.customInputOptions);
+          var lensModel = new lensComponentModel(node.type, null, node.customInputOptions);
+          if(node.transformFunc) {
+            var transformFunc = () => {
+              return {
+                funcName: node.transformFunc.funcName,
+                funcParams: node.transformFunc.funcParams
+              }
+            }
+          }
+          this.updateTransformFunctionWithComponent(lensModel, transformFunc);
+          return lensModel;
           })
         return newTrack;
         });
+
+      // load input data for first node
       newTracks = this.updateTransformFunctionAtTrackAndNode(lens.get('inputData'),
-                                                   lens.get('dataSchema'),
                                                    newTracks,
                                                    this.state.currentSelectedTrack,
                                                    0);
+
       this.setState({
         title: lens.get('title'),
         author: lens.get('author'),
@@ -69,6 +80,7 @@ module.exports = React.createClass({
         data: lens.get('inputData'),
         dataSchema: lens.get('dataSchema'),
         selectedColumns: lens.get('selectedColumns'),
+        currentSelectedNode: newTracks[0].length-1,
         id: window.lensId
       });
 
@@ -93,7 +105,8 @@ module.exports = React.createClass({
       title: this.state.title,
       author: this.state.author,
       inputData: this.getDataAtNode(0),
-      outputData: this.getDataAtNode(this.state.tracks.length - 1),
+      outputData: this.getDataAtNode(this.state.tracks[0].length - 1),
+      outputWidth: this.state.tracks[0][this.state.tracks[0].length-1].customInputOptions.width.value || '600',
       dataSchema: this.state.dataSchema,
       selectedColumns: this.state.selectedColumns
     }
@@ -111,21 +124,25 @@ module.exports = React.createClass({
     }
     // Update node with the new selectedNode Value
     this.setState({
-      currentSelectedNode: newSelectedValue,
-      data: this.getDataAtNode(newSelectedValue)
+      currentSelectedNode: newSelectedValue
     });
   },
   getDataAtNode: function(currentNode) {
-    var startNode = -1;
-    var data = [];
-    var maxNode = (currentNode != null) ? currentNode : startNode;
-    return (function recurseData(maxNode, data, startNode) {
-      startNode++;
+    var startNode = 0
+      , maxNode = (currentNode != null) ? currentNode : startNode;
+
+    return (function recurseData(data, startNode) {
+      var dataCopy
+        , transformedData;
+
       if (startNode <= maxNode) {
-        return recurseData.call(this, maxNode, this.state.tracks[this.state.currentSelectedTrack][startNode].transformData(data), startNode);
+        dataCopy = JSON.parse(JSON.stringify(data));
+        transformedData = this.state.tracks[this.state.currentSelectedTrack][startNode].transformData(dataCopy);
+        startNode++;
+        return recurseData.call(this, transformedData, startNode);
       }
       return data;
-    }.bind(this))(maxNode, data, startNode);
+    }.bind(this))([], startNode);
   },
   addComponent: function(cmp) {
     var tracks  = this.state.tracks.slice(0);
@@ -148,26 +165,38 @@ module.exports = React.createClass({
       dataSchema: dataSchema
     });
   },
-  updateTransformFunctionAtTrackAndNode: function(func, dataSchema, tracks, trackIndex, nodeIndex) {
-    var newTracks = tracks.slice(0);
-    var cmp = newTracks[trackIndex][nodeIndex];
+  updateTransformFunctionWithComponent: function(cmp, func) {
     // If the function is not null add it as a new transform function
     if(func != null && (func instanceof Function)) {
-      cmp.transformData = func;
-    // If they just passed data from an input component then wrap it in a function
-    // and it saves the data in the closure
+      var funcData = func()
+        , funcName = funcData.funcName
+        , funcParams = funcData.funcParams;
+
+      cmp.transformFunc = funcData;
+
+      cmp.transformData = function (data) {
+        var paramsWithData = funcParams.slice(0);
+        paramsWithData.push(data);
+        return cmp.reactCmp.prototype[funcName].apply(cmp.reactCmp, paramsWithData);
+      }
     } else if(func != null) {
+      // Otherwise wrap the data in a function
+      cmp.transformFunc = null;
       cmp.transformData = function() {
-          return func;
+        return func;
       }
     }
+  },
+  updateTransformFunctionAtTrackAndNode: function(func, tracks, trackIndex, nodeIndex) {
+    var newTracks = tracks.slice(0);
+    var cmp = newTracks[trackIndex][nodeIndex];
+    this.updateTransformFunctionWithComponent(cmp, func);
     return newTracks;
   },
   updateTransformFunction: function(func, dataSchema) {
-    var newTracks = this.updateTransformFunctionAtTrackAndNode(func, dataSchema, this.state.tracks, this.state.currentSelectedTrack, this.state.currentSelectedNode);
+    var newTracks = this.updateTransformFunctionAtTrackAndNode(func, this.state.tracks, this.state.currentSelectedTrack, this.state.currentSelectedNode);
     this.setState({
       tracks: newTracks,
-      data: this.getDataAtNode(this.state.currentSelectedNode),
       dataSchema: dataSchema || this.state.dataSchema
     });
   },
@@ -250,13 +279,13 @@ module.exports = React.createClass({
             tracks={this.state.tracks}
             setupCustomInputComponents={this.setupCustomInputComponents}
             selectedColumns={this.state.selectedColumns}
-            data={this.state.data}
+            getDataAtNode={this.getDataAtNode}
             dataSchema={this.state.dataSchema} />;
         if(this.state.dataSchema.length != 0) {
           this.state.dataSchema.forEach(function(column) {
             componentsCustomOptions.push(<LensInputField name={column[1]}
               key={column[1]}
-              inputType='columnSelect'
+              inputType='columnType'
               action={this.handleSchemaChange}
               initialValue={column[0]}/>);
           }, this);
@@ -283,7 +312,11 @@ module.exports = React.createClass({
     return (
       <div className='lens-composer'>
         <div id='lens-title-bar-container'>
-          <LensTitleBar id={this.state.id} title={this.state.title} author={this.state.author} updateTitleAndAuthor={this.updateTitleAndAuthor}/>
+          <LensTitleBar id={this.state.id}
+            tracks={this.state.tracks}
+            title={this.state.title}
+            author={this.state.author}
+            updateTitleAndAuthor={this.updateTitleAndAuthor}/>
           <LensPublishButton id={this.state.id} save={this.save}/>
         </div>
         <LensTrackManager

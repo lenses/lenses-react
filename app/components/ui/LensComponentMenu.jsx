@@ -52,7 +52,7 @@ var LensComponentMenu = React.createClass({
       inputFields.push(<input id='add-component-value'
         type='text'
         value={this.state.value}
-        placeholder="COMPONENT NAME"
+        placeholder="ENTER URL"
         onChange={this.handleInputChange}
         onKeyDown={this.handleKeyDown}
         />);
