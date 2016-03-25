@@ -127,17 +127,21 @@ module.exports = React.createClass({
     });
   },
   getDataAtNode: function(currentNode) {
-    var startNode = -1;
-    var data = [];
-    var maxNode = (currentNode != null) ? currentNode : startNode;
+    var startNode = 0
+      , maxNode = (currentNode != null) ? currentNode : startNode;
 
-    return (function recurseData(maxNode, data, startNode) {
-      startNode++;
+    return (function recurseData(data, startNode) {
+      var dataCopy
+        , transformedData;
+
       if (startNode <= maxNode) {
-        return recurseData.call(this, maxNode, this.state.tracks[this.state.currentSelectedTrack][startNode].transformData(data), startNode);
+        dataCopy = JSON.parse(JSON.stringify(data));
+        transformedData = this.state.tracks[this.state.currentSelectedTrack][startNode].transformData(dataCopy);
+        startNode++;
+        return recurseData.call(this, transformedData, startNode);
       }
       return data;
-    }.bind(this))(maxNode, data, startNode);
+    }.bind(this))([], startNode);
   },
   addComponent: function(cmp) {
     var tracks  = this.state.tracks.slice(0);
