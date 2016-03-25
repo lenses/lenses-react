@@ -33,18 +33,18 @@ module.exports = React.createClass({
   },
   load: function(lensId) {
     if(lensId) {
-    this.props.loadLens(function(lens) {
-      if(lens.message) {
-        alert('Lens Does Not Exist; Redirecting you to lens directory');
-        window.location.replace('/lenses/');
-      }
-      var tracks = lens.get('tracks');
-      var newTracks = tracks.map(function(track){
-        var newTrack = track.map(function(node){
-          // Need to recreate model using type and data
-          return new lensComponentModel(node.type, null, node.customInputOptions);
+      this.props.loadLens(function(lens) {
+        if(lens.message) {
+          alert('Lens Does Not Exist; Redirecting you to lens directory');
+          window.location.replace('/lenses/');
+        }
+        var tracks = lens.get('tracks');
+        var newTracks = tracks.map(function(track){
+          var newTrack = track.map(function(node){
+            // Need to recreate model using type and data
+            return new lensComponentModel(node.type, null, node.customInputOptions);
           })
-        return newTrack;
+          return newTrack;
         });
         this.setState({
           tracks: newTracks,
