@@ -7,9 +7,15 @@ var LensInputField = React.createClass({
     }
   },
   handleChangeInputs: function(e) {
-    this.props.action(e.target.value, this.props.name);
+    var newValue;
+    if(this.props.inputType == 'enum' || 'number') {
+      newValue = parseFloat(e.target.value)
+    } else {
+      newValue = e.target.value
+    }
+    this.props.action(newValue, this.props.name);
     this.setState({
-      value: e.target.value
+      value: newValue
     });
   },
   render: function(){
@@ -19,16 +25,28 @@ var LensInputField = React.createClass({
       width:  this.props.width
     }
     var inputType;
-    if(this.props.inputType !== 'columnSelect') {
-      inputType = (<input type  = {this.props.inputType}
-        value = {this.state.value}
-        onChange={this.handleChangeInputs}/>)
-    } else if (this.props.inputType === 'columnType') {
-      inputType = <select name={this.props.name} value={this.state.value} onChange={this.handleChangeInputs}>
+    if (this.props.inputType === 'columnType') {
+      inputType = <select name={this.props.name} 
+        value={this.state.value}
+        onChange={this.handleChangeInputs}>
       <option value='string' >string</option>
       <option value='number' >number</option>
       </select>;
-    } 
+    } else if (this.props.inputType =='enum') {
+      var options = this.props.possibleValues.map((value, i) => {
+        return <option key={i} value={i}>{value}</option>;
+      });
+      inputType = <select multiple={false || this.props.multipleSelect}
+        name={this.props.name}
+        value={this.state.value}
+        onChange={this.handleChangeInputs}>
+        {options}
+      </select>;
+    }  else {
+      inputType = (<input type  = {this.props.inputType}
+        value = {this.state.value}
+        onChange={this.handleChangeInputs}/>)
+    }
     return (
       <div style={wrapperStyles} className='lens-input-field-wrapper'>
         {this.props.name}:

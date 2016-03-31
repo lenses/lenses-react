@@ -23,7 +23,6 @@ module.exports = React.createClass({
       currentSelectedTrack: 0,
       currentSelectedNode: null,
       componentCustomInputOptions: null,
-      selectedColumns: 'all',
       title: '',
       author: '',
       id: null
@@ -43,48 +42,48 @@ module.exports = React.createClass({
   },
   load: function(lensId) {
     if(lensId) {
-    this.props.loadLens(function(lens) {
-      if(lens.message) {
-        alert('Lens Does Not Exist; Redirecting you to lens directory');
-        window.location.replace('/lenses/');
-      }
-      var tracks = lens.get('tracks');
-      var newTracks = tracks.map((track) => {
-        var newTrack = track.map((node) => {
-          // Need to recreate model using type and data
-          var lensModel = new lensComponentModel(node.type, null, node.customInputOptions);
-          if(node.transformFunc) {
-            var transformFunc = () => {
-              return {
-                funcName: node.transformFunc.funcName,
-                funcParams: node.transformFunc.funcParams
+      this.props.loadLens(function(lens) {
+        if(lens.message) {
+          alert('Lens Does Not Exist; Redirecting you to lens directory');
+          window.location.replace('/lenses/');
+        }
+        var tracks = lens.get('tracks');
+        var newTracks = tracks.map((track) => {
+          var newTrack = track.map((node) => {
+            // Need to recreate model using type and data
+            var lensModel = new lensComponentModel(node.type, null, node.customInputOptions);
+            if(node.transformFunc) {
+              var transformFunc = () => {
+                return {
+                  funcName: node.transformFunc.funcName,
+                  funcParams: node.transformFunc.funcParams
+                }
               }
             }
-          }
-          this.updateTransformFunctionWithComponent(lensModel, transformFunc);
-          return lensModel;
+            this.updateTransformFunctionWithComponent(lensModel, transformFunc);
+            return lensModel;
           })
-        return newTrack;
+          return newTrack;
         });
 
-      // load input data for first node
-      newTracks = this.updateTransformFunctionAtTrackAndNode(lens.get('inputData'),
-                                                   newTracks,
-                                                   this.state.currentSelectedTrack,
-                                                   0);
+        // load input data for first node
+        newTracks = this.updateTransformFunctionAtTrackAndNode(lens.get('inputData'),
+                                                               newTracks,
+                                                               this.state.currentSelectedTrack,
+                                                               0);
 
-      this.setState({
-        title: lens.get('title'),
-        author: lens.get('author'),
-        tracks: newTracks,
-        data: lens.get('inputData'),
-        dataSchema: lens.get('dataSchema'),
-        outputWidth: lens.get('outputWidth'),
-        outputHeight: lens.get('outputHeight'),
-        selectedColumns: lens.get('selectedColumns'),
-        currentSelectedNode: newTracks[0].length-1,
-        id: window.lensId
-      });
+                                                               this.setState({
+                                                                 title: lens.get('title'),
+                                                                 author: lens.get('author'),
+                                                                 tracks: newTracks,
+                                                                 data: lens.get('inputData'),
+                                                                 dataSchema: lens.get('dataSchema'),
+                                                                 outputWidth: lens.get('outputWidth'),
+                                                                 outputHeight: lens.get('outputHeight'),
+                                                                 selectedColumns: lens.get('selectedColumns'),
+                                                                 currentSelectedNode: newTracks[0].length-1,
+                                                                 id: window.lensId
+                                                               });
 
       }.bind(this));
     }
@@ -252,12 +251,23 @@ module.exports = React.createClass({
     var inputComponents = [];
     for(var option in currentComponentCustomOptions) {
       var optionObject = currentComponentCustomOptions[option];
+      var inputComponent;
       if(currentComponentCustomOptions.hasOwnProperty(option) && optionObject.configurable){
-        inputComponents.push(<LensInputField inputType = {optionObject['configurable']}
-          initialValue = {optionObject['value']}
-          name         = {option}
-          key          = {option}
-          action       = {actionFunction}/>);
+        if(optionObject['configurable'] == 'column') {
+          inputComponent = (<LensInputField inputType ='enum'
+            initialValue = {optionObject['value']}
+            name         = {option}
+            key          = {option}
+            possibleValues = {this.state.dataSchema.map((schema) => { return schema[1] })}
+            action       = {actionFunction}/>)
+        } else {
+          inputComponent = (<LensInputField inputType = {optionObject['configurable']}
+            initialValue = {optionObject['value']}
+            name         = {option}
+            key          = {option}
+            action       = {actionFunction}/>)
+        }
+        inputComponents.push(inputComponent);
       }
     }
     this.setState({
@@ -276,34 +286,28 @@ module.exports = React.createClass({
         currentSelectedCmp={this.state.currentSelectedNode}
         deleteComponent={this.deleteComponent}/>;
         lensComponentViewer = <LensComponentViewer
-            updateTransformFunction={this.updateTransformFunction}
-            currentSelectedNode={this.state.currentSelectedNode}
-            currentSelectedTrack={this.state.currentSelectedTrack}
-            tracks={this.state.tracks}
-            setupCustomInputComponents={this.setupCustomInputComponents}
-            selectedColumns={this.state.selectedColumns}
-            getDataAtNode={this.getDataAtNode}
-            dataSchema={this.state.dataSchema} />;
-        if(this.state.dataSchema.length != 0) {
-          this.state.dataSchema.forEach(function(column) {
-            componentsCustomOptions.push(<LensInputField name={column[1]}
-              key={column[1]}
-              inputType='columnType'
-              action={this.handleSchemaChange}
-              initialValue={column[0]}/>);
-          }, this);
-          componentsCustomOptions.push(<LensInputField name='columns'
-            key='columns'
-            inputType='text'
-            action={this.setSelectedColumns}
-            initialValue={this.state.selectedColumns}/>);
-        }
-        // add inputs to customize values in current viewable component
-        if(this.state.componentCustomInputOptions) {
-          this.state.componentCustomInputOptions.forEach(function(component){
-            componentsCustomOptions.push(component);
-          });
-        }
+          updateTransformFunction={this.updateTransformFunction}
+          currentSelectedNode={this.state.currentSelectedNode}
+          currentSelectedTrack={this.state.currentSelectedTrack}
+          tracks={this.state.tracks}
+          setupCustomInputComponents={this.setupCustomInputComponents}
+          getDataAtNode={this.getDataAtNode}
+          dataSchema={this.state.dataSchema} />;
+          if(this.state.dataSchema.length != 0) {
+            this.state.dataSchema.forEach(function(column) {
+              componentsCustomOptions.push(<LensInputField name={column[1]}
+                key={column[1]}
+                inputType='columnType'
+                action={this.handleSchemaChange}
+                initialValue={column[0]}/>);
+            }, this);
+          }
+          // add inputs to customize values in current viewable component
+          if(this.state.componentCustomInputOptions) {
+            this.state.componentCustomInputOptions.forEach(function(component){
+              componentsCustomOptions.push(component);
+            });
+          }
     } else {
       viewPortMenu = <LensComponentMenu
         addComponent={this.addComponent}
