@@ -27,29 +27,26 @@ module.exports = React.createClass({
         chart      = new window.google.visualization.LineChart(document.getElementById('chart-div'));
 
         if(data.length !== 0 && dataSchema.length !== 0) {
-          if(this.props.selectedColumns == 'all') {
-            // Select all columns and rows
-            dataSchema.forEach(function(column){
-              var type = column[0],
-                name = column[1];
-                dt.addColumn(type, name);
-            })
-            dt.addRows(data);
+          var selectedColumns;
+          if(this.props.selectedColumns.length == 0) {
+          // Select all columns and rows
+            selectedColumns = dataSchema;
           } else {
-            // Filter Columns and Rows based on input
-            var selectedColumns = this.props.selectedColumns.split(',');
-            selectedColumns.forEach(function(column){
-              dt.addColumn(this.props.dataSchema[column][0], this.props.dataSchema[column][1]);
-            }.bind(this));
-            dt.addRows(this.props.data.map(function(row){
-              var filteredRow = [];
-              selectedColumns.forEach(function(column) {
-                filteredRow.push(row[column]);
-              })
-              return filteredRow;
-            }));
+          // Filter Columns and Rows based on input
+            selectedColumns = this.props.selectedColumns;
           }
+          selectedColumns.forEach(function(column){
+            dt.addColumn(this.props.dataSchema[column][0], this.props.dataSchema[column][1]);
+          }.bind(this));
+          dt.addRows(this.props.data.map(function(row){
+            var filteredRow = [];
+            selectedColumns.forEach(function(column) {
+              filteredRow.push(row[column]);
+            })
+            return filteredRow;
+          }));
         }
+
 
 
         // Instantiate and draw our chart, passing in some options.
