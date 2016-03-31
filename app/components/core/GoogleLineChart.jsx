@@ -7,7 +7,15 @@ module.exports = React.createClass({
       'title': 'text',
       'width': 'number',
       'height': 'number',
-      'legend': 'text'
+      'legend': 'text',
+      'numOfLines': 'number',
+      'xAxis': 'column',
+      'Line 1': 'column',
+      'Line 2': 'column',
+      'Line 3': 'column',
+      'Line 4': 'column',
+      'Line 5': 'column',
+      'Line 6': 'column'
     }
   },
   getInitialState: function() {
@@ -15,8 +23,15 @@ module.exports = React.createClass({
       'title': 'Enter Title',
       'width': 600,
       'height': 400,
-      'columns': 'all',
-      'legend': 'right'
+      'legend': 'right',
+      'numOfLines': 1,
+      'xAxis': 0,
+      'Line 1': 0,
+      'Line 2': 0,
+      'Line 3': 0,
+      'Line 4': 0,
+      'Line 5': 0,
+      'Line 6': 0
     };
   },
   drawChart: function() {
@@ -27,14 +42,15 @@ module.exports = React.createClass({
         chart      = new window.google.visualization.LineChart(document.getElementById('chart-div'));
 
         if(data.length !== 0 && dataSchema.length !== 0) {
-          var selectedColumns;
-          if(this.props.selectedColumns.length == 0) {
-          // Select all columns and rows
-            selectedColumns = dataSchema;
-          } else {
+          var selectedColumns = [];
           // Filter Columns and Rows based on input
-            selectedColumns = this.props.selectedColumns;
+          selectedColumns.push(this.state.xAxis);
+          for(var key in options) {
+            if(/^Line.*/.test(key)) {
+              selectedColumns.push(options[key]);
+            }
           }
+          selectedColumns = selectedColumns.slice(0, this.state.numOfLines+1);
           selectedColumns.forEach(function(column){
             dt.addColumn(this.props.dataSchema[column][0], this.props.dataSchema[column][1]);
           }.bind(this));
@@ -46,8 +62,6 @@ module.exports = React.createClass({
             return filteredRow;
           }));
         }
-
-
 
         // Instantiate and draw our chart, passing in some options.
         chart.draw(dt, options);
