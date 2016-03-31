@@ -4,6 +4,13 @@ var React          = require('react'),
     url            = require('url');
 
 module.exports = React.createClass({
+  statics: {
+    getMetadata: function() {
+      return {
+        type: 'data'
+      }
+    }
+  },
   getInitialState: function() {
     return {
       value: ""

@@ -1,6 +1,13 @@
 var React = require('react');
 
 module.exports = React.createClass({
+  statics: {
+    getMetadata: function() {
+      return {
+        type: 'transform'
+      }
+    }
+  },
   getInitialState: function() {
     return {
       groupColumnValue: 'null',

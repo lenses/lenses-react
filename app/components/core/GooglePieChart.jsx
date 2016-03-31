@@ -2,6 +2,13 @@ var React = require('react');
 var $ = require('jquery');
 
 module.exports = React.createClass({
+  statics: {
+    getMetadata: function() {
+      return {
+        type: 'viz'
+      }
+    }
+  },
   getCustomOptions: function(){
     return {
       'title': 'text',
