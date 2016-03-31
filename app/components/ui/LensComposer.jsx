@@ -326,7 +326,9 @@ module.exports = React.createClass({
             title={this.state.title}
             author={this.state.author}
             updateTitleAndAuthor={this.updateTitleAndAuthor}/>
-          <LensPublishButton id={this.state.id} save={this.save}/>
+          <LensPublishButton id={this.state.id}
+            lastEl={this.state.tracks[0][this.state.tracks[0].length - 1]}
+            save={this.save}/>
         </div>
         <LensTrackManager
           currentSelectedNode={this.state.currentSelectedNode}

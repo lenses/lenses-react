@@ -5,7 +5,11 @@ module.exports = React.createClass({
 
   save: function() {
     if(!this.props.id) {
-      this.props.save();
+      if (this.props.lastEl.metaData.type == 'viz' ) {
+        this.props.save();
+      } else {
+        alert('The last element must be a visualization in order to publish your Lens');
+      }
     } else {
       alert('already published :) create a new lens if you want to make changes');
     }
