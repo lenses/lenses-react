@@ -20,7 +20,13 @@ var lensComponentModel = function(type, finishedGettingComponent, customInputOpt
   if(comp[type]) {
     // Load Bundled Components
     this.reactCmp = comp[type];
-    this.metaData = comp[type].getMetadata();
+    if(comp[type].getMetadata) {
+      this.metaData = comp[type].getMetadata();
+    } else {
+      this.metaData = {
+        type: 'other'
+      }
+    }
   } else {
     // Load Custom Components which should be in the public/js folder
     // For now load them from the Global object but we'll move them
