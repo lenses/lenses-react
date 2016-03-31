@@ -14,4 +14,16 @@
     border-bottom:1px solid $lightGray;
     font-size: $action-font-size;
   }
+  .lens-component-menu-instructions{
+    margin-bottom: 30px;
+    line-height:2;
+    a {
+      text-style:underline;
+      color:blue;
+    }
+   }
+  .lens-component-menu-header{
+    margin-bottom:10px;
+  }
+
 }

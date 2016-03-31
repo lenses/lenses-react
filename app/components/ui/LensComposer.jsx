@@ -311,6 +311,7 @@ module.exports = React.createClass({
     } else {
       viewPortMenu = <LensComponentMenu
         addComponent={this.addComponent}
+        firstNode={(this.state.tracks[0].length > 0) ? false : true}
         addCustomComponent={this.addCustomComponent}
         lensComponentLibrary={this.state.lensComponentLibrary} />;
     }

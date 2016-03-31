@@ -20,22 +20,23 @@ var lensComponentModel = function(type, finishedGettingComponent, customInputOpt
   if(comp[type]) {
     // Load Bundled Components
     this.reactCmp = comp[type];
+    this.metaData = comp[type].getMetadata();
   } else {
     // Load Custom Components which should be in the public/js folder
     // For now load them from the Global object but we'll move them
     // to a LensObject to avoid polluting the namespcae
-    $.getScript('/public/js/' + type +'.js')
-    .done(function() {
-      this.reactCmp = window[type];
-    }.bind(this))
-    .error(function() {
-      this.reactCmp = null;
-    }.bind(this))
-    .always(function(){
-      if(typeof finishedGettingComponent == 'function'){
-        finishedGettingComponent(this);
-      }
-    }.bind(this));
+    // $.getScript('/public/js/' + type +'.js')
+    // .done(function() {
+    //   this.reactCmp = window[type];
+    // }.bind(this))
+    // .error(function() {
+    //   this.reactCmp = null;
+    // }.bind(this))
+    // .always(function(){
+    //   if(typeof finishedGettingComponent == 'function'){
+    //     finishedGettingComponent(this);
+    //   }
+    // }.bind(this));
   }
   this.customInputOptions = customInputOptions || {};
 }
