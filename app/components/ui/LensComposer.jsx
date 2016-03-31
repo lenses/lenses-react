@@ -72,18 +72,18 @@ module.exports = React.createClass({
                                                                this.state.currentSelectedTrack,
                                                                0);
 
-                                                               this.setState({
-                                                                 title: lens.get('title'),
-                                                                 author: lens.get('author'),
-                                                                 tracks: newTracks,
-                                                                 data: lens.get('inputData'),
-                                                                 dataSchema: lens.get('dataSchema'),
-                                                                 outputWidth: lens.get('outputWidth'),
-                                                                 outputHeight: lens.get('outputHeight'),
-                                                                 selectedColumns: lens.get('selectedColumns'),
-                                                                 currentSelectedNode: newTracks[0].length-1,
-                                                                 id: window.lensId
-                                                               });
+       this.setState({
+         title: lens.get('title'),
+         author: lens.get('author'),
+         tracks: newTracks,
+         data: lens.get('inputData'),
+         dataSchema: lens.get('dataSchema'),
+         outputWidth: lens.get('outputWidth'),
+         outputHeight: lens.get('outputHeight'),
+         selectedColumns: lens.get('selectedColumns'),
+         currentSelectedNode: newTracks[0].length-1,
+         id: window.lensId
+       });
 
       }.bind(this));
     }
@@ -107,8 +107,8 @@ module.exports = React.createClass({
       author: this.state.author,
       inputData: this.getDataAtNode(0),
       outputData: this.getDataAtNode(this.state.tracks[0].length - 1),
-      outputWidth: parseInt(this.state.tracks[0][this.state.tracks[0].length-1].customInputOptions.width.value) || 600,
-      outputHeight: parseInt(this.state.tracks[0][this.state.tracks[0].length-1].customInputOptions.height.value) || 400,
+      outputWidth: this.state.tracks[0][this.state.tracks[0].length-1].customInputOptions.width.value || 600,
+      outputHeight: this.state.tracks[0][this.state.tracks[0].length-1].customInputOptions.height.value || 400,
       dataSchema: this.state.dataSchema,
       selectedColumns: this.state.selectedColumns
     }

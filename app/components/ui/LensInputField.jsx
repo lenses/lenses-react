@@ -8,7 +8,7 @@ var LensInputField = React.createClass({
   },
   handleChangeInputs: function(e) {
     var newValue;
-    if(this.props.inputType == 'enum' || 'number') {
+    if(this.props.inputType == 'enum' || this.props.inputType == 'number') {
       newValue = parseFloat(e.target.value)
     } else {
       newValue = e.target.value
