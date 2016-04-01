@@ -243,9 +243,6 @@ module.exports = React.createClass({
     }
     this.updateTransformFunction(newTransformFunction(), newSchemaValue);
   },
-  setSelectedColumns: function(selectedColumns) {
-    this.setState({selectedColumns: selectedColumns});
-  },
   setupCustomInputComponents: function(actionFunction) {
     var currentComponentCustomOptions = this.state.tracks[this.state.currentSelectedTrack][this.state.currentSelectedNode].customInputOptions;
     var inputComponents = [];
