@@ -16,7 +16,8 @@ module.exports = React.createClass({
       'height': 'number',
       'xAxis': 'column',
       'yAxis': 'column',
-      'legend': 'text'
+      'legend': 'text',
+      'color': 'color'
     }
   },
   getInitialState: function() {
@@ -26,7 +27,8 @@ module.exports = React.createClass({
       'height': 400,
       'xAxis': 0,
       'yAxis': 1,
-      'legend': 'right'
+      'legend': 'right',
+      'color': '#0000ff'
     };
   },
   drawChart: function() {
@@ -44,15 +46,16 @@ module.exports = React.createClass({
           selectedColumns.forEach(function(column){
             dt.addColumn(this.props.dataSchema[column][0], this.props.dataSchema[column][1]);
           }.bind(this));
-          dt.addRows(this.props.data.map(function(row){
+          dt.addRows(this.props.data.map((row) => {
             var filteredRow = [];
-            selectedColumns.forEach(function(column) {
+            selectedColumns.forEach((column) => {
               filteredRow.push(row[column]);
-            })
+            });
             return filteredRow;
           }));
         }
 
+        options.colors = [options.color];
 
         // Instantiate and draw our chart, passing in some options.
         chart.draw(dt, options);

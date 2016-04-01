@@ -16,7 +16,8 @@ module.exports = React.createClass({
       'height': 'number',
       'x-axis': 'column',
       'y-axis': 'column',
-      'legend': 'text'
+      'legend': 'text',
+      'color': 'color'
     }
   },
   getInitialState: function() {
@@ -26,7 +27,8 @@ module.exports = React.createClass({
       'height': 400,
       'x-axis': 0,
       'y-axis': 1,
-      'legend': 'right'
+      'legend': 'right',
+      'color': '#0000ff'
     }
   },
   drawChart: function() {
@@ -57,7 +59,7 @@ module.exports = React.createClass({
           }));
         }
 
-
+        options.colors = [options.color];
 
         // Instantiate and draw our chart, passing in some options.
         chart.draw(dt, options);
