@@ -408,6 +408,14 @@ body {
     vertical-align: top;
     border-bottom: 1px solid #E0E0E0;
     font-size: 20px; }
+  .lens-component-menu .lens-component-menu-instructions {
+    margin-bottom: 30px;
+    line-height: 2; }
+    .lens-component-menu .lens-component-menu-instructions a {
+      text-style: underline;
+      color: blue; }
+  .lens-component-menu .lens-component-menu-header {
+    margin-bottom: 10px; }
 
 .lens-component-menu {
   vertical-align: top;
