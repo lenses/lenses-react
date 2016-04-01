@@ -31,20 +31,13 @@ var LensComponentMenu = React.createClass({
     this.props.addCustomComponent(componentName);
   },
   render: function() {
-    var lensComponents = [];
-    var inputFields = [];
-
-    if(this.props.lensComponentLibrary) {
-      this.props.lensComponentLibrary.forEach(function(component, id) {
-        lensComponents.push(<LensOvalButton key={id}
-          backgroundColor='#E0E0E0'
-          content={component.name}
-          actionPayload={new lensComponentModel(component.type)}
-          border='none'
-          action={this.props.addComponent}
-          margin='5px'/>);
-      }, this);
-    }
+    var dataCmps = []
+      , inputFields = []
+      , transformCmps = []
+      , dataDiv
+      , menu
+      , transformAndViz
+      , vizCmps = [];
 
     if(this.state.inputField) {
       // Abstract this into input field
@@ -75,10 +68,68 @@ var LensComponentMenu = React.createClass({
         content='ADD NEW COMPONENT' />)
     }
 
+    if(this.props.lensComponentLibrary) {
+      this.props.lensComponentLibrary.forEach(function(cmp, id) {
+        var el = <LensOvalButton key={id}
+          backgroundColor='#E0E0E0'
+          content={cmp.name}
+          actionPayload={new lensComponentModel(cmp.type)}
+          border='none'
+          action={this.props.addComponent}
+          margin='5px'/>;
+
+        if(cmp.metaData.type == 'data') {
+          dataCmps.push(el);
+        } else if (cmp.metaData.type == 'transform') {
+          transformCmps.push(el);
+        } else if (cmp.metaData.type == 'viz') {
+          vizCmps.push(el);
+        }
+      }, this);
+    }
+
+
+    dataDiv =
+      <div className='lens-component-menu-instructions'>
+        To get started making a graph
+        you first have to get some data into the system
+        pick one of the following components to pull data in:
+        <div className='lens-component-menu-components'>
+          {dataCmps}
+        </div>
+      </div>;
+
+    transformAndViz =
+      <div>
+        <div className='lens-component-menu-instructions'>
+          <p>
+            Now you can either transform data using one of the transform components
+            or visualize it using one of the visualization components.
+          </p>
+          <p>
+            If a component doesn't exist that fits your needs you can make a request
+            for one by opening up an <a href='https://github.com/lenses/lenses-react/issues'>issue here</a> or you can <a href='https://github.com/lenses/lenses-react'>read instructions </a>on how to build your own.
+          </p>
+        </div>
+        <div className='lens-component-menu-header'>
+          Transforms:
+        </div>
+        <div className='lens-component-menu-components'>
+          {transformCmps}
+        </div>
+        <div className='lens-component-menu-header'>
+          Visualizations:
+        </div>
+        <div className='lens-component-menu-components'>
+          {vizCmps}
+        </div>
+      </div>;
+
+    menu = (this.props.firstNode) ? dataDiv : transformAndViz;
+
     return (
       <div className='lens-component-menu'>
-        {lensComponents}
-        {inputFields}
+        {menu}
       </div>
     )
   }

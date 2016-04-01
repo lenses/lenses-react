@@ -6,7 +6,6 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       tracks: null,
-      selectedColumns: 'all',
       outputComponentIndex: null,
       data: [],
       dataSchema: []

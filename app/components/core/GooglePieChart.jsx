@@ -2,13 +2,22 @@ var React = require('react');
 var $ = require('jquery');
 
 module.exports = React.createClass({
+  statics: {
+    getMetadata: function() {
+      return {
+        type: 'viz'
+      }
+    }
+  },
   getCustomOptions: function(){
     return {
       'title': 'text',
       'width': 'number',
       'height': 'number',
-      'columns': 'text',
-      'legend': 'text'
+      'x-axis': 'column',
+      'y-axis': 'column',
+      'legend': 'text',
+      'color': 'color'
     }
   },
   getInitialState: function() {
@@ -16,8 +25,10 @@ module.exports = React.createClass({
       'title' : 'Enter Title',
       'width' : 600,
       'height': 400,
-      'columns': 'all',
-      'legend': 'right'
+      'x-axis': 0,
+      'y-axis': 1,
+      'legend': 'right',
+      'color': '#0000ff'
     }
   },
   drawChart: function() {
@@ -28,31 +39,27 @@ module.exports = React.createClass({
         chart      = new window.google.visualization.PieChart(document.getElementById('chart-div'));
 
         if(data.length !== 0 && dataSchema !== 0) {
-          if(this.props.selectedColumns == 'all') {
-            // Select all columns and rows
-            dataSchema.forEach(function(column){
-              var type = column[0],
-                name = column[1];
-                dt.addColumn(type, name);
-            })
-            dt.addRows(data);
+          var selectedColumns;
+          if(this.props.selectedColumns.length == 0) {
+          // Select all columns and rows
+            selectedColumns = dataSchema;
           } else {
-            // Filter Columns and Rows based on input
-            var selectedColumns = this.props.selectedColumns.split(',');
-            selectedColumns.forEach(function(column){
-              dt.addColumn(this.props.dataSchema[column][0], this.props.dataSchema[column][1]);
-            }.bind(this));
-            dt.addRows(this.props.data.map(function(row){
-              var filteredRow = [];
-              selectedColumns.forEach(function(column) {
-                filteredRow.push(row[column]);
-              })
-              return filteredRow;
-            }));
+          // Filter Columns and Rows based on input
+            selectedColumns = this.props.selectedColumns;
           }
+          selectedColumns.forEach(function(column){
+            dt.addColumn(this.props.dataSchema[column][0], this.props.dataSchema[column][1]);
+          }.bind(this));
+          dt.addRows(this.props.data.map(function(row){
+            var filteredRow = [];
+            selectedColumns.forEach(function(column) {
+              filteredRow.push(row[column]);
+            })
+            return filteredRow;
+          }));
         }
 
-
+        options.colors = [options.color];
 
         // Instantiate and draw our chart, passing in some options.
         chart.draw(dt, options);
