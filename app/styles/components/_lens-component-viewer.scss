@@ -1,12 +1,13 @@
 .lens-component-viewer{
   box-sizing:border-box;
-  padding:0px 30px;
-  text-align:center;
   display:inline-block;
-  width:80%;
   height:100%;
+  width:100%;
   #chart-div {
     display:inline-block;
   }
   overflow:overlay;
+  .lens-component-viewer-current-component {
+    text-align:center;
+  }
 }
