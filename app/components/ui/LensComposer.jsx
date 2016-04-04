@@ -150,13 +150,13 @@ module.exports = React.createClass({
     });
     this.updateSelectedNode(this.state.tracks[this.state.currentSelectedTrack].length-1);
   },
-  deleteComponent: function() {
+  deleteComponent: function(nodeIndex) {
     var tracks = this.state.tracks.slice(0);
-    tracks[this.state.currentSelectedTrack].splice(this.state.currentSelectedNode, 1);
+    tracks[this.state.currentSelectedTrack].splice(nodeIndex, 1);
     this.setState({
       tracks: tracks
     });
-    this.updateSelectedNode((this.state.currentSelectedNode-1));
+    this.updateSelectedNode((nodeIndex-1));
   },
   updateDataSchema: function(dataSchema) {
     this.setState({
