@@ -107,14 +107,14 @@ module.exports = React.createClass({
     return (
       <div id='transform-div'>
         Group:
-        <select name='groupColumn' value={this.state.groupColumnValue} onChange={this.handleChangeColumn}>
+        <select name='groupByColumn' value={this.state.groupByColumnValue} onChange={this.handleChangeColumn}>
           <option disabled value>
             --select a column
           </option>
           {columns}
         </select>
         By:
-        <select name='groupByColumn' value={this.state.groupByColumnValue} onChange={this.handleChangeColumn}>
+        <select name='groupColumn' value={this.state.groupColumnValue} onChange={this.handleChangeColumn}>
           <option disabled value>
             --select a column
           </option>
