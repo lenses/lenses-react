@@ -8,7 +8,7 @@ var LensInputField = React.createClass({
   },
   handleChangeInputs: function(e) {
     var newValue;
-    if(this.props.inputType == 'enum' || this.props.inputType == 'number') {
+    if(this.props.inputType == 'column' || this.props.inputType == 'number') {
       newValue = parseFloat(e.target.value)
     } else {
       newValue = e.target.value
@@ -24,7 +24,8 @@ var LensInputField = React.createClass({
       display: this.props.display,
       width:  this.props.width
     }
-    var inputType;
+    var inputType
+      , options;
     if (this.props.inputType === 'columnType') {
       inputType = <select name={this.props.name} 
         value={this.state.value}
@@ -32,8 +33,8 @@ var LensInputField = React.createClass({
       <option value='string' >string</option>
       <option value='number' >number</option>
       </select>;
-    } else if (this.props.inputType =='enum') {
-      var options = this.props.possibleValues.map((value, i) => {
+    } else if ( this.props.inputType == 'column') {
+      options = this.props.possibleValues.map((value, i) => {
         return <option key={i} value={i}>{value}</option>;
       });
       inputType = <select multiple={false || this.props.multipleSelect}
@@ -42,14 +43,24 @@ var LensInputField = React.createClass({
         onChange={this.handleChangeInputs}>
         {options}
       </select>;
-    }  else {
+    }  else if (this.props.inputType == 'enum' ) {
+      options = this.props.possibleValues.map((value, i) => {
+        return <option key={i} value={value}>{value}</option>;
+      });
+      inputType = <select multiple={false || this.props.multipleSelect}
+        name={this.props.name}
+        value={this.state.value}
+        onChange={this.handleChangeInputs}>
+        {options}
+      </select>;
+    } else {
       inputType = (<input type  = {this.props.inputType}
         value = {this.state.value}
         onChange={this.handleChangeInputs}/>)
     }
     return (
       <div style={wrapperStyles} className='lens-input-field-wrapper'>
-        {this.props.name}:
+        {this.props.visibleName}:
         <div className='lens-input-field'>
           {inputType}
         </div>

@@ -8,11 +8,20 @@ module.exports = React.createClass({
       }
     }
   },
+  getCustomOptions: function(){
+    return {
+      'newColumnName': {
+        name: 'New Column Name',
+        type: 'text'
+      }
+    }
+  },
   getInitialState: function() {
     return {
       groupColumnValue: 'null',
       groupByColumnValue: 'null',
-      aggFunction: 'null'
+      aggFunction: 'null',
+      newColumnName: 'Grouped By'
     };
   },
   handleChangeAggFunction: function(e) {
@@ -31,7 +40,7 @@ module.exports = React.createClass({
     if(newDataSchema[newDataSchema.length - 1][1].startsWith('GroupedBy')) {
       newDataSchema.pop();
     }
-    newDataSchema.push(['number', 'Grouped By ' + newDataSchema[this.state.groupByColumnValue][1]]);
+    newDataSchema.push(['number', this.state.newColumnName]);
 
     this.props.updateTransformFunction(() => {
       return {
@@ -104,34 +113,49 @@ module.exports = React.createClass({
       return <option key={n} value={n}>{column[1]}</option>
     });
 
+    var instructionsStyle = {
+      marginBottom: '20px'
+    };
     return (
       <div id='transform-div'>
+        <div style={instructionsStyle}>
+          This component groups a column's values
+          by another column using one of the available functions.
+          It creates a new column. You can set the name of the new column
+          that is created in the right hand options inspection window.
+        </div>
+        <div>
         Group:
-        <select name='groupColumn' value={this.state.groupColumnValue} onChange={this.handleChangeColumn}>
-          <option disabled value>
-            --select a column
-          </option>
-          {columns}
-        </select>
-        By:
         <select name='groupByColumn' value={this.state.groupByColumnValue} onChange={this.handleChangeColumn}>
           <option disabled value>
             --select a column
           </option>
           {columns}
         </select>
-        Using Function:
-        <select name='aggregateFunction' value={this.state.aggFunction} onChange={this.handleChangeAggFunction}>
-          <option disabled value>
-            --select a function
-          </option>
-          <option value='average'>
-            average
-          </option>
-          <option value='sum'>
-            sum
-          </option>
-        </select>
+        </div>
+        <div>
+          By:
+          <select name='groupColumn' value={this.state.groupColumnValue} onChange={this.handleChangeColumn}>
+            <option disabled value>
+              --select a column
+            </option>
+            {columns}
+          </select>
+        </div>
+        <div>
+          Using Function:
+          <select name='aggregateFunction' value={this.state.aggFunction} onChange={this.handleChangeAggFunction}>
+            <option disabled value>
+              --select a function
+            </option>
+            <option value='average'>
+              average
+            </option>
+            <option value='sum'>
+              sum
+            </option>
+          </select>
+          </div>
       </div>
     )
   }
