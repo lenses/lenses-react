@@ -8,11 +8,20 @@ module.exports = React.createClass({
       }
     }
   },
+  getCustomOptions: function(){
+    return {
+      'newColumnName': {
+        name: 'New Column Name',
+        type: 'text'
+      }
+    }
+  },
   getInitialState: function() {
     return {
       groupColumnValue: 'null',
       groupByColumnValue: 'null',
-      aggFunction: 'null'
+      aggFunction: 'null',
+      newColumnName: 'Grouped By'
     };
   },
   handleChangeAggFunction: function(e) {
@@ -31,7 +40,7 @@ module.exports = React.createClass({
     if(newDataSchema[newDataSchema.length - 1][1].startsWith('GroupedBy')) {
       newDataSchema.pop();
     }
-    newDataSchema.push(['number', 'Grouped By ' + newDataSchema[this.state.groupByColumnValue][1]]);
+    newDataSchema.push(['number', this.state.newColumnName]);
 
     this.props.updateTransformFunction(() => {
       return {
