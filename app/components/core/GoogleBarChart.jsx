@@ -48,11 +48,11 @@ module.exports = React.createClass({
         type: 'number'
       },
       'yAxisFontSize': {
-        name: 'Y-Axis Lablel Font-Size',
+        name: 'Y-Axis Label Font-Size',
         type: 'number'
       },
       'xAxisFontSize': {
-        name: 'X-Axis Lablel Font-Size',
+        name: 'X-Axis Label Font-Size',
         type: 'number'
       },
       'legend': {
