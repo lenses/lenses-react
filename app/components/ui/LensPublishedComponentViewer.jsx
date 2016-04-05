@@ -89,9 +89,13 @@ module.exports = React.createClass({
           data={this.state.data}
           dataSchema={this.state.dataSchema}/> : <div> loading </div>}
         <div style={attributionStyle}>
-          <img style={logoStyle} src='/public/images/lenses-logo.png' width='30px' height='25px'/>
+          <a href='http://www.makelenses.com' target='_blank'>
+            <img style={logoStyle} src='/public/images/lenses-logo.png' width='30px' height='25px'/>
+          </a>
           <div style={attributionTextStyle}>
-            <a href='http://www.makelenses.com'>Made With Lenses</a>
+            <a href='http://www.makelenses.com' target='_blank'>
+              Made With Lenses
+            </a>
           </div>
           <a href={'http://' + window.location.host + '/lenses/' + window.lensId + '/edit'} target='_blank'>
             <span style={lensesLinkStyle}>
