@@ -77,10 +77,16 @@ module.exports = React.createClass({
       verticalAlign:'top',
       borderBottom:'1px solid #E1E1E1'
     };
+
+    var linkStyle = {
+      textDecoration: 'underline',
+      color: 'blue'
+    };
+
     return (
       <div className='google-sheet'>
-        Enter the url of a public google spreadsheet. Find out how to make it public here.
         <div>
+          Enter the url of a public google spreadsheet. 
         </div>
         <div style={{margin:20}}>
           <input className='google-sheet'
@@ -96,6 +102,9 @@ module.exports = React.createClass({
             action={this.getGoogleSheetData}
             actionPayload={this.state.value}
             content='GET DATA' />
+        </div>
+        <div style={linkStyle}>
+          <a href='https://support.google.com/docs/answer/183965?hl=en'>Not sure how to make it public?</a> 
         </div>
       </div>
     )
