@@ -97,27 +97,27 @@ module.exports = React.createClass({
   },
   drawChart: function() {
     var dt         = new window.google.visualization.DataTable(),
-      dataSchema = this.props.dataSchema,
-      data       = this.props.data,
-      options    = this.state,
-      chart      = new window.google.visualization.ColumnChart(document.getElementById('chart-div'));
+        dataSchema = this.props.dataSchema,
+        data       = this.props.data,
+        options    = this.state,
+        chart      = new window.google.visualization.ColumnChart(document.getElementById('chart-div'));
 
-      if(data.length !== 0 && dataSchema.length !== 0) {
-        var selectedColumns = [];
-        // Filter Columns and Rows based on input
-        selectedColumns.push(this.state.xAxis) ;
-        selectedColumns.push(this.state.yAxis) ;
-        selectedColumns.forEach(function(column){
-          dt.addColumn(this.props.dataSchema[column][0], this.props.dataSchema[column][1]);
-        }.bind(this));
-        dt.addRows(this.props.data.map((row) => {
-          var filteredRow = [];
-          selectedColumns.forEach((column) => {
-            filteredRow.push(row[column]);
-          });
-          return filteredRow;
-        }));
-      }
+        if(data.length !== 0 && dataSchema.length !== 0) {
+          var selectedColumns = [];
+          // Filter Columns and Rows based on input
+          selectedColumns.push(this.state.xAxis) ;
+          selectedColumns.push(this.state.yAxis) ;
+          selectedColumns.forEach(function(column){
+            dt.addColumn(this.props.dataSchema[column][0], this.props.dataSchema[column][1]);
+          }.bind(this));
+          dt.addRows(this.props.data.map((row) => {
+            var filteredRow = [];
+            selectedColumns.forEach((column) => {
+              filteredRow.push(row[column]);
+            });
+            return filteredRow;
+          }));
+        }
 
       options.colors = [options.color];
       options['hAxis'] = {};

@@ -11,19 +11,89 @@ module.exports = React.createClass({
   },
   getCustomOptions: function(){
     return {
-      'title': 'text',
-      'width': 'number',
-      'height': 'number',
-      'legend': 'text',
-      'numOfLines': 'number',
-      'color': 'color',
-      'xAxis': 'column',
-      'Line 1': 'column',
-      'Line 2': 'column',
-      'Line 3': 'column',
-      'Line 4': 'column',
-      'Line 5': 'column',
-      'Line 6': 'column'
+      'title': {
+        name: 'Title',
+        type: 'text'
+      },
+      'width': {
+        name: 'Width',
+        type: 'number'
+      },
+      'height': {
+        name: 'Height',
+        type: 'number'
+      },
+      'xAxis': {
+        name: 'X-Axis',
+        type: 'column'
+      },
+      'numOfLines' : {
+        name: 'Number of Lines',
+        type: 'number'
+      },
+      'line1' : {
+        name: 'Line 1',
+        type: 'column'
+      },
+      'color1': {
+        name: 'Line 1 Color',
+        type: 'color'
+      },
+      'line2' : {
+        name: 'Line 2',
+        type: 'column'
+      },
+      'color2': {
+        name: 'Line 2 Color',
+        type: 'color'
+      },
+      'color3': {
+        name: 'Line 3 Color',
+        type: 'color'
+      },
+      'line3' : {
+        name: 'Line 3',
+        type: 'column'
+      },
+      'xAxisTitle': {
+        name: 'X-Axis Title',
+        type: 'text'
+      },
+      'yAxisTitle': {
+        name: 'Y-Axis Title',
+        type: 'text'
+      },
+      'yAxisTitleSize': {
+        name: 'Y-Axis Title Font-Size',
+        type: 'number'
+      },
+      'xAxisTitleSize': {
+        name: 'X-Axis Title Font-Size',
+        type: 'number'
+      },
+      'yAxisFontSize': {
+        name: 'Y-Axis Lablel Font-Size',
+        type: 'number'
+      },
+      'xAxisFontSize': {
+        name: 'X-Axis Lablel Font-Size',
+        type: 'number'
+      },
+      'legend': {
+        name: 'Legend',
+        type: 'enum',
+        options: ['none', 'right', 'left', 'top', 'bottom', 'in']
+      },
+      'vAxisNumberFormat': {
+        name: 'Y-Axis Number Format',
+        type: 'enum',
+        options: ['decimal', 'scientific', 'currency', 'percent', 'short', 'long']
+      },
+      'vAxisScale': {
+        name: 'Y-Axis Scale',
+        type: 'enum',
+        options: ['linear', 'log']
+      }
     }
   },
   getInitialState: function() {
@@ -31,16 +101,23 @@ module.exports = React.createClass({
       'title': 'Enter Title',
       'width': 600,
       'height': 400,
-      'legend': 'right',
       'numOfLines': 1,
-      'color': '#0000ff',
       'xAxis': 0,
-      'Line 1': 0,
-      'Line 2': 0,
-      'Line 3': 0,
-      'Line 4': 0,
-      'Line 5': 0,
-      'Line 6': 0
+      'line1': 1,
+      'color1': '#0000ff',
+      'line2': 0,
+      'color2': '#0000ff',
+      'line3': 0,
+      'color3': '#0000ff',
+      'xAxisTitle': 'x-axis',
+      'yAxisTitle': 'y-axis',
+      'xAxisFontSize': '12',
+      'yAxisFontSize': '12',
+      'xAxisTitleSize': '12',
+      'yAxisTitleSize': '12',
+      'vAxisScale': 'linear',
+      'vAxisNumberFormat' : 'decimal',
+      'legend': 'none'
     };
   },
   drawChart: function() {
@@ -55,7 +132,7 @@ module.exports = React.createClass({
           // Filter Columns and Rows based on input
           selectedColumns.push(this.state.xAxis);
           for(var key in options) {
-            if(/^Line.*/.test(key)) {
+            if(/^line.*/.test(key)) {
               selectedColumns.push(options[key]);
             }
           }
@@ -72,7 +149,25 @@ module.exports = React.createClass({
           }));
         }
 
-        options.colors = [options.color];
+      options.colors = [options.color1, options.color2, options.color3];
+      options['hAxis'] = {};
+      options['hAxis']['titleTextStyle'] = {};
+      options['hAxis']['textStyle'] = {};
+      options['hAxis']['title'] = options.xAxisTitle;
+      options['hAxis']['titleTextStyle']['fontSize'] = options.xAxisTitleSize;
+      options['hAxis']['textStyle']['fontSize'] = options.xAxisFontSize;
+      
+      options['vAxis'] =  {};
+      options['vAxis']['titleTextStyle'] = {};
+      options['vAxis']['textStyle'] = {};
+      options['vAxis']['viewWindow'] = {};
+      options['vAxis']['title'] =  options.yAxisTitle;
+      options['vAxis']['format'] = options.vAxisNumberFormat;
+      options['vAxis']['titleTextStyle']['fontSize'] = options.yAxisTitleSize;
+      options['hAxis']['textStyle']['fontSize'] = options.yAxisFontSize;
+      options['vAxis']['scaleType'] = options.vAxisScale;
+      options['vAxis']['viewWindow']['min'] = 0;
+
         // Instantiate and draw our chart, passing in some options.
         chart.draw(dt, options);
   },
