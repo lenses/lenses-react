@@ -23,7 +23,9 @@ var LensComponentViewer = React.createClass({
       Object.keys(currentComponentState).forEach(function(option) {
           currentComponent.customInputOptions[option] = {
             value: currentComponentState[option],
-            configurable: (customOptions[option]) ? customOptions[option] : false
+            options: (customOptions[option] && customOptions[option]['type'] == 'enum') ? customOptions[option]['options'] : null,
+            name: (customOptions[option]) ? customOptions[option]['name'] : null,
+            configurable: (customOptions[option]) ? customOptions[option]['type'] : false
           }
       });
    }

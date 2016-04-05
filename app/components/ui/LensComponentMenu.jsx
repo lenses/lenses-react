@@ -92,8 +92,8 @@ var LensComponentMenu = React.createClass({
     dataDiv =
       <div className='lens-component-menu-instructions'>
         To get started making a graph
-        you first have to get some data into the system
-        pick one of the following components to pull data in:
+        you first have to get some data into the Lenses.
+        Pick one of the following components to pull data in:
         <div className='lens-component-menu-components'>
           {dataCmps}
         </div>
