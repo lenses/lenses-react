@@ -423,13 +423,14 @@ body {
 
 .lens-component-viewer {
   box-sizing: border-box;
-  padding: 0px 30px;
-  text-align: center;
   display: inline-block;
-  width: 80%;
   height: 100%;
-  overflow: overlay; }
+  width: 100%; }
   .lens-component-viewer #chart-div {
+    display: inline-block; }
+  .lens-component-viewer .lens-component-viewer-current-component {
+    text-align: center;
+    width: 80%;
     display: inline-block; }
 
 .lens-publish-button {
@@ -450,9 +451,10 @@ body {
   text-align: center;
   padding: 20px;
   margin-top: 20px;
-  width: 100%;
+  width: 80%;
   border-top: 1px solid #e1e1e1;
-  display: inline-block; }
+  display: inline-block;
+  overflow-x: overlay; }
 
 .lens-component-custom-inputs {
   border-width: 0px 2px 2px 2px;
@@ -468,8 +470,7 @@ body {
   color: #B0B0B0;
   font-size: 12px;
   font-weight: 600;
-  font-family: 'lato';
-  height: 100%; }
+  font-family: 'lato'; }
   .lens-component-custom-inputs .lens-input-field-wrapper {
     margin: 5px; }
   .lens-component-custom-inputs .lens-input-field {
