@@ -17,6 +17,9 @@ var LensComponentViewer = React.createClass({
     var customOptions = (this.refs.currentViewComponent.getCustomOptions) ? this.refs.currentViewComponent.getCustomOptions() : {};
     // Save state and whether options are configurable to the lensModel representing the component
     if(currentComponent && currentComponentState){
+      // Save the component's state
+      // If it is a customInputOption i.e. right hand panel then save it's type
+      // otherwise it's not configurable and it's ui is handled by the component itself
       Object.keys(currentComponentState).forEach(function(option) {
           currentComponent.customInputOptions[option] = {
             value: currentComponentState[option],
@@ -64,11 +67,10 @@ var LensComponentViewer = React.createClass({
     var haveSwitchedComponent = prevProps.currentSelectedTrack !== this.props.currentSelectedTrack ||
       prevProps.currentSelectedNode  !== this.props.currentSelectedNode;
 
-    var customOptionsChanged = prevState.customInputOptions !== this.state.customInputOptions;
 
     if(haveSwitchedComponent) {
        this.loadViewComponentState();
-     } else if (customOptionsChanged) {
+     } else {
        this.saveViewComponentState();
      }
 
@@ -76,7 +78,6 @@ var LensComponentViewer = React.createClass({
   render: function() {
 
     var CurrentSelectedCmp = this.props.tracks[this.props.currentSelectedTrack][this.props.currentSelectedNode];
-    var customInputOptions = this.state.customInputOptions;
     var dataViewer = this.props.getDataAtNode(this.props.currentSelectedNode);
     var data = this.props.getDataAtNode(this.props.currentSelectedNode-1);
 
