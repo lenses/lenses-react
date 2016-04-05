@@ -56,6 +56,9 @@ module.exports = React.createClass({
         }
 
         options.colors = [options.color];
+        options['vAxis'] =  {}
+        options['vAxis']['viewWindow'] = {}
+        options['vAxis']['viewWindow']['min'] = 0
 
         // Instantiate and draw our chart, passing in some options.
         chart.draw(dt, options);
