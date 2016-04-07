@@ -228,7 +228,6 @@ module.exports = React.createClass({
         newRow[columnNumber] = row[columnNumber].toString();
       } else if(newColumnValue == 'number') {
         newRow[columnNumber] = Number.parseFloat(row[columnNumber]);
-
       }
       return newRow;
     })
