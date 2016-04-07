@@ -47,13 +47,45 @@ module.exports = React.createClass({
         name: 'Line 2 Color',
         type: 'color'
       },
+      'line3' : {
+        name: 'Line 3',
+        type: 'column'
+      },
       'color3': {
         name: 'Line 3 Color',
         type: 'color'
       },
-      'line3' : {
-        name: 'Line 3',
+      'line4' : {
+        name: 'Line 4',
         type: 'column'
+      },
+      'color4': {
+        name: 'Line 4 Color',
+        type: 'color'
+      },
+      'line5' : {
+        name: 'Line 5',
+        type: 'column'
+      },
+      'color5': {
+        name: 'Line 5 Color',
+        type: 'color'
+      },
+      'line6' : {
+        name: 'Line 6',
+        type: 'column'
+      },
+      'color6': {
+        name: 'Line 6 Color',
+        type: 'color'
+      },
+      'line7' : {
+        name: 'Line 7',
+        type: 'column'
+      },
+      'color7': {
+        name: 'Line 7 Color',
+        type: 'color'
       },
       'xAxisTitle': {
         name: 'X-Axis Title',
@@ -79,6 +111,10 @@ module.exports = React.createClass({
         name: 'X-Axis Label Font-Size',
         type: 'number'
       },
+      'xAxisTicks': {
+        name: 'X-Axis Ticks',
+        type: 'text'
+      },
       'legend': {
         name: 'Legend',
         type: 'enum',
@@ -93,6 +129,14 @@ module.exports = React.createClass({
         name: 'Y-Axis Scale',
         type: 'enum',
         options: ['linear', 'log']
+      },
+      'xAxisGridlinesCount': {
+        name: 'X Axis Gridlines Number',
+        type: 'number'
+      },
+      'yAxisGridlinesCount': {
+        name: 'Y Axis Gridlines Number',
+        type: 'number'
       }
     }
   },
@@ -109,12 +153,23 @@ module.exports = React.createClass({
       'color2': '#0000ff',
       'line3': 0,
       'color3': '#0000ff',
+      'line4': 1,
+      'color4': '#0000ff',
+      'line5': 0,
+      'color5': '#0000ff',
+      'line6': 0,
+      'color6': '#0000ff',
+      'line7': 0,
+      'color7': '#0000ff',
+      'xAxisTicks': '',
+      'xAxisGridlinesCount': '5',
+      'yAxisGridlinesCount': '5',
       'xAxisTitle': 'x-axis',
+      'yAxisTitleSize': '12',
       'yAxisTitle': 'y-axis',
+      'xAxisTitleSize': '12',
       'xAxisFontSize': '12',
       'yAxisFontSize': '12',
-      'xAxisTitleSize': '12',
-      'yAxisTitleSize': '12',
       'vAxisScale': 'linear',
       'vAxisNumberFormat' : 'decimal',
       'legend': 'none'
@@ -149,23 +204,28 @@ module.exports = React.createClass({
           }));
         }
 
-      options.colors = [options.color1, options.color2, options.color3];
+      options.colors = [options.color1, options.color2, options.color3, options.color4, options.color5, options.color6, options.color7];
       options['hAxis'] = {};
       options['hAxis']['titleTextStyle'] = {};
       options['hAxis']['textStyle'] = {};
+      options['hAxis']['gridlines'] = {};
       options['hAxis']['title'] = options.xAxisTitle;
       options['hAxis']['titleTextStyle']['fontSize'] = options.xAxisTitleSize;
       options['hAxis']['textStyle']['fontSize'] = options.xAxisFontSize;
+      options['hAxis']['ticks'] = options.xAxisTicks;
+      options['hAxis']['gridlines']['count'] = options.xAxisGridlinesCount;
       
       options['vAxis'] =  {};
       options['vAxis']['titleTextStyle'] = {};
       options['vAxis']['textStyle'] = {};
       options['vAxis']['viewWindow'] = {};
+      options['vAxis']['gridlines'] = {};
       options['vAxis']['title'] =  options.yAxisTitle;
       options['vAxis']['format'] = options.vAxisNumberFormat;
       options['vAxis']['titleTextStyle']['fontSize'] = options.yAxisTitleSize;
       options['hAxis']['textStyle']['fontSize'] = options.yAxisFontSize;
       options['vAxis']['scaleType'] = options.vAxisScale;
+      options['vAxis']['gridlines']['count'] = options.yAxisGridlinesCount;
       options['vAxis']['viewWindow']['min'] = 0;
 
         // Instantiate and draw our chart, passing in some options.
