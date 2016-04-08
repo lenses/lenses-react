@@ -19,27 +19,25 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       groupColumnValue: 'null',
-      groupByColumnValue: 'null',
+      aggregateColumnValue: 'null',
       aggFunction: 'null',
-      newColumnName: 'Grouped By'
+      newColumnName: 'Grouped Column'
     };
   },
   handleChangeAggFunction: function(e) {
     var aggFunctionType = e.target.value
       , funcName = 'groupRowsByColumnWithFunction'
-      , funcParams = [this.state.groupColumnValue, this.state.groupByColumnValue, aggFunctionType]
-      , newDataSchema = this.props.dataSchema.slice(0);
+      , funcParams = [this.state.groupColumnValue, this.state.aggregateColumnValue, aggFunctionType]
+      , newDataSchema = [];
 
-    if(this.state.groupColumnValue == null || this.state.groupByColumnValue == null) {
+    if(this.state.groupColumnValue == null || this.state.aggregateColumnValue == null) {
       alert('select a column first');
       return
     }
 
     this.setState({aggFunction: aggFunctionType});
 
-    if(newDataSchema[newDataSchema.length - 1][1].startsWith('GroupedBy')) {
-      newDataSchema.pop();
-    }
+    newDataSchema.push(this.props.dataSchema[this.state.groupColumnValue]);
     newDataSchema.push(['number', this.state.newColumnName]);
 
     this.props.updateTransformFunction(() => {
@@ -49,25 +47,25 @@ module.exports = React.createClass({
       }
     }, newDataSchema);
   },
-  groupRowsByColumnWithFunction(groupColumnValue, groupByColumnValue, aggFunction, data) {
+  groupRowsByColumnWithFunction(groupColumnValue, aggregateColumnValue, aggFunction, data) {
     var rowCounter = 0
     , groupedRowCounter = 0
     , groupedData = []
     , sortedData
     , sum = null;
 
-   // Sort the data lexically so we can group it easily
+  // Sort the data lexically so we can group it easily
     sortedData = data.sort((row, nextRow) => {
       var el = row[groupColumnValue]
         , nextEl = nextRow[groupColumnValue];
 
-        if(el < nextEl) {
-          return -1;
-        } else if (el > nextEl) {
-          return 1;
-        } else {
-          return 0;
-        }
+      if(el < nextEl) {
+        return -1;
+      } else if (el > nextEl) {
+        return 1;
+      } else {
+        return 0;
+      }
     });
 
     // Group the data if the next el is the same as the current el
@@ -79,14 +77,15 @@ module.exports = React.createClass({
 
         if(el == nextEl) {
           groupedRowCounter++;
-          sum = sum + arr[n+1][groupByColumnValue];
+          sum = sum + arr[n+1][aggregateColumnValue];
         } else {
           if (aggFunction == 'average') {
-            row.push((sum !== null) ? sum/groupedRowCounter : row[groupByColumnValue]);
+            row.push((sum !== null) ? sum/groupedRowCounter : row[aggregateColumnValue]);
           } else if (aggFunction == 'sum') {
-            row.push((sum !== null) ? sum : row[groupByColumnValue]);
+            row.push((sum !== null) ? sum : row[aggregateColumnValue]);
           }
-          groupedData.push(row);
+          // groupedData.push(row);
+          groupedData.push([row[groupColumnValue], row[row.length-1]])
           sum = null;
           groupedRowCounter = 0;
           rowCounter++;
@@ -101,7 +100,6 @@ module.exports = React.createClass({
       , selectedColumnName = e.target.name
       , selectedColumnValue = e.target.value;
 
-    selectedColumnName += 'Value';
     state[selectedColumnName] = selectedColumnValue;
 
     this.setState(state);
@@ -125,17 +123,17 @@ module.exports = React.createClass({
           that is created in the right hand options inspection window.
         </div>
         <div>
-        Group:
-        <select name='groupByColumn' value={this.state.groupByColumnValue} onChange={this.handleChangeColumn}>
-          <option disabled value>
-            --select a column
-          </option>
-          {columns}
-        </select>
+          Group By:
+          <select name='groupColumnValue' value={this.state.groupColumnValue} onChange={this.handleChangeColumn}>
+            <option disabled value>
+              --select a column
+            </option>
+            {columns}
+          </select>
         </div>
         <div>
-          By:
-          <select name='groupColumn' value={this.state.groupColumnValue} onChange={this.handleChangeColumn}>
+          Aggregate Column:
+          <select name='aggregateColumnValue' value={this.state.aggregateColumnValue} onChange={this.handleChangeColumn}>
             <option disabled value>
               --select a column
             </option>
@@ -155,7 +153,7 @@ module.exports = React.createClass({
               sum
             </option>
           </select>
-          </div>
+        </div>
       </div>
     )
   }
