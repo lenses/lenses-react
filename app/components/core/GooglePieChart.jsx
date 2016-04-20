@@ -23,6 +23,11 @@ module.exports = React.createClass({
         name: 'Height',
         type: 'number'
       },
+      'legend': {
+        name: 'Legend',
+        type: 'enum',
+        options: ['none', 'right', 'left', 'top', 'bottom', 'in']
+      },
       'categories': {
         name: 'Categories',
         type: 'column'
@@ -53,8 +58,8 @@ module.exports = React.createClass({
         if(data.length !== 0 && dataSchema.length !== 0) {
           var selectedColumns = [];
           // Filter Columns and Rows based on input
-          selectedColumns.push(this.state.xAxis) ;
-          selectedColumns.push(this.state.yAxis) ;
+          selectedColumns.push(this.state.categories) ;
+          selectedColumns.push(this.state.values) ;
           selectedColumns.forEach(function(column){
             dt.addColumn(this.props.dataSchema[column][0], this.props.dataSchema[column][1]);
           }.bind(this));
@@ -66,6 +71,7 @@ module.exports = React.createClass({
             return filteredRow;
           }));
         }
+
 
         // Instantiate and draw our chart, passing in some options.
         chart.draw(dt, options);

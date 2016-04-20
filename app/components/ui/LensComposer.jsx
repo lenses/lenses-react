@@ -166,15 +166,18 @@ module.exports = React.createClass({
   updateTransformFunctionWithComponent: function(cmp, func) {
     // If the function is not null add it as a new transform function
     if(func != null && (func instanceof Function)) {
-      var funcData = func()
-        , funcName = funcData.funcName
+      var funcData   = func()
+        , funcName   = funcData.funcName
         , funcParams = funcData.funcParams;
 
       cmp.transformFunc = funcData;
 
       cmp.transformData = function (data) {
-        var paramsWithData = funcParams.slice(0);
-        paramsWithData.push(data);
+        var paramsWithData = null;
+        if(funcParams) {
+          paramsWithData = funcParams.slice(0);
+          paramsWithData.push(data);
+        } 
         return cmp.reactCmp.prototype[funcName].apply(cmp.reactCmp, paramsWithData);
       }
     } else if(func != null) {
@@ -210,33 +213,6 @@ module.exports = React.createClass({
         alert('Component Does Not Exist');
       }
     }.bind(this));
-  },
-  handleSchemaChange: function(newColumnValue, columnName) {
-    var newSchemaValue = this.state.dataSchema;
-    var columnNumber = 0;
-    for(columnNumber; columnNumber < newSchemaValue.length; columnNumber++) {
-      if(newSchemaValue[columnNumber][1] == columnName) {
-        newSchemaValue[columnNumber][0] = newColumnValue;
-        break;
-      }
-    }
-    // update data to match schema
-    var newData = this.state.data;
-    newData.map(function(row) {
-      var newRow = row;
-      if(newColumnValue == 'string'){
-        newRow[columnNumber] = row[columnNumber].toString();
-      } else if(newColumnValue == 'number') {
-        newRow[columnNumber] = Number.parseFloat(row[columnNumber]);
-      }
-      return newRow;
-    })
-    var newTransformFunction = function() {
-      return function() {
-        return newData;
-      }
-    }
-    this.updateTransformFunction(newTransformFunction(), newSchemaValue);
   },
   updateTitleAndAuthor: function(state){
     this.setState(state);

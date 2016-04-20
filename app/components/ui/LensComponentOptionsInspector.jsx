@@ -1,7 +1,29 @@
 var React          = require('react')
-  ,  LensInputField = require('./LensInputField.jsx');
+  , LensInputField = require('./LensInputField.jsx');
 
 var LensComponentOptionsInspector = React.createClass({
+  handleSchemaChange: function(newColumnValue, columnName) {
+    var newSchemaValue = this.props.dataSchema;
+    var columnNumber = 0;
+    for(columnNumber; columnNumber < newSchemaValue.length; columnNumber++) {
+      if(newSchemaValue[columnNumber][1] == columnName) {
+        newSchemaValue[columnNumber][0] = newColumnValue;
+        break;
+      }
+    }
+    // update data to match schema
+    var newData = this.props.data;
+    newData.map(function(row) {
+      var newRow = row;
+      if(newColumnValue == 'string'){
+        newRow[columnNumber] = row[columnNumber].toString();
+      } else if(newColumnValue == 'number') {
+        newRow[columnNumber] = Number.parseFloat(row[columnNumber]);
+      }
+      return newRow;
+    })
+    this.props.updateTransformFunction(newData, newSchemaValue);
+  },
   render: function() {
     var currentComponentCustomOptions = this.props.customInputOptions
       , inputComponents = [];

@@ -91,6 +91,8 @@ var LensComponentViewer = React.createClass({
         <LensComponentOptionsInspector
           customInputOptions={this.state.customInputOptions}
           updateStateBasedOnCustomValues={this.updateStateBasedOnCustomValues}
+          updateTransformFunction={this.props.updateTransformFunction}
+          data={data}
           dataSchema={this.props.dataSchema} />
         <div className='lens-component-viewer-current-component'>
           <CurrentSelectedCmp.reactCmp  ref='currentViewComponent'
