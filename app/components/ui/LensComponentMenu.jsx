@@ -93,7 +93,7 @@ var LensComponentMenu = React.createClass({
       <div className='lens-component-menu-instructions'>
         <p>
           To get started making a graph
-          you first have to get some data into the Lenses.
+          you first have to get some data into Lenses.
         </p>
         <p>
           Pick one of the following components to pull data in:
